@@ -1,0 +1,29 @@
+version: '3'
+services:
+  frontend:
+    image: 'frontend'
+    container_name: 'frontend'
+    ports:
+      - 4200:4200
+    links:
+      - backend
+  backend:
+    image: 'backend'
+    container_name: 'backend'
+    ports:
+      - 8081:8081
+    links:
+      - database
+  database:
+    image: 'mongo'
+    command: mongod --port 27017
+    container_name: 'database'
+    environment:
+      - MONGO_INITDB_DATABASE=seaplol
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=U9O!VI4XMn!8
+    volumes:
+      - ./mongodb_data_container:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - 27017:27017
