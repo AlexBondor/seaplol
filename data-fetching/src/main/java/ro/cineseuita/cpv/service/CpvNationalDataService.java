@@ -8,6 +8,7 @@ import ro.cineseuita.contract.repository.DirectAcquisitionContractRepository;
 import ro.cineseuita.contract.service.DirectAcquisitionContractService;
 import ro.cineseuita.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.cpv.entity.components.CpvSimpleTreeNode;
+import ro.cineseuita.cpv.repository.NationalCpvDataRepository;
 import ro.cineseuita.essentials.service.DirectAcquisitionEssentialsMapperService;
 
 import java.util.HashMap;
@@ -23,13 +24,15 @@ public class CpvNationalDataService {
     private final DirectAcquisitionContractService directAcquisitionContractService;
     private final DirectAcquisitionContractRepository directAcquisitionContractRepository;
     private final DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService;
+    private final NationalCpvDataRepository nationalCpvDataRepository;
 
     @Autowired
     public CpvNationalDataService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractRepository directAcquisitionContractRepository,
-                                  DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService) {
+                                  DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, NationalCpvDataRepository nationalCpvDataRepository) {
         this.directAcquisitionContractService = directAcquisitionContractService;
         this.directAcquisitionContractRepository = directAcquisitionContractRepository;
         this.directAcquisitionEssentialsMapperService = directAcquisitionEssentialsMapperService;
+        this.nationalCpvDataRepository = nationalCpvDataRepository;
     }
 
     public CpvDataNode computeNationalWideCpvData(CpvSimpleTreeNode rootSimple) {
@@ -56,6 +59,8 @@ public class CpvNationalDataService {
 
         // trickle up the results
         trickleUp(root);
+
+//        nationalCpvDataRepository.saveAll(root.getChildren());
 
         return root;
     }

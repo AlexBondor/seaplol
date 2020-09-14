@@ -82,6 +82,7 @@ public class CpvCodesServiceTest {
         );
 
         cpvCodesService = new CpvCodesService(cpvCodesRepository);
+        cpvCodesService.assignParentCodes();
     }
 
     @After
@@ -90,7 +91,6 @@ public class CpvCodesServiceTest {
 
     @Test
     public void getParentCode() {
-        Assert.assertNull(cpvCodesService.getParentCode("03000000-1"));
         Assert.assertEquals("03111100-3", cpvCodesService.getParentCode("03111110-3"));
         Assert.assertEquals("14714000-9", cpvCodesService.getParentCode("14714200-9"));
         Assert.assertEquals("24310000-0", cpvCodesService.getParentCode("24312000-0"));

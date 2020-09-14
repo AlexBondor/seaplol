@@ -1,5 +1,6 @@
 package ro.cineseuita.cpv.entity.components;
 
+import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.contract.entity.direct.components.DirectAcquisitionItem;
 import ro.cineseuita.essentials.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.shared.itemMeasurement.ItemMeasurementStats;
@@ -9,7 +10,9 @@ import java.util.List;
 
 import static java.util.stream.Collectors.toList;
 
+@Document(collection = "nationalCpvData")
 public class CpvDataNode {
+    // this class should always be extended in order to add the equivalent for either CAs or Suppliers
 
     private String cpvCode;
     private String cpvCodeSimplified;

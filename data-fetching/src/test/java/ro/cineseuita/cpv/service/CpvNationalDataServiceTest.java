@@ -11,6 +11,7 @@ import ro.cineseuita.contract.repository.DirectAcquisitionContractRepository;
 import ro.cineseuita.contract.service.DirectAcquisitionContractService;
 import ro.cineseuita.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.cpv.entity.components.CpvSimpleTreeNode;
+import ro.cineseuita.cpv.repository.NationalCpvDataRepository;
 import ro.cineseuita.essentials.service.DirectAcquisitionEssentialsMapperService;
 
 import java.io.BufferedReader;
@@ -37,6 +38,9 @@ public class CpvNationalDataServiceTest {
     @Mock
     private DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService;
 
+    @Mock
+    private NationalCpvDataRepository nationalCpvDataRepository;
+
     private CpvNationalDataService cpvNationalDataService;
 
 
@@ -57,7 +61,9 @@ public class CpvNationalDataServiceTest {
 
         directAcquisitionEssentialsMapperService = new DirectAcquisitionEssentialsMapperService(null, null, null);
 
-        cpvNationalDataService = new CpvNationalDataService(directAcquisitionContractService, directAcquisitionContractRepository, directAcquisitionEssentialsMapperService);
+        nationalCpvDataRepository = mock(NationalCpvDataRepository.class);
+
+        cpvNationalDataService = new CpvNationalDataService(directAcquisitionContractService, directAcquisitionContractRepository, directAcquisitionEssentialsMapperService, nationalCpvDataRepository);
     }
 
     @After
