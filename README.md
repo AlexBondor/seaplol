@@ -10,10 +10,13 @@
         - in case you install a version higher than 4.2, the import/export tools needed for importing and exporting the db will be missing. You will need to install them separately from [here](https://www.mongodb.com/try/download/database-tools?tck=docs_databasetools)
         - make sure you add both mongo and tools directory (for >4.2) to the path
         - unpack the archive containing the database into the project folder /data-fetching/seaplol-db/seaplol (create the folders in case you don't already have them) and then run the import script in the data-fetching folder
-    - install [GIT lfs + instructions](https://git-lfs.github.com/) 
+        - you can find a (hopefully up to date) snapshot of the DB [here](https://drive.google.com/drive/folders/1HOEBgpnkDkK1NgMFR6lcXEH2gNmibirm?usp=sharing)
+        - download the archive and make sure to put the archived .bson files in ..\seaplol\data-fetching\seaplol-db\seaplol
+        - run the _import-db_ script from the data-fetching folder
 - clone repository
 - in the _frontend_ folder, run _yarn install_
     - to run frontend, simply: _yarn run serve_
+    
 ---
 ### 2. Structure
 - _data-fetching_ - crawler and data processor
