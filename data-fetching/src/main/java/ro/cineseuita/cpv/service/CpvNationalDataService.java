@@ -32,7 +32,7 @@ public class CpvNationalDataService {
         this.directAcquisitionEssentialsMapperService = directAcquisitionEssentialsMapperService;
     }
 
-    public void computeNationalWideCpvData(CpvSimpleTreeNode rootSimple) {
+    public CpvDataNode computeNationalWideCpvData(CpvSimpleTreeNode rootSimple) {
 
         CpvDataNode root = fromSimpleNode(rootSimple);
         long numberOfContracts = directAcquisitionContractRepository.count();
@@ -57,7 +57,7 @@ public class CpvNationalDataService {
         // trickle up the results
         trickleUp(root);
 
-        System.out.println("D");
+        return root;
     }
 
     private void fillMapForContract(DirectAcquisitionContractDetails contract, Map<String, CpvDataNode> cpvDataNodeMap) {
@@ -82,9 +82,9 @@ public class CpvNationalDataService {
         String itemCpv = item.getCpvCode().getLocaleKey();
         CpvDataNode dataNode = cpvDataNodeMap.getOrDefault(itemCpv, new CpvDataNode());
 
-        dataNode.incrementTotal(item.getItemClosingPrice());
+        dataNode.incrementTotal(item.getTotalItemCost());
         dataNode.feedToMeasurementStats(item);
-        dataNode.incrementNumberOfItems();
+        dataNode.incrementNumberOfItems(item.getItemQuantity().longValue());
 
         cpvDataNodeMap.put(itemCpv, dataNode);
     }

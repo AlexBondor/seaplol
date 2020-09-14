@@ -1,16 +1,23 @@
 package ro.cineseuita.cpv.entity.components;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CpvSimpleTreeNode {
 
     public static final String ROOT = "SEAP";
 
-    private final String code;
-    private final String codeSimplified;
-    private final String description;
-    private final String parent;
+    private String code;
+    private String codeSimplified;
+    private String description;
+    private String parent;
     private List<CpvSimpleTreeNode> children;
+
+    public CpvSimpleTreeNode() {
+
+    }
 
     public CpvSimpleTreeNode(String code, String codeSimplified, String description, String parent) {
         this.code = code;

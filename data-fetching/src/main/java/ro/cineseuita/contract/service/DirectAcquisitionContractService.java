@@ -1,5 +1,7 @@
 package ro.cineseuita.contract.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,6 +97,8 @@ public class DirectAcquisitionContractService {
 
     public Stream<DirectAcquisitionContractDetails> getAllAcceptedDirectAcquisitionContractDetailsStreamed() {
 //        int range = (int) (directAcquisitionContractDetailsRepository.count() / LIMIT) + 1;
+
+
         int range = 2;
         return IntStream.rangeClosed(0, range)
                 .mapToObj(skip ->

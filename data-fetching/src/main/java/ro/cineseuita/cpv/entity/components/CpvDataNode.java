@@ -116,8 +116,8 @@ public class CpvDataNode {
         this.itemMeasurementStats.feed(item);
     }
 
-    public void incrementNumberOfItems() {
-        this.numberOfItems += 1;
+    public void incrementNumberOfItems(long nrItems) {
+        this.numberOfItems += nrItems;
     }
 
     public void addToContracts(DirectAcquisitionContractMinimal contract) {
@@ -125,7 +125,7 @@ public class CpvDataNode {
     }
 
     public boolean hasChildren() {
-        return children == null || children.size() == 0;
+        return children != null && children.size() > 0;
     }
 
     public void feedParent() {

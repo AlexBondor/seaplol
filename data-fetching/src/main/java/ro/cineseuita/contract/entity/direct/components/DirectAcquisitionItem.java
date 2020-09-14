@@ -357,4 +357,8 @@ public class DirectAcquisitionItem {
     public ItemMeasurement getItemMeasureClass() {
         return itemMeasureClass;
     }
+
+    public Double getTotalItemCost() {
+        return this.itemClosingPrice * this.itemQuantity;
+    }
 }
