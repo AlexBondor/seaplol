@@ -60,7 +60,7 @@ public class CpvNationalDataService {
         // trickle up the results
         trickleUp(root);
 
-//        nationalCpvDataRepository.saveAll(root.getChildren());
+        nationalCpvDataRepository.saveAll(root.getChildren());
 
         return root;
     }

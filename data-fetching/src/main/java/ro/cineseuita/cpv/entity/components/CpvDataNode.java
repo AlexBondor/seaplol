@@ -1,5 +1,7 @@
 package ro.cineseuita.cpv.entity.components;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.contract.entity.direct.components.DirectAcquisitionItem;
 import ro.cineseuita.essentials.entity.DirectAcquisitionContractMinimal;
@@ -14,6 +16,7 @@ import static java.util.stream.Collectors.toList;
 public class CpvDataNode {
     // this class should always be extended in order to add the equivalent for either CAs or Suppliers
 
+    @Id
     private String cpvCode;
     private String cpvCodeSimplified;
     private String description;
@@ -22,6 +25,7 @@ public class CpvDataNode {
     private Double total = 0.0;
     private Long numberOfItems = 0L;
     private ItemMeasurementStats itemMeasurementStats = new ItemMeasurementStats();
+    @DBRef(lazy = true)
     private CpvDataNode parent;
     private List<CpvDataNode> children;
 

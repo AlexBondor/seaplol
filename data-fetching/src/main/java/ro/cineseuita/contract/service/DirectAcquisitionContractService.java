@@ -96,8 +96,7 @@ public class DirectAcquisitionContractService {
     }
 
     public Stream<DirectAcquisitionContractDetails> getAllAcceptedDirectAcquisitionContractDetailsStreamed() {
-//        int range = (int) (directAcquisitionContractDetailsRepository.count() / LIMIT) + 1;
-        int range = 2;
+        int range = (int) (directAcquisitionContractDetailsRepository.count() / LIMIT) + 1;
         return IntStream.rangeClosed(0, range)
                 .mapToObj(skip ->
                         directAcquisitionContractDetailsRepository.findAllBySysDirectAcquisitionStateID(
