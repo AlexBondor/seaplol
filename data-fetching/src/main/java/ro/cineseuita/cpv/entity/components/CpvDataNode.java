@@ -4,7 +4,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.contract.entity.direct.components.DirectAcquisitionItem;
-import ro.cineseuita.essentials.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.shared.itemMeasurement.ItemMeasurementStats;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class CpvDataNode {
     private String cpvCode;
     private String cpvCodeSimplified;
     private String description;
-    private final List<DirectAcquisitionContractMinimal> contracts = new ArrayList<>();
+    private final List<Long> contracts = new ArrayList<>();
     private Double total = 0.0;
     private Long numberOfItems = 0L;
     private ItemMeasurementStats itemMeasurementStats = new ItemMeasurementStats();
@@ -53,7 +52,7 @@ public class CpvDataNode {
         this.description = description;
     }
 
-    public List<DirectAcquisitionContractMinimal> getContracts() {
+    public List<Long> getContracts() {
         return contracts;
     }
 
@@ -123,16 +122,16 @@ public class CpvDataNode {
         this.numberOfItems += nrItems;
     }
 
-    public void addToContracts(DirectAcquisitionContractMinimal contract) {
-        this.contracts.add(contract);
+    public void addToContracts(Long contractId) {
+        this.contracts.add(contractId);
     }
 
     public boolean hasChildren() {
         return children != null && children.size() > 0;
     }
 
-    public void addToContracts(Collection<DirectAcquisitionContractMinimal> contracts) {
-        this.contracts.addAll(contracts);
+    public void addToContracts(Collection<Long> contractIds) {
+        this.contracts.addAll(contractIds);
     }
 
     public void feedParent() {

@@ -79,7 +79,7 @@ public class CpvNationalDataService {
         });
 
         CpvDataNode dataNodeForContract = cpvDataNodeMap.getOrDefault(contractCpvCode, new CpvDataNode());
-        dataNodeForContract.addToContracts(directAcquisitionEssentialsMapperService.mapToDirectAcquisitionContractMinimal(contract));
+        dataNodeForContract.addToContracts(contract.get_id());
         cpvDataNodeMap.put(contractCpvCode, dataNodeForContract);
     }
 
