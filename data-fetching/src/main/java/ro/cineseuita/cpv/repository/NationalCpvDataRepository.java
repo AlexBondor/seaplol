@@ -1,8 +1,8 @@
 package ro.cineseuita.cpv.repository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import ro.cineseuita.cpv.entity.components.CpvDataNode;
+import ro.cineseuita.cpv.entity.NationalCpvData;
 
-public interface NationalCpvDataRepository extends MongoRepository<CpvDataNode, Long> {
+public interface NationalCpvDataRepository extends MongoRepository<NationalCpvData, Long> {
 
 }

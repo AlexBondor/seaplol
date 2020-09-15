@@ -6,16 +6,17 @@ import ro.cineseuita.contract.entity.direct.DirectAcquisitionContractDetails;
 import ro.cineseuita.contract.entity.direct.components.DirectAcquisitionItem;
 import ro.cineseuita.contract.repository.DirectAcquisitionContractRepository;
 import ro.cineseuita.contract.service.DirectAcquisitionContractService;
+import ro.cineseuita.cpv.entity.NationalCpvData;
 import ro.cineseuita.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.cpv.entity.components.CpvSimpleTreeNode;
 import ro.cineseuita.cpv.repository.NationalCpvDataRepository;
-import ro.cineseuita.essentials.service.DirectAcquisitionEssentialsMapperService;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static ro.cineseuita.cpv.entity.NationalCpvData.formNationalCpvDataFromCpvDataNode;
 import static ro.cineseuita.cpv.entity.components.CpvDataNode.fromSimpleNode;
 
 @Service
@@ -23,15 +24,12 @@ public class CpvNationalDataService {
 
     private final DirectAcquisitionContractService directAcquisitionContractService;
     private final DirectAcquisitionContractRepository directAcquisitionContractRepository;
-    private final DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService;
     private final NationalCpvDataRepository nationalCpvDataRepository;
 
     @Autowired
-    public CpvNationalDataService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractRepository directAcquisitionContractRepository,
-                                  DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, NationalCpvDataRepository nationalCpvDataRepository) {
+    public CpvNationalDataService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractRepository directAcquisitionContractRepository, NationalCpvDataRepository nationalCpvDataRepository) {
         this.directAcquisitionContractService = directAcquisitionContractService;
         this.directAcquisitionContractRepository = directAcquisitionContractRepository;
-        this.directAcquisitionEssentialsMapperService = directAcquisitionEssentialsMapperService;
         this.nationalCpvDataRepository = nationalCpvDataRepository;
     }
 
@@ -53,16 +51,21 @@ public class CpvNationalDataService {
                 );
 
         // now when we have all the data, we can just feed it to the tree
-        root.getChildren().forEach(cpvDataNode -> {
-            feedDataToTree(cpvDataNode, cpvDataNodeMap);
-        });
+        root.getChildren().forEach(cpvDataNode -> feedDataToTree(cpvDataNode, cpvDataNodeMap));
 
         // trickle up the results
-        trickleUp(root);
+        root.getChildren().forEach(this::sumUpToParent);
 
-        nationalCpvDataRepository.saveAll(root.getChildren());
+        // save them in a more DB friendly manner
+        root.getChildren().forEach(this::simplifyAndSave);
 
         return root;
+    }
+
+    private void simplifyAndSave(CpvDataNode cpvDataNode) {
+        NationalCpvData nationalCpvData = formNationalCpvDataFromCpvDataNode(cpvDataNode);
+        nationalCpvDataRepository.save(nationalCpvData);
+        cpvDataNode.getChildren().forEach(this::simplifyAndSave);
     }
 
     private void fillDataNodeMapForContract(DirectAcquisitionContractDetails contract, Map<String, CpvDataNode> cpvDataNodeMap) {
@@ -105,10 +108,6 @@ public class CpvNationalDataService {
         root.setNumberOfItems(cpvDataNode.getNumberOfItems());
         root.setItemMeasurementStats(cpvDataNode.getItemMeasurementStats());
         root.addToContracts(cpvDataNode.getContracts());
-    }
-
-    private void trickleUp(CpvDataNode root) {
-        root.getChildren().forEach(this::sumUpToParent);
     }
 
     private void sumUpToParent(CpvDataNode child) {

@@ -37,9 +37,6 @@ public class CpvNationalDataServiceTest {
     private DirectAcquisitionContractRepository directAcquisitionContractRepository;
 
     @Mock
-    private DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService;
-
-    @Mock
     private NationalCpvDataRepository nationalCpvDataRepository;
 
     private CpvNationalDataService cpvNationalDataService;
@@ -60,11 +57,9 @@ public class CpvNationalDataServiceTest {
         directAcquisitionContractRepository = mock(DirectAcquisitionContractRepository.class);
         when(directAcquisitionContractRepository.count()).thenReturn(Long.valueOf(contractList.size()));
 
-        directAcquisitionEssentialsMapperService = new DirectAcquisitionEssentialsMapperService(null, null, null);
-
         nationalCpvDataRepository = mock(NationalCpvDataRepository.class);
 
-        cpvNationalDataService = new CpvNationalDataService(directAcquisitionContractService, directAcquisitionContractRepository, directAcquisitionEssentialsMapperService, nationalCpvDataRepository);
+        cpvNationalDataService = new CpvNationalDataService(directAcquisitionContractService, directAcquisitionContractRepository, nationalCpvDataRepository);
     }
 
     @After
