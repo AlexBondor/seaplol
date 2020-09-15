@@ -62,12 +62,6 @@ public class CpvNationalDataService {
         return root;
     }
 
-    private void simplifyAndSave(CpvDataNode cpvDataNode) {
-        NationalCpvData nationalCpvData = formNationalCpvDataFromCpvDataNode(cpvDataNode);
-        nationalCpvDataRepository.save(nationalCpvData);
-        cpvDataNode.getChildren().forEach(this::simplifyAndSave);
-    }
-
     private void fillDataNodeMapForContract(DirectAcquisitionContractDetails contract, Map<String, CpvDataNode> cpvDataNodeMap) {
         String contractCpvCode = contract.getCpvCode().getLocaleKey();
 
@@ -116,5 +110,11 @@ public class CpvNationalDataService {
         }
         child.computeAverage();
         child.feedParent();
+    }
+
+    private void simplifyAndSave(CpvDataNode cpvDataNode) {
+        NationalCpvData nationalCpvData = formNationalCpvDataFromCpvDataNode(cpvDataNode);
+        nationalCpvDataRepository.save(nationalCpvData);
+        cpvDataNode.getChildren().forEach(this::simplifyAndSave);
     }
 }
