@@ -13,6 +13,7 @@ import ro.cineseuita.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.cpv.entity.components.CpvSimpleTreeNode;
 import ro.cineseuita.cpv.repository.NationalCpvDataRepository;
 import ro.cineseuita.essentials.service.DirectAcquisitionEssentialsMapperService;
+import ro.cineseuita.shared.itemMeasurement.CostCountAverage;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -77,6 +78,9 @@ public class CpvNationalDataServiceTest {
 
         Double totalValue = contractList.stream().map(DirectAcquisitionContractDetails::getDirectAcquisitionItems).flatMap(List::stream).mapToDouble(DirectAcquisitionItem::getTotalItemCost).sum();
         assertTrue(Math.abs(totalValue - result.getTotal()) < NEGLIGENT_ERROR);
+        double valueOfAllItemsSummed = result.getItemMeasurementStats().getItemMeasurementCostCount().values().stream().mapToDouble(CostCountAverage::getCost).sum();
+        assertTrue(Math.abs(totalValue - valueOfAllItemsSummed) < NEGLIGENT_ERROR);
+
 
         Double totalItems = contractList.stream().map(DirectAcquisitionContractDetails::getDirectAcquisitionItems).flatMap(List::stream).mapToDouble(DirectAcquisitionItem::getItemQuantity).sum();
         assertEquals(totalItems.longValue(), result.getNumberOfItems().longValue());

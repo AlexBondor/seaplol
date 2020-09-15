@@ -48,7 +48,7 @@ public class CpvNationalDataService {
         directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsStreamed()
                 .forEach(directAcquisitionContractDetails -> {
                             System.out.printf("Processing %d/%d\n", i.getAndIncrement(), numberOfContracts);
-                            fillMapForContract(directAcquisitionContractDetails, cpvDataNodeMap);
+                            fillDataNodeMapForContract(directAcquisitionContractDetails, cpvDataNodeMap);
                         }
                 );
 
@@ -65,7 +65,7 @@ public class CpvNationalDataService {
         return root;
     }
 
-    private void fillMapForContract(DirectAcquisitionContractDetails contract, Map<String, CpvDataNode> cpvDataNodeMap) {
+    private void fillDataNodeMapForContract(DirectAcquisitionContractDetails contract, Map<String, CpvDataNode> cpvDataNodeMap) {
         String contractCpvCode = contract.getCpvCode().getLocaleKey();
 
         List<DirectAcquisitionItem> directAcquisitionItems = contract.getDirectAcquisitionItems();
@@ -104,6 +104,7 @@ public class CpvNationalDataService {
         root.setTotal(cpvDataNode.getTotal());
         root.setNumberOfItems(cpvDataNode.getNumberOfItems());
         root.setItemMeasurementStats(cpvDataNode.getItemMeasurementStats());
+        root.addToContracts(cpvDataNode.getContracts());
     }
 
     private void trickleUp(CpvDataNode root) {
@@ -114,6 +115,7 @@ public class CpvNationalDataService {
         if (child.hasChildren()) {
             child.getChildren().forEach(this::sumUpToParent);
         }
+        child.computeAverage();
         child.feedParent();
     }
 }

@@ -8,6 +8,7 @@ import ro.cineseuita.essentials.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.shared.itemMeasurement.ItemMeasurementStats;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -21,7 +22,6 @@ public class CpvDataNode {
     private String cpvCodeSimplified;
     private String description;
     private final List<DirectAcquisitionContractMinimal> contracts = new ArrayList<>();
-    private Double average = 0.0;
     private Double total = 0.0;
     private Long numberOfItems = 0L;
     private ItemMeasurementStats itemMeasurementStats = new ItemMeasurementStats();
@@ -58,11 +58,7 @@ public class CpvDataNode {
     }
 
     public Double getAverage() {
-        return average;
-    }
-
-    public void setAverage(Double average) {
-        this.average = average;
+        return itemMeasurementStats.getAverage();
     }
 
     public Double getTotal() {
@@ -135,6 +131,10 @@ public class CpvDataNode {
         return children != null && children.size() > 0;
     }
 
+    public void addToContracts(Collection<DirectAcquisitionContractMinimal> contracts) {
+        this.contracts.addAll(contracts);
+    }
+
     public void feedParent() {
         this.parent.feed(this);
     }
@@ -143,5 +143,9 @@ public class CpvDataNode {
         this.total += childNode.getTotal();
         this.numberOfItems += childNode.getNumberOfItems();
         this.itemMeasurementStats.feed(childNode.getItemMeasurementStats());
+    }
+
+    public void computeAverage() {
+        this.itemMeasurementStats.computeAverage();
     }
 }
