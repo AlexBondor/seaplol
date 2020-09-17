@@ -1,12 +1,12 @@
 package ro.cineseuita.cpv.entity.components;
 
-import org.springframework.data.annotation.Id;
 import ro.cineseuita.contract.entity.direct.components.DirectAcquisitionItem;
 import ro.cineseuita.shared.itemMeasurement.ItemMeasurementStats;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CpvData {
 
@@ -19,6 +19,9 @@ public class CpvData {
     private Double total = 0.0;
     private Long numberOfItems = 0L;
     private ItemMeasurementStats itemMeasurementStats = new ItemMeasurementStats();
+
+    private String parentId;
+    private List<String> childrenIds;
 
     public String getCpvCode() {
         return cpvCode;
@@ -106,4 +109,28 @@ public class CpvData {
         this.itemMeasurementStats.computeAverage();
     }
 
+    public void fillFormFromCpvDataNode(CpvDataNode dataNode) {
+        this.setCpvCode(dataNode.getCpvCode());
+        this.setCpvCodeSimplified(dataNode.getCpvCodeSimplified());
+        this.setDescription(dataNode.getDescription());
+        this.addToContracts(dataNode.getContracts());
+        this.setTotal(dataNode.getTotal());
+        this.setNumberOfItems(dataNode.getNumberOfItems());
+        this.setItemMeasurementStats(dataNode.getItemMeasurementStats());
+
+        this.parentId = dataNode.getParent().getCpvCode();
+        this.childrenIds = dataNode.getChildren().stream().map(CpvData::getCpvCode).collect(Collectors.toList());
+    }
+
+    public List<String> getChildrenIds() {
+        return childrenIds;
+    }
+
+    public void setChildrenIds(List<String> childrenIds) {
+        this.childrenIds = childrenIds;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
 }

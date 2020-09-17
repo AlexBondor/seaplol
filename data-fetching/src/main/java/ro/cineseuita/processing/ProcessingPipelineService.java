@@ -7,7 +7,7 @@ import ro.cineseuita.contract.service.DirectAcquisitionContractService;
 import ro.cineseuita.contractingauthority.service.ContractingAuthorityService;
 import ro.cineseuita.cpv.entity.components.CpvSimpleTreeNode;
 import ro.cineseuita.cpv.service.CpvCodesService;
-import ro.cineseuita.cpv.service.CpvNationalDataService;
+import ro.cineseuita.cpv.service.CpvDataService;
 import ro.cineseuita.cpv.service.CpvTreeConstructorService;
 import ro.cineseuita.shared.MissingEntitiesResolutionService;
 import ro.cineseuita.shared.Period;
@@ -28,8 +28,9 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_TOTAL_CONTRACTS_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_CONTRACTING_AUTHORITIES_TOTAL_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_SUPPLIERS_TOTAL_SPENDING_BY_TYPE = false;
-    private static final Boolean COMPUTE_CPV_TREE = true;
-    private static final Boolean COMPUTE_NATIONAL_CPV_DATA = true;
+    private static final Boolean COMPUTE_NATIONAL_CPV_DATA = false;
+    private static final Boolean COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA = true;
+    private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || false;
 
 
     private final DirectAcquisitionContractService directAcquisitionContractService;
@@ -40,13 +41,13 @@ public class ProcessingPipelineService {
     private final MissingEntitiesResolutionService missingEntitiesResolutionService;
     private final ItemMeasurementService itemMeasurementService;
     private final CpvTreeConstructorService cpvTreeConstructorService;
-    private final CpvNationalDataService cpvNationalDataService;
+    private final CpvDataService cpvDataService;
 
     @Autowired
     public ProcessingPipelineService(DirectAcquisitionContractService directAcquisitionContractService, SupplierService supplierService,
                                      ContractingAuthorityService contractingAuthorityService, ContractsTotalSpendingByTypeService contractsTotalSpendingByTypeService,
                                      CpvCodesService cpvCodesService, MissingEntitiesResolutionService missingEntitiesResolutionService,
-                                     ItemMeasurementService itemMeasurementService, CpvTreeConstructorService cpvTreeConstructorService, CpvNationalDataService cpvNationalDataService) {
+                                     ItemMeasurementService itemMeasurementService, CpvTreeConstructorService cpvTreeConstructorService, CpvDataService cpvDataService) {
         this.directAcquisitionContractService = directAcquisitionContractService;
 
         this.supplierService = supplierService;
@@ -56,7 +57,7 @@ public class ProcessingPipelineService {
         this.missingEntitiesResolutionService = missingEntitiesResolutionService;
         this.itemMeasurementService = itemMeasurementService;
         this.cpvTreeConstructorService = cpvTreeConstructorService;
-        this.cpvNationalDataService = cpvNationalDataService;
+        this.cpvDataService = cpvDataService;
     }
 
     public void execute() throws IOException, InterruptedException {
@@ -75,6 +76,7 @@ public class ProcessingPipelineService {
         computeSuppliersTotalSpendingByType();
         CpvSimpleTreeNode root = computeCpvTree();
         computeNationalCpvData(root);
+        computeContractingAuthorityCpvData(root);
         System.out.println("EXECUTION PIPELINE COMPLETE");
     }
 
@@ -183,8 +185,16 @@ public class ProcessingPipelineService {
     private void computeNationalCpvData(CpvSimpleTreeNode root) {
         if (COMPUTE_NATIONAL_CPV_DATA) {
             System.out.println("--- COMPUTING NATIONAL CPV DATA TREE ---");
-            cpvNationalDataService.computeNationalWideCpvData(root);
+            cpvDataService.computeNationalWideCpvData(root);
             System.out.println("--- DONE COMPUTING NATIONAL CPV DATA TREE ---");
+        }
+    }
+
+    private void computeContractingAuthorityCpvData(CpvSimpleTreeNode root) {
+        if (COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA) {
+            System.out.println("--- COMPUTING CONTRACTING AUTHORITY CPV DATA TREE ---");
+            cpvDataService.computeContractingAuthorityCpvData(root);
+            System.out.println("--- DONE COMPUTING CONTRACTING AUTHORITY CPV DATA TREE ---");
         }
     }
 }

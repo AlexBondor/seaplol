@@ -9,10 +9,11 @@ import ro.cineseuita.contract.entity.direct.DirectAcquisitionContractDetails;
 import ro.cineseuita.contract.entity.direct.components.DirectAcquisitionItem;
 import ro.cineseuita.contract.repository.DirectAcquisitionContractRepository;
 import ro.cineseuita.contract.service.DirectAcquisitionContractService;
+import ro.cineseuita.contractingauthority.repository.ContractingAuthorityRepository;
 import ro.cineseuita.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.cpv.entity.components.CpvSimpleTreeNode;
+import ro.cineseuita.cpv.repository.ContractingAuthorityCpvDataRepository;
 import ro.cineseuita.cpv.repository.NationalCpvDataRepository;
-import ro.cineseuita.essentials.service.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.shared.itemMeasurement.CostCountAverage;
 
 import java.io.BufferedReader;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.util.Assert.notNull;
 
-public class CpvNationalDataServiceTest {
+public class CpvDataServiceTest {
 
     private static final double NEGLIGENT_ERROR = 0.01;
     @Mock
@@ -39,7 +40,13 @@ public class CpvNationalDataServiceTest {
     @Mock
     private NationalCpvDataRepository nationalCpvDataRepository;
 
-    private CpvNationalDataService cpvNationalDataService;
+    @Mock
+    private ContractingAuthorityRepository contractingAuthorityRepository;
+
+    @Mock
+    private ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository;
+
+    private CpvDataService cpvDataService;
 
 
     private final ObjectMapper mapper = new ObjectMapper();
@@ -57,9 +64,12 @@ public class CpvNationalDataServiceTest {
         directAcquisitionContractRepository = mock(DirectAcquisitionContractRepository.class);
         when(directAcquisitionContractRepository.count()).thenReturn(Long.valueOf(contractList.size()));
 
+        contractingAuthorityRepository = mock(ContractingAuthorityRepository.class);
+        contractingAuthorityCpvDataRepository = mock(ContractingAuthorityCpvDataRepository.class);
+
         nationalCpvDataRepository = mock(NationalCpvDataRepository.class);
 
-        cpvNationalDataService = new CpvNationalDataService(directAcquisitionContractService, directAcquisitionContractRepository, nationalCpvDataRepository);
+        cpvDataService = new CpvDataService(directAcquisitionContractService, directAcquisitionContractRepository, nationalCpvDataRepository, contractingAuthorityRepository, contractingAuthorityCpvDataRepository);
     }
 
     @After
@@ -68,7 +78,7 @@ public class CpvNationalDataServiceTest {
 
     @Test
     public void testComputeNationalWideCpvData() {
-        CpvDataNode result = cpvNationalDataService.computeNationalWideCpvData(cpvSimpleTree);
+        CpvDataNode result = cpvDataService.computeNationalWideCpvData(cpvSimpleTree);
         notNull(result, "The result cannot be null!");
 
         Double totalValue = contractList.stream().map(DirectAcquisitionContractDetails::getDirectAcquisitionItems).flatMap(List::stream).mapToDouble(DirectAcquisitionItem::getTotalItemCost).sum();

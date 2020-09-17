@@ -16,40 +16,11 @@ public class NationalCpvData extends CpvData {
     @Id
     private String id;
 
-    private String parentId;
-
-    private List<String> childrenIds = new ArrayList<>();
-
     public static NationalCpvData formNationalCpvDataFromCpvDataNode(CpvDataNode dataNode) {
         NationalCpvData nationalCpvData = new NationalCpvData();
+        nationalCpvData.fillFormFromCpvDataNode(dataNode);
         nationalCpvData.id = dataNode.getCpvCode();
-        nationalCpvData.setCpvCode(dataNode.getCpvCode());
-        nationalCpvData.setCpvCodeSimplified(dataNode.getCpvCodeSimplified());
-        nationalCpvData.setDescription(dataNode.getDescription());
-        nationalCpvData.addToContracts(dataNode.getContracts());
-        nationalCpvData.setTotal(dataNode.getTotal());
-        nationalCpvData.setNumberOfItems(dataNode.getNumberOfItems());
-        nationalCpvData.setItemMeasurementStats(dataNode.getItemMeasurementStats());
-
-        nationalCpvData.setParentId(dataNode.getParent().getCpvCode());
-        nationalCpvData.setChildrenIds(dataNode.getChildren().stream().map(CpvData::getCpvCode).collect(toList()));
-
         return nationalCpvData;
     }
 
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public List<String> getChildrenIds() {
-        return childrenIds;
-    }
-
-    public void setChildrenIds(List<String> childrenIds) {
-        this.childrenIds = childrenIds;
-    }
 }
