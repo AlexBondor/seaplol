@@ -9,10 +9,13 @@ import ro.cineseuita.contract.service.DirectAcquisitionContractService;
 import ro.cineseuita.contractingauthority.repository.ContractingAuthorityRepository;
 import ro.cineseuita.cpv.entity.ContractingAuthorityCpvData;
 import ro.cineseuita.cpv.entity.NationalCpvData;
+import ro.cineseuita.cpv.entity.SupplierCpvData;
 import ro.cineseuita.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.cpv.entity.components.CpvSimpleTreeNode;
 import ro.cineseuita.cpv.repository.ContractingAuthorityCpvDataRepository;
 import ro.cineseuita.cpv.repository.NationalCpvDataRepository;
+import ro.cineseuita.cpv.repository.SupplierCpvDataRepository;
+import ro.cineseuita.supplier.repository.SupplierRepository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static ro.cineseuita.cpv.entity.ContractingAuthorityCpvData.formContractingAuthorityCpvDataFromCpvDataNode;
 import static ro.cineseuita.cpv.entity.NationalCpvData.formNationalCpvDataFromCpvDataNode;
+import static ro.cineseuita.cpv.entity.SupplierCpvData.formSupplierCpvDataFromCpvDataNode;
 import static ro.cineseuita.cpv.entity.components.CpvDataNode.fromSimpleNode;
 
 @Service
@@ -31,14 +35,18 @@ public class CpvDataService {
     private final NationalCpvDataRepository nationalCpvDataRepository;
     private final ContractingAuthorityRepository contractingAuthorityRepository;
     private final ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository;
+    private final SupplierRepository supplierRepository;
+    private final SupplierCpvDataRepository supplierCpvDataRepository;
 
     @Autowired
-    public CpvDataService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractRepository directAcquisitionContractRepository, NationalCpvDataRepository nationalCpvDataRepository, ContractingAuthorityRepository contractingAuthorityRepository, ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository) {
+    public CpvDataService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractRepository directAcquisitionContractRepository, NationalCpvDataRepository nationalCpvDataRepository, ContractingAuthorityRepository contractingAuthorityRepository, ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository, SupplierRepository supplierRepository, SupplierCpvDataRepository supplierCpvDataRepository) {
         this.directAcquisitionContractService = directAcquisitionContractService;
         this.directAcquisitionContractRepository = directAcquisitionContractRepository;
         this.nationalCpvDataRepository = nationalCpvDataRepository;
         this.contractingAuthorityRepository = contractingAuthorityRepository;
         this.contractingAuthorityCpvDataRepository = contractingAuthorityCpvDataRepository;
+        this.supplierRepository = supplierRepository;
+        this.supplierCpvDataRepository = supplierCpvDataRepository;
     }
 
     public CpvDataNode computeNationalWideCpvData(CpvSimpleTreeNode rootSimple) {
@@ -71,7 +79,6 @@ public class CpvDataService {
     }
 
     public void computeContractingAuthorityCpvData(CpvSimpleTreeNode rootSimple) {
-
         final long count = contractingAuthorityRepository.count();
         AtomicInteger i = new AtomicInteger();
         contractingAuthorityRepository.findAllJustIds()
@@ -90,7 +97,7 @@ public class CpvDataService {
 
                             root.getChildren().forEach(this::sumUpToParent);
 
-                            cleanupTree(root);
+                            removeEmptySubtrees(root);
                             compressTree(root);
 
                             root.getChildren().forEach(cpvDataNode -> mapAndSaveContractingAuthority(cpvDataNode, contractingAuthority.getId()));
@@ -98,8 +105,35 @@ public class CpvDataService {
                             cpvDataNodeMap.clear();
                         }
                 );
+    }
 
+    public void computeSupplierCpvData(CpvSimpleTreeNode rootSimple) {
+        final long count = supplierRepository.count();
+        AtomicInteger i = new AtomicInteger();
+        supplierRepository.findAllJustIds()
+                .parallelStream()
+                .forEach(supplier -> {
+                            CpvDataNode root = fromSimpleNode(rootSimple);
+                            Map<String, CpvDataNode> cpvDataNodeMap = new HashMap<>();
+                            System.out.printf("Computing cpv for supplier %d/%d\n", i.getAndIncrement(), count);
+                            directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsForSupplier(supplier.getId())
+                                    .forEach(directAcquisitionContractDetails ->
+                                    {
+                                        fillDataNodeMapForContract(directAcquisitionContractDetails, cpvDataNodeMap);
+                                    });
 
+                            root.getChildren().forEach(cpvDataNode -> feedDataToTree(cpvDataNode, cpvDataNodeMap));
+
+                            root.getChildren().forEach(this::sumUpToParent);
+
+                            removeEmptySubtrees(root);
+                            compressTree(root);
+
+                            root.getChildren().forEach(cpvDataNode -> mapAndSaveSupplier(cpvDataNode, supplier.getId()));
+
+                            cpvDataNodeMap.clear();
+                        }
+                );
     }
 
     private void fillDataNodeMapForContract(DirectAcquisitionContractDetails contract, Map<String, CpvDataNode> cpvDataNodeMap) {
@@ -158,10 +192,10 @@ public class CpvDataService {
         cpvDataNode.getChildren().forEach(this::mapAndSaveNational);
     }
 
-    private void cleanupTree(CpvDataNode root) {
+    private void removeEmptySubtrees(CpvDataNode root) {
         if (root.hasChildren()) {
             root.getChildren().removeIf(node -> node.getNumberOfItems() == 0);
-            root.getChildren().forEach(this::cleanupTree);
+            root.getChildren().forEach(this::removeEmptySubtrees);
         }
     }
 
@@ -186,8 +220,14 @@ public class CpvDataService {
     }
 
     private void mapAndSaveContractingAuthority(CpvDataNode cpvDataNode, Long contractingAuthorityId) {
-        ContractingAuthorityCpvData nationalCpvData = formContractingAuthorityCpvDataFromCpvDataNode(cpvDataNode, contractingAuthorityId);
-        contractingAuthorityCpvDataRepository.save(nationalCpvData);
+        ContractingAuthorityCpvData contractingAuthorityCpvData = formContractingAuthorityCpvDataFromCpvDataNode(cpvDataNode, contractingAuthorityId);
+        contractingAuthorityCpvDataRepository.save(contractingAuthorityCpvData);
         cpvDataNode.getChildren().forEach(dataNode -> mapAndSaveContractingAuthority(dataNode, contractingAuthorityId));
+    }
+
+    private void mapAndSaveSupplier(CpvDataNode cpvDataNode, Long supplierId) {
+        SupplierCpvData supplierCpvData = formSupplierCpvDataFromCpvDataNode(cpvDataNode, supplierId);
+        supplierCpvDataRepository.save(supplierCpvData);
+        cpvDataNode.getChildren().forEach(dataNode -> mapAndSaveSupplier(dataNode, supplierId));
     }
 }

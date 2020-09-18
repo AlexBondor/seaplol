@@ -29,8 +29,9 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_CONTRACTING_AUTHORITIES_TOTAL_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_SUPPLIERS_TOTAL_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_NATIONAL_CPV_DATA = false;
-    private static final Boolean COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA = true;
-    private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || false;
+    private static final Boolean COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA = false;
+    private static final Boolean COMPUTE_SUPPLIER_CPV_DATA = true;
+    private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || COMPUTE_SUPPLIER_CPV_DATA || false;
 
 
     private final DirectAcquisitionContractService directAcquisitionContractService;
@@ -77,6 +78,7 @@ public class ProcessingPipelineService {
         CpvSimpleTreeNode root = computeCpvTree();
         computeNationalCpvData(root);
         computeContractingAuthorityCpvData(root);
+        computeSupplierCpvData(root);
         System.out.println("EXECUTION PIPELINE COMPLETE");
     }
 
@@ -195,6 +197,14 @@ public class ProcessingPipelineService {
             System.out.println("--- COMPUTING CONTRACTING AUTHORITY CPV DATA TREE ---");
             cpvDataService.computeContractingAuthorityCpvData(root);
             System.out.println("--- DONE COMPUTING CONTRACTING AUTHORITY CPV DATA TREE ---");
+        }
+    }
+
+    private void computeSupplierCpvData(CpvSimpleTreeNode root) {
+        if (COMPUTE_SUPPLIER_CPV_DATA) {
+            System.out.println("--- COMPUTING SUPPLIER CPV DATA TREE ---");
+            cpvDataService.computeSupplierCpvData(root);
+            System.out.println("--- DONE COMPUTING SUPPLIER CPV DATA TREE ---");
         }
     }
 }

@@ -1,6 +1,7 @@
 package ro.cineseuita.cpv.entity;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.cpv.entity.components.CpvData;
 import ro.cineseuita.cpv.entity.components.CpvDataNode;
@@ -11,6 +12,7 @@ public class ContractingAuthorityCpvData extends CpvData {
     @Id
     private String id;
 
+    @Indexed
     private Long contractingAuthorityId;
 
     public Long getContractingAuthorityId() {

@@ -14,7 +14,9 @@ import ro.cineseuita.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.cpv.entity.components.CpvSimpleTreeNode;
 import ro.cineseuita.cpv.repository.ContractingAuthorityCpvDataRepository;
 import ro.cineseuita.cpv.repository.NationalCpvDataRepository;
+import ro.cineseuita.cpv.repository.SupplierCpvDataRepository;
 import ro.cineseuita.shared.itemMeasurement.CostCountAverage;
+import ro.cineseuita.supplier.repository.SupplierRepository;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -46,6 +48,12 @@ public class CpvDataServiceTest {
     @Mock
     private ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository;
 
+    @Mock
+    private SupplierRepository supplierRepository;
+
+    @Mock
+    private SupplierCpvDataRepository supplierCpvDataRepository;
+
     private CpvDataService cpvDataService;
 
 
@@ -67,9 +75,12 @@ public class CpvDataServiceTest {
         contractingAuthorityRepository = mock(ContractingAuthorityRepository.class);
         contractingAuthorityCpvDataRepository = mock(ContractingAuthorityCpvDataRepository.class);
 
+        supplierRepository = mock(SupplierRepository.class);
+        supplierCpvDataRepository = mock(SupplierCpvDataRepository.class);
+
         nationalCpvDataRepository = mock(NationalCpvDataRepository.class);
 
-        cpvDataService = new CpvDataService(directAcquisitionContractService, directAcquisitionContractRepository, nationalCpvDataRepository, contractingAuthorityRepository, contractingAuthorityCpvDataRepository);
+        cpvDataService = new CpvDataService(directAcquisitionContractService, directAcquisitionContractRepository, nationalCpvDataRepository, contractingAuthorityRepository, contractingAuthorityCpvDataRepository, supplierRepository, supplierCpvDataRepository);
     }
 
     @After
