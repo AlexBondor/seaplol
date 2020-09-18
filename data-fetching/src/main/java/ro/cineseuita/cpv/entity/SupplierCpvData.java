@@ -15,19 +15,19 @@ public class SupplierCpvData extends CpvData {
     @Indexed
     private Long supplierId;
 
-    public Long getSupplierId() {
-        return supplierId;
-    }
-
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
-    }
-
     public static SupplierCpvData formSupplierCpvDataFromCpvDataNode(CpvDataNode dataNode, Long supplierId) {
         SupplierCpvData supplierCpvData = new SupplierCpvData();
         supplierCpvData.fillFormFromCpvDataNode(dataNode);
         supplierCpvData.id = dataNode.getCpvCode() + " (" + supplierId + ")";
         supplierCpvData.supplierId = supplierId;
         return supplierCpvData;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
     }
 }

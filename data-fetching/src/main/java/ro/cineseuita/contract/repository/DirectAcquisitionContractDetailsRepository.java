@@ -2,7 +2,6 @@ package ro.cineseuita.contract.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Slice;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import ro.cineseuita.contract.entity.direct.DirectAcquisitionContractDetails;

@@ -12,10 +12,10 @@ public class CpvData {
 
     // this class should always be extended in order to add the equivalent for either CAs or Suppliers
 
+    private final List<Long> contracts = new ArrayList<>();
     private String cpvCode;
     private String cpvCodeSimplified;
     private String description;
-    private final List<Long> contracts = new ArrayList<>();
     private Double total = 0.0;
     private Long numberOfItems = 0L;
     private ItemMeasurementStats itemMeasurementStats = new ItemMeasurementStats();

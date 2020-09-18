@@ -15,19 +15,19 @@ public class ContractingAuthorityCpvData extends CpvData {
     @Indexed
     private Long contractingAuthorityId;
 
-    public Long getContractingAuthorityId() {
-        return contractingAuthorityId;
-    }
-
-    public void setContractingAuthorityId(Long contractingAuthorityId) {
-        this.contractingAuthorityId = contractingAuthorityId;
-    }
-
     public static ContractingAuthorityCpvData formContractingAuthorityCpvDataFromCpvDataNode(CpvDataNode dataNode, Long contractingAuthorityId) {
         ContractingAuthorityCpvData contractingAuthorityCpvData = new ContractingAuthorityCpvData();
         contractingAuthorityCpvData.fillFormFromCpvDataNode(dataNode);
         contractingAuthorityCpvData.id = dataNode.getCpvCode() + " (" + contractingAuthorityId + ")";
         contractingAuthorityCpvData.contractingAuthorityId = contractingAuthorityId;
         return contractingAuthorityCpvData;
+    }
+
+    public Long getContractingAuthorityId() {
+        return contractingAuthorityId;
+    }
+
+    public void setContractingAuthorityId(Long contractingAuthorityId) {
+        this.contractingAuthorityId = contractingAuthorityId;
     }
 }

@@ -14,11 +14,11 @@ public enum Period {
         this.numVal = numVal;
     }
 
-    public int getNumVal() {
-        return numVal;
-    }
-
     public static List<Period> getYears() {
         return Arrays.asList(_2018, _2019);
+    }
+
+    public int getNumVal() {
+        return numVal;
     }
 }

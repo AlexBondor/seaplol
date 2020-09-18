@@ -10,6 +10,16 @@ public class CpvDataNode extends CpvData {
     private CpvDataNode parent;
     private List<CpvDataNode> children;
 
+    public static CpvDataNode fromSimpleNode(CpvSimpleTreeNode simpleNode) {
+        CpvDataNode cpvDataNode = new CpvDataNode();
+        cpvDataNode.setCpvCode(simpleNode.getCode());
+        cpvDataNode.setCpvCodeSimplified(simpleNode.getCodeSimplified());
+        cpvDataNode.setDescription(simpleNode.getDescription());
+        cpvDataNode.children = (simpleNode.getChildren() != null) ? simpleNode.getChildren().stream().map(CpvDataNode::fromSimpleNode).collect(toList()) : new ArrayList<>();
+        cpvDataNode.children.forEach(child -> child.setParent(cpvDataNode));
+        return cpvDataNode;
+    }
+
     public CpvDataNode getParent() {
         return parent;
     }
@@ -24,16 +34,6 @@ public class CpvDataNode extends CpvData {
 
     public void setChildren(List<CpvDataNode> children) {
         this.children = children;
-    }
-
-    public static CpvDataNode fromSimpleNode(CpvSimpleTreeNode simpleNode) {
-        CpvDataNode cpvDataNode = new CpvDataNode();
-        cpvDataNode.setCpvCode(simpleNode.getCode());
-        cpvDataNode.setCpvCodeSimplified(simpleNode.getCodeSimplified());
-        cpvDataNode.setDescription(simpleNode.getDescription());
-        cpvDataNode.children = (simpleNode.getChildren() != null) ? simpleNode.getChildren().stream().map(CpvDataNode::fromSimpleNode).collect(toList()) : new ArrayList<>();
-        cpvDataNode.children.forEach(child -> child.setParent(cpvDataNode));
-        return cpvDataNode;
     }
 
     public boolean hasChildren() {

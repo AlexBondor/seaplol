@@ -5,11 +5,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.cpv.entity.components.CpvData;
 import ro.cineseuita.cpv.entity.components.CpvDataNode;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.util.stream.Collectors.toList;
-
 @Document(collection = "nationalCpvData")
 public class NationalCpvData extends CpvData {
 

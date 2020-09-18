@@ -350,12 +350,12 @@ public class DirectAcquisitionItem {
         this.averageDeviation = this.itemClosingPrice / this.averageItemPrice;
     }
 
-    public void setItemMeasureClass(ItemMeasurement itemMeasureClass) {
-        this.itemMeasureClass = itemMeasureClass;
-    }
-
     public ItemMeasurement getItemMeasureClass() {
         return itemMeasureClass;
+    }
+
+    public void setItemMeasureClass(ItemMeasurement itemMeasureClass) {
+        this.itemMeasureClass = itemMeasureClass;
     }
 
     public Double getTotalItemCost() {
