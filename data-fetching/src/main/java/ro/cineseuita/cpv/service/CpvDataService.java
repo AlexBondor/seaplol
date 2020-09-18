@@ -71,13 +71,13 @@ public class CpvDataService {
     }
 
     public void computeContractingAuthorityCpvData(CpvSimpleTreeNode rootSimple) {
-        CpvDataNode root = fromSimpleNode(rootSimple);
 
         final long count = contractingAuthorityRepository.count();
         AtomicInteger i = new AtomicInteger();
         contractingAuthorityRepository.findAllJustIds()
                 .parallelStream()
                 .forEach(contractingAuthority -> {
+                            CpvDataNode root = fromSimpleNode(rootSimple);
                             Map<String, CpvDataNode> cpvDataNodeMap = new HashMap<>();
                             System.out.printf("Computing cpv for contracting authority %d/%d\n", i.getAndIncrement(), count);
                             directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsForContractingAuthorityStreamed(contractingAuthority.getId())
@@ -89,6 +89,9 @@ public class CpvDataService {
                             root.getChildren().forEach(cpvDataNode -> feedDataToTree(cpvDataNode, cpvDataNodeMap));
 
                             root.getChildren().forEach(this::sumUpToParent);
+
+                            cleanupTree(root);
+                            compressTree(root);
 
                             root.getChildren().forEach(cpvDataNode -> mapAndSaveContractingAuthority(cpvDataNode, contractingAuthority.getId()));
 
@@ -153,6 +156,33 @@ public class CpvDataService {
         NationalCpvData nationalCpvData = formNationalCpvDataFromCpvDataNode(cpvDataNode);
         nationalCpvDataRepository.save(nationalCpvData);
         cpvDataNode.getChildren().forEach(this::mapAndSaveNational);
+    }
+
+    private void cleanupTree(CpvDataNode root) {
+        if (root.hasChildren()) {
+            root.getChildren().removeIf(node -> node.getNumberOfItems() == 0);
+            root.getChildren().forEach(this::cleanupTree);
+        }
+    }
+
+    private void compressTree(CpvDataNode root) {
+        for (CpvDataNode child : root.getChildren()) {
+            if (child.hasOnlyOneChild()) {
+                CpvDataNode ancestor = findFurthestAncestorWithMoreThanOneOrNoChildren(child);
+                child.getChildren().clear();
+                child.getChildren().add(ancestor);
+                ancestor.setParent(child);
+            }
+        }
+
+    }
+
+    private CpvDataNode findFurthestAncestorWithMoreThanOneOrNoChildren(CpvDataNode root) {
+        CpvDataNode ancestor = root.getChildren().get(0);
+        while (ancestor.hasOnlyOneChild()) {
+            ancestor = ancestor.getChildren().get(0);
+        }
+        return ancestor;
     }
 
     private void mapAndSaveContractingAuthority(CpvDataNode cpvDataNode, Long contractingAuthorityId) {

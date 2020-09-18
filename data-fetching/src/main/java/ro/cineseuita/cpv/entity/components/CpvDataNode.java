@@ -40,6 +40,10 @@ public class CpvDataNode extends CpvData {
         return children != null && children.size() > 0;
     }
 
+    public boolean hasOnlyOneChild() {
+        return children != null && children.size() == 1;
+    }
+
     public void feedParent() {
         this.parent.feed(this);
     }
