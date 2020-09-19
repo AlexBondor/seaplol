@@ -2,9 +2,10 @@ package ro.cineseuita.national.api.controller;//package ro.cineseuita.national.a
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ro.cineseuita.data.cpv.entity.NationalCpvData;
+import ro.cineseuita.data.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.national.service.NationalDataService;
 
 import java.util.List;
@@ -21,7 +22,14 @@ public class NationalDataController {
     }
 
     @GetMapping
-    public List<NationalCpvData> getRootCpvData() {
+    public List<CpvDataNode> getRootCpvData() {
         return nationalDataService.getNationalCpvData();
     }
+
+    @GetMapping("/cpvChildrenOf/{cpvCode}")
+    public List<CpvDataNode> cpvChildrenOf(@PathVariable String cpvCode) {
+        return nationalDataService.getCpvChildrenOf(cpvCode);
+    }
+
+
 }

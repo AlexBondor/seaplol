@@ -8,7 +8,7 @@ import static java.util.stream.Collectors.toList;
 public class CpvDataNode extends CpvData {
 
     private CpvDataNode parent;
-    private List<CpvDataNode> children;
+    private List<CpvDataNode> children = new ArrayList<>();
 
     public static CpvDataNode fromSimpleNode(CpvSimpleTreeNode simpleNode) {
         CpvDataNode cpvDataNode = new CpvDataNode();

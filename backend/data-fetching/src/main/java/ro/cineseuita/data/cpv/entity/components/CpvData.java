@@ -113,17 +113,20 @@ public class CpvData {
         this.itemMeasurementStats.computeAverage();
     }
 
-    public void fillFormFromCpvDataNode(CpvDataNode dataNode) {
-        this.setCpvCode(dataNode.getCpvCode());
-        this.setCpvCodeSimplified(dataNode.getCpvCodeSimplified());
-        this.setDescription(dataNode.getDescription());
-        this.addToContracts(dataNode.getContracts());
-        this.setTotal(dataNode.getTotal());
-        this.setNumberOfItems(dataNode.getNumberOfItems());
-        this.setItemMeasurementStats(dataNode.getItemMeasurementStats());
+    public void fillFormFromCpvDataNode(CpvDataNode cpvDataNode) {
+        this.fillFromCpvData(cpvDataNode);
+        this.parentId = cpvDataNode.getParent().getCpvCode();
+        this.childrenIds = cpvDataNode.getChildren().stream().map(CpvData::getCpvCode).collect(Collectors.toList());
+    }
 
-        this.parentId = dataNode.getParent().getCpvCode();
-        this.childrenIds = dataNode.getChildren().stream().map(CpvData::getCpvCode).collect(Collectors.toList());
+    public <T extends CpvData> void fillFromCpvData(T cpvData) {
+        this.setCpvCode(cpvData.getCpvCode());
+        this.setCpvCodeSimplified(cpvData.getCpvCodeSimplified());
+        this.setDescription(cpvData.getDescription());
+        this.addToContracts(cpvData.getContracts());
+        this.setTotal(cpvData.getTotal());
+        this.setNumberOfItems(cpvData.getNumberOfItems());
+        this.setItemMeasurementStats(cpvData.getItemMeasurementStats());
     }
 
     public List<String> getChildrenIds() {
