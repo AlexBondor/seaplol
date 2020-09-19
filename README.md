@@ -19,18 +19,18 @@
     
 ---
 ### 2. Structure
-- _data-fetching_ - crawler and data processor
-     - deals with crawling SEAP platform
-     - folder contains scripts for importing/exporting data in mongodb (see import-db/export-db)
-        - these scripts use the seaplol-db folder to import/export data
-        - in project root folder there should always be an up to date archive with the database - extract in the data-fetching/seaplol-db/seaplol folder and run import script if it is your first time 
-     - ***CAREFUL*** with running full fetch commands in the data-fetching application, they take many days and trigger millions of requests...
-
-
-- _app_ - the API
-    - spring boot application
-    - models should match tables created by the data-fetching app
-    - stick to clean layer architecture
+- backend
+    - _data-fetching_ - crawler and data processor
+         - deals with crawling SEAP platform
+         - folder contains scripts for importing/exporting data in mongodb (see import-db/export-db)
+            - these scripts use the seaplol-db folder to import/export data
+            - in project root folder there should always be an up to date archive with the database - extract in the backend/data-fetching/seaplol-db/seaplol folder and run import script if it is your first time 
+         - ***CAREFUL*** with running full fetch commands in the data-fetching application, they take many days and trigger millions of requests...
+         
+    - _api_
+        - spring boot application
+        - models should match tables created by the data-fetching app
+        - stick to clean layer architecture
     
     
 - _frontend_ - well, the frontend
