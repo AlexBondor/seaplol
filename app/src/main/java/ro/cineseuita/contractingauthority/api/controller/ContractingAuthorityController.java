@@ -11,7 +11,6 @@ import ro.cineseuita.contractingauthority.api.dto.ContractingAuthorityDetailDto;
 import ro.cineseuita.contractingauthority.api.dto.ContractingAuthorityListDto;
 import ro.cineseuita.contractingauthority.entity.ContractingAuthorityFilter;
 import ro.cineseuita.contractingauthority.service.ContractingAuthorityService;
-import ro.cineseuita.cpv.entity.NationalCpvData;
 
 import java.util.List;
 import java.util.Map;
