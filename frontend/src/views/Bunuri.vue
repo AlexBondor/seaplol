@@ -10,10 +10,10 @@ import api from "@/api";
 export default {
   name: "bunuri",
   components: {},
-  methods: {
-    buttonPress() {
-      api.test.test();
-    }
+  methods: {},
+  async mounted() {
+    let res = await api.national.cpvData();
+    console.log(res);
   }
 };
 </script>
