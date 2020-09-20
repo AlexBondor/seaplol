@@ -3,14 +3,13 @@ package ro.cineseuita.national.service;//package ro.cineseuita.national.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.cpv.entity.NationalCpvData;
-import ro.cineseuita.data.cpv.entity.components.CpvDataNode;
+import ro.cineseuita.data.cpv.entity.components.CpvData;
 import ro.cineseuita.data.cpv.entity.components.CpvSimpleTreeNode;
 import ro.cineseuita.data.cpv.repository.NationalCpvDataRepository;
+import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurementStats;
+import ro.cineseuita.national.api.dto.CpvDataDto;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 @Service
 public class NationalDataService {
@@ -22,38 +21,44 @@ public class NationalDataService {
         this.nationalCpvDataRepository = nationalCpvDataRepository;
     }
 
-    public List<CpvDataNode> getNationalCpvData() {
-        List<NationalCpvData> rootNodesSimple = nationalCpvDataRepository.findByParentId(CpvSimpleTreeNode.ROOT);
+    public CpvDataDto getNationalCpvData() {
+        CpvDataDto cpvDataDto = new CpvDataDto();
 
-        List<CpvDataNode> nodesWithChildrenData = new ArrayList<>();
-        rootNodesSimple.forEach(rootNode ->
-                {
-                    CpvDataNode nodeWithChildren = new CpvDataNode();
-                    nodeWithChildren.fillFromCpvData(rootNode);
+        List<NationalCpvData> children = nationalCpvDataRepository.findByParentId(CpvSimpleTreeNode.ROOT);
 
-                    List<CpvDataNode> childrenDataNodes = loadChildrenForNode(rootNode);
-                    nodeWithChildren.setChildren(childrenDataNodes);
+        cpvDataDto.setChildren(children);
+        cpvDataDto.setDetails(aggregateDetailsForAll(children));
 
-                    nodesWithChildrenData.add(nodeWithChildren);
-
-                }
-        );
-
-        return nodesWithChildrenData;
+        return cpvDataDto;
     }
 
-    public List<CpvDataNode> getCpvChildrenOf(String cpvCode) {
+    public CpvDataDto getCpvChildrenOf(String cpvCode) {
+        CpvDataDto cpvDataDto = new CpvDataDto();
+
         NationalCpvData root = nationalCpvDataRepository.findById(cpvCode).get();
-        return loadChildrenForNode(root);
+        List<NationalCpvData> children = nationalCpvDataRepository.findAllByIdIn(root.getChildrenIds());
+
+        cpvDataDto.setDetails(root);
+        cpvDataDto.setChildren(children);
+        return cpvDataDto;
     }
 
-    private List<CpvDataNode> loadChildrenForNode(NationalCpvData rootNode) {
-        List<NationalCpvData> children = nationalCpvDataRepository.findAllByIdIn(rootNode.getChildrenIds());
-        List<CpvDataNode> childrenDataNodes = children.stream().map(child -> {
-            CpvDataNode cpvDataNode = new CpvDataNode();
-            cpvDataNode.fillFromCpvData(child);
-            return cpvDataNode;
-        }).collect(toList());
-        return childrenDataNodes;
+    private NationalCpvData aggregateDetailsForAll(List<NationalCpvData> children) {
+        NationalCpvData aggregatedDetails = new NationalCpvData();
+        aggregatedDetails.setDescription("Total cheltuieli țară");
+
+        aggregatedDetails.setTotal(children.stream().mapToDouble(CpvData::getTotal).sum());
+        aggregatedDetails.setNumberOfItems(children.stream().mapToLong(CpvData::getNumberOfItems).sum());
+
+        ItemMeasurementStats overallStats = new ItemMeasurementStats();
+        children.forEach(child -> {
+            ItemMeasurementStats childItemMeasurementStats = child.getItemMeasurementStats();
+            overallStats.feed(childItemMeasurementStats);
+        });
+
+        overallStats.computeAverage();
+
+        aggregatedDetails.setItemMeasurementStats(overallStats);
+        return aggregatedDetails;
     }
 }

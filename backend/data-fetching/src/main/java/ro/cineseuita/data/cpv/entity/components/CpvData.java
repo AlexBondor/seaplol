@@ -103,6 +103,22 @@ public class CpvData {
         this.contracts.addAll(contractIds);
     }
 
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public List<String> getChildrenIds() {
+        return childrenIds;
+    }
+
+    public void setChildrenIds(List<String> childrenIds) {
+        this.childrenIds = childrenIds;
+    }
+
     public void feed(CpvDataNode childNode) {
         this.total += childNode.getTotal();
         this.numberOfItems += childNode.getNumberOfItems();
@@ -127,17 +143,5 @@ public class CpvData {
         this.setTotal(cpvData.getTotal());
         this.setNumberOfItems(cpvData.getNumberOfItems());
         this.setItemMeasurementStats(cpvData.getItemMeasurementStats());
-    }
-
-    public List<String> getChildrenIds() {
-        return childrenIds;
-    }
-
-    public void setChildrenIds(List<String> childrenIds) {
-        this.childrenIds = childrenIds;
-    }
-
-    public String getParentId() {
-        return parentId;
     }
 }

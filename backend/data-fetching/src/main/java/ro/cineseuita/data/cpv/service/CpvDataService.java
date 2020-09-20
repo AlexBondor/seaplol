@@ -9,11 +9,13 @@ import ro.cineseuita.data.contract.service.DirectAcquisitionContractService;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.cpv.entity.ContractingAuthorityCpvData;
 import ro.cineseuita.data.cpv.entity.NationalCpvData;
+import ro.cineseuita.data.cpv.entity.NationalCpvDataSimplified;
 import ro.cineseuita.data.cpv.entity.SupplierCpvData;
 import ro.cineseuita.data.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.data.cpv.entity.components.CpvSimpleTreeNode;
 import ro.cineseuita.data.cpv.repository.ContractingAuthorityCpvDataRepository;
 import ro.cineseuita.data.cpv.repository.NationalCpvDataRepository;
+import ro.cineseuita.data.cpv.repository.NationalCpvDataSimplifiedRepository;
 import ro.cineseuita.data.cpv.repository.SupplierCpvDataRepository;
 import ro.cineseuita.data.supplier.repository.SupplierDataRepository;
 
@@ -34,9 +36,10 @@ public class CpvDataService {
     private final ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository;
     private final SupplierDataRepository supplierDataRepository;
     private final SupplierCpvDataRepository supplierCpvDataRepository;
+    private final NationalCpvDataSimplifiedRepository nationalCpvDataSimplifiedRepository;
 
     @Autowired
-    public CpvDataService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractRepository directAcquisitionContractRepository, NationalCpvDataRepository nationalCpvDataRepository, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository, SupplierDataRepository supplierDataRepository, SupplierCpvDataRepository supplierCpvDataRepository) {
+    public CpvDataService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractRepository directAcquisitionContractRepository, NationalCpvDataRepository nationalCpvDataRepository, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository, SupplierDataRepository supplierDataRepository, SupplierCpvDataRepository supplierCpvDataRepository, NationalCpvDataSimplifiedRepository nationalCpvDataSimplifiedRepository) {
         this.directAcquisitionContractService = directAcquisitionContractService;
         this.directAcquisitionContractRepository = directAcquisitionContractRepository;
         this.nationalCpvDataRepository = nationalCpvDataRepository;
@@ -44,11 +47,14 @@ public class CpvDataService {
         this.contractingAuthorityCpvDataRepository = contractingAuthorityCpvDataRepository;
         this.supplierDataRepository = supplierDataRepository;
         this.supplierCpvDataRepository = supplierCpvDataRepository;
+        this.nationalCpvDataSimplifiedRepository = nationalCpvDataSimplifiedRepository;
     }
 
     public CpvDataNode computeNationalWideCpvData(CpvSimpleTreeNode rootSimple) {
 
         CpvDataNode root = CpvDataNode.fromSimpleNode(rootSimple);
+        NationalCpvDataSimplified simplifiedRoot = NationalCpvDataSimplified.fromSimpleNode(rootSimple);
+
         long numberOfContracts = directAcquisitionContractRepository.count();
 
         Map<String, CpvDataNode> cpvDataNodeMap = new HashMap<>();
@@ -65,12 +71,15 @@ public class CpvDataService {
 
         // now when we have all the data, we can just feed it to the tree
         root.getChildren().forEach(cpvDataNode -> feedDataToTree(cpvDataNode, cpvDataNodeMap));
+        simplifiedRoot.getChildren().forEach(simplifiedNode -> feedDataToSimplifiedTree(simplifiedNode, cpvDataNodeMap));
 
         // trickle up the results
         root.getChildren().forEach(this::sumUpToParent);
+        simplifiedRoot.getChildren().forEach(this::sumUpToSimplifiedParent);
 
         // save them in a more DB friendly manner
         root.getChildren().forEach(this::mapAndSaveNational);
+        simplifiedRoot.getChildren().forEach(this::saveNationalSimplified);
 
         return root;
     }
@@ -167,12 +176,20 @@ public class CpvDataService {
         root.getChildren().forEach(child -> feedDataToTree(child, cpvDataNodeMap));
     }
 
+    private void feedDataToSimplifiedTree(NationalCpvDataSimplified root, Map<String, CpvDataNode> cpvDataNodeMap) {
+        fillSimplifiedNode(root, cpvDataNodeMap.getOrDefault(root.getCpvCode(), new CpvDataNode()));
+        root.getChildren().forEach(child -> feedDataToSimplifiedTree(child, cpvDataNodeMap));
+    }
+
     private void fillNode(CpvDataNode root, CpvDataNode cpvDataNode) {
         root.setNumberOfItems(cpvDataNode.getNumberOfItems());
         root.setTotal(cpvDataNode.getTotal());
-        root.setNumberOfItems(cpvDataNode.getNumberOfItems());
         root.setItemMeasurementStats(cpvDataNode.getItemMeasurementStats());
         root.addToContracts(cpvDataNode.getContracts());
+    }
+
+    private void fillSimplifiedNode(NationalCpvDataSimplified root, CpvDataNode cpvDataNode) {
+        root.setTotal(cpvDataNode.getTotal());
     }
 
     private void sumUpToParent(CpvDataNode child) {
@@ -183,10 +200,21 @@ public class CpvDataService {
         child.feedParent();
     }
 
+    private void sumUpToSimplifiedParent(NationalCpvDataSimplified child) {
+        if (child.hasChildren()) {
+            child.getChildren().forEach(this::sumUpToSimplifiedParent);
+        }
+        child.feedParent();
+    }
+
     private void mapAndSaveNational(CpvDataNode cpvDataNode) {
         NationalCpvData nationalCpvData = NationalCpvData.formNationalCpvDataFromCpvDataNode(cpvDataNode);
         nationalCpvDataRepository.save(nationalCpvData);
         cpvDataNode.getChildren().forEach(this::mapAndSaveNational);
+    }
+
+    private void saveNationalSimplified(NationalCpvDataSimplified nationalCpvDataSimplified) {
+        nationalCpvDataSimplifiedRepository.save(nationalCpvDataSimplified);
     }
 
     private void removeEmptySubtrees(CpvDataNode root) {

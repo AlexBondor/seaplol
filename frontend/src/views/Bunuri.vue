@@ -2,6 +2,7 @@
   <div class="about">
     <h1>Bunuri</h1>
 
+    <v-btn @click="zoomOut">Înapoi</v-btn>
     <div class="hello" ref="chartdiv"></div>
   </div>
 </template>
@@ -11,6 +12,8 @@ import api from "@/api";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 
+const ROOT_PARENT_CPV = "SEAP";
+
 export default {
   name: "bunuri",
   components: {},
@@ -19,23 +22,16 @@ export default {
       loadingIndicator: {},
       data: {},
       maxLevel: 2,
-      path: []
+      currentCodeDetails: {}
     };
   },
   methods: {
-    loadData: async function() {
-      let res = await api.national.cpvData();
-      this.markDataAsLoaded(res);
-      this.data = res;
-      console.log(res);
-      return res;
-    },
     setupChart() {
       this.setupChartBasics();
       this.setupLoadingIndicator();
       this.showLoadingIndicator();
-      this.loadData().then(data => {
-        this.setupChartData(data);
+      this.loadDataForCpv(ROOT_PARENT_CPV).then(() => {
+        this.setupChartDataFields();
         this.setupChartVisuals();
         this.setupChartClickEvents();
         this.setupChartLabels();
@@ -47,8 +43,7 @@ export default {
       chart.paddingRight = 20;
       this.chart = chart;
     },
-    setupChartData(data) {
-      this.chart.data = data;
+    setupChartDataFields() {
       this.chart.dataFields.value = "total";
       this.chart.dataFields.name = "description";
       this.chart.dataFields.cpvCode = "cpvCode";
@@ -71,26 +66,14 @@ export default {
     },
     setupChartClickEvents() {
       let self = this;
-      this.chart.zoomOutButton.events.on("hit", function() {
-        self.resetPath();
-      });
+      this.chart.zoomOutButton.events.on("hit", function() {});
 
       // adding click detection (separate for each level)
       for (var i = 0; i < this.maxLevel; i++) {
         const series = this.chart.seriesTemplates.create(i);
         series.columns.template.events.on("hit", async function(ev) {
           const data = ev.target.dataItem.dataContext;
-          self.path.push(data.cpvCode);
-          // if (!data.childrenLoaded) {
-          //   console.log(self.chart.dataItems);
-            let children = await api.national.getChildrenOf(data.cpvCode);
-          //   self.addChildrenToCpvCode(children);
-          // }
-          console.log(ev.target.dataItem);
-          ev.target.dataItem.treeMapDataItem.children.values.push(...children);
-          self.maxLevels = i + 1;
-          self.setupChartLabels();
-          data.childrenLoaded = true;
+          self.loadDataForCpv(data.cpvCode); //TODO: in case no more children, show another graph or something
         });
       }
     },
@@ -150,36 +133,21 @@ export default {
         el.childrenLoaded = true;
       }
     },
-    addChildrenToCpvCode(children) {
-      let tmpPath = JSON.parse(JSON.stringify(this.path));
-
-      var currentLevelNode = this.findFirstLevelNode(tmpPath);
-
-      tmpPath.shift();
-      while (tmpPath.length > 0) {
-        for (var i = 0; i < currentLevelNode.children.length; i++) {
-          if (currentLevelNode.children[i].cpvCode === tmpPath[0]) {
-            currentLevelNode = currentLevelNode.children[i];
-            tmpPath.shift();
-            this.maxLevel++;
-          }
-        }
-      }
-      console.log(currentLevelNode);
-      currentLevelNode["children"] = children;
-      this.chart.invalidateRawData();
-      this.setupChartLabels();
+    async loadDataForCpv(code) {
+      this.showLoadingIndicator();
+      let result =
+        code === ROOT_PARENT_CPV
+          ? await api.national.cpvData()
+          : await api.national.getChildrenOf(code);
+      console.log(result);
+      this.chart.data = result.children;
+      this.currentCodeDetails = result.details;
     },
-    resetPath() {
-      this.path = [];
-      console.log("oath");
-    },
-    findFirstLevelNode(path) {
-      let data = this.data;
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].cpvCode === path[0]) {
-          return data[i];
-        }
+    zoomOut() {
+      console.log(this.currentCodeDetails);
+      let parentId = this.currentCodeDetails.parentId;
+      if (parentId) {
+        this.loadDataForCpv(parentId);
       }
     }
   },
