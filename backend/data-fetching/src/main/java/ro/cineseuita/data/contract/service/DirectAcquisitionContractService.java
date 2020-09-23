@@ -12,8 +12,8 @@ import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRe
 import ro.cineseuita.data.contract.repository.DirectAcquisitionContractRepository;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthority;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
-import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
+import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
 import ro.cineseuita.data.essentials.entity.directacquisitions.DirectAcquisitionContractEssentials;
 import ro.cineseuita.data.essentials.repository.DirectContractEssentialsRepository;
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
@@ -80,6 +80,12 @@ public class DirectAcquisitionContractService {
                         ).getContent()
                 )
                 .flatMap(Collection::stream);
+    }
+
+    public List<DirectAcquisitionContractDetails> getAllAcceptedDirectAcquisitionContractDetailsForContractingAuthority(Long contractingAuthorityId) {
+        return directAcquisitionContractDetailsRepository.findAllBySysDirectAcquisitionStateIDAndContractingAuthorityID(
+                OFERTA_ACCEPTATA.getNumVal(), contractingAuthorityId
+        );
     }
 
     public Stream<DirectAcquisitionContractDetails> getAllAcceptedDirectAcquisitionContractDetailsForSupplier(Long supplierId) {

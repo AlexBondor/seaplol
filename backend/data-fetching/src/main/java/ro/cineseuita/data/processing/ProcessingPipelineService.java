@@ -32,6 +32,7 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA = false;
     private static final Boolean COMPUTE_SUPPLIER_CPV_DATA = false;
     private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || COMPUTE_SUPPLIER_CPV_DATA || false;
+    private static final Boolean COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN = true;
 
 
     private final DirectAcquisitionContractService directAcquisitionContractService;
@@ -79,6 +80,7 @@ public class ProcessingPipelineService {
         computeNationalCpvData(root);
         computeContractingAuthorityCpvData(root);
         computeSupplierCpvData(root);
+        computeContractingAuthorityWith5kMarginContracts();
         System.out.println("EXECUTION PIPELINE COMPLETE");
     }
 
@@ -205,6 +207,14 @@ public class ProcessingPipelineService {
             System.out.println("--- COMPUTING SUPPLIER CPV DATA TREE ---");
             cpvDataService.computeSupplierCpvData(root);
             System.out.println("--- DONE COMPUTING SUPPLIER CPV DATA TREE ---");
+        }
+    }
+
+    private void computeContractingAuthorityWith5kMarginContracts() {
+        if (COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN) {
+            System.out.println("--- COMPUTING COMPANY AUTHORITY CONTRACTS WITHIN 5k MARGIN ---");
+            contractingAuthorityService.computeAllContractsWithin5kEurMarginForAllContractingAuthorities();
+            System.out.println("--- COMPUTING COMPANY AUTHORITY CONTRACTS WITHIN 5k MARGIN ---");
         }
     }
 }

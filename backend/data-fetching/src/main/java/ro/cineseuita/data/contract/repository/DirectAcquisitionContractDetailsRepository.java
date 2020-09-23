@@ -25,5 +25,7 @@ public interface DirectAcquisitionContractDetailsRepository extends MongoReposit
 
     Page<DirectAcquisitionContractDetails> findAllBySysDirectAcquisitionStateIDAndContractingAuthorityID(Integer id, Long caId, PageRequest of);
 
+    List<DirectAcquisitionContractDetails> findAllBySysDirectAcquisitionStateIDAndContractingAuthorityID(Integer id, Long caId);
+
     Page<DirectAcquisitionContractDetails> findAllBySysDirectAcquisitionStateIDAndSupplierId(Integer id, Long supplierId, PageRequest of);
 }

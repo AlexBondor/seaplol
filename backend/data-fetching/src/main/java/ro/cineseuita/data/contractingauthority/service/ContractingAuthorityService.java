@@ -4,10 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRepository;
+import ro.cineseuita.data.contract.service.DirectAcquisitionContractService;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
+import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityWith5kMarginContracts;
 import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuthorities;
-import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
+import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
+import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityWith5kMarginContractsRepository;
 import ro.cineseuita.data.essentials.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.entity.contractingauthority.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.repository.ContractingAuthorityEssentialsRepository;
@@ -36,11 +39,13 @@ public class ContractingAuthorityService {
     private final ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository;
     private final ContractingAuthorityEssentialsRepository contractingAuthorityEssentialsRepository;
     private final DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository;
+    private final ContractingAuthorityWith5kMarginContractsRepository contractingAuthorityWith5kMarginContractsRepository;
+    private final DirectAcquisitionContractService directAcquisitionContractService;
 
     @Autowired
     public ContractingAuthorityService(ObjectMapperService objectMapperService,
                                        HttpService httpService,
-                                       ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository, ContractingAuthorityEssentialsRepository contractingAuthorityEssentialsRepository, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository) {
+                                       ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository, ContractingAuthorityEssentialsRepository contractingAuthorityEssentialsRepository, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, ContractingAuthorityWith5kMarginContractsRepository contractingAuthorityWith5kMarginContractsRepository, DirectAcquisitionContractService directAcquisitionContractService) {
         this.objectMapperService = objectMapperService;
         this.httpService = httpService;
         this.contractingAuthorityEssentialsMapperService = contractingAuthorityEssentialsMapperService;
@@ -49,6 +54,8 @@ public class ContractingAuthorityService {
         this.contractingAuthorityDetailsRepository = contractingAuthorityDetailsRepository;
         this.contractingAuthorityEssentialsRepository = contractingAuthorityEssentialsRepository;
         this.directAcquisitionContractDetailsRepository = directAcquisitionContractDetailsRepository;
+        this.contractingAuthorityWith5kMarginContractsRepository = contractingAuthorityWith5kMarginContractsRepository;
+        this.directAcquisitionContractService = directAcquisitionContractService;
     }
 
     public void fetchAllContractingAuthoritiesLite() throws IOException {
@@ -96,6 +103,35 @@ public class ContractingAuthorityService {
         return null;
     }
 
+    public void computeAllContractsWithin5kEurMarginForAllContractingAuthorities() {
+        List<ContractingAuthorityDetails> contractingAuthorityDetailsList = contractingAuthorityDetailsRepository.findAll();
+
+        for (int i = 0; i < contractingAuthorityDetailsList.size(); i++) {
+            ContractingAuthorityDetails contractingAuthorityDetails = contractingAuthorityDetailsList.get(i);
+            List<DirectAcquisitionContractDetails> contracts = directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsForContractingAuthority(contractingAuthorityDetails.getId());
+
+            List<DirectAcquisitionContractDetails> contractsOfInterest = contracts.stream().filter(contract -> isWithin5kBounds(contract.getSecondCurrencyClosingValue())).collect(toList());
+
+            if (!contractsOfInterest.isEmpty()) {
+                ContractingAuthorityWith5kMarginContracts contractingAuthorityWith5kMarginContracts = new ContractingAuthorityWith5kMarginContracts();
+                contractingAuthorityWith5kMarginContracts.setContractingAuthorityId(contractingAuthorityDetails.getId());
+                contractingAuthorityWith5kMarginContracts.addAllToContracts(contractsOfInterest);
+                contractingAuthorityWith5kMarginContractsRepository.save(contractingAuthorityWith5kMarginContracts);
+            }
+            System.out.println("Done 5k margin computation for CA " + i + "/" + contractingAuthorityDetailsList.size());
+
+        }
+
+    }
+
+    private static final double closenessFactorPercentage = 2;
+    private static final double max = 5000;
+    private static final double min = max - closenessFactorPercentage / 100 * max;
+
+    private boolean isWithin5kBounds(Double closingValueInEur) {
+        return closingValueInEur >= min && closingValueInEur <= max;
+    }
+
     public void mapContractingAuthoritiesToEssentials() {
         List<ContractingAuthorityDetails> contractingAuthorityDetailsList = contractingAuthorityDetailsRepository.findAll();
         List<ContractingAuthorityEssentials> essentials = new ArrayList<>();
@@ -136,7 +172,6 @@ public class ContractingAuthorityService {
 
 
         }
-
     }
 
 
