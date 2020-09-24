@@ -18,8 +18,8 @@ import ro.cineseuita.data.essentials.service.ContractingAuthorityEssentialsMappe
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.FetchContractingAuthorities;
-import ro.cineseuita.data.shared.requests.FetchContractingAuthorityDetails;
+import ro.cineseuita.data.shared.requests.seap.FetchContractingAuthorities;
+import ro.cineseuita.data.shared.requests.seap.FetchContractingAuthorityDetails;
 
 import java.io.IOException;
 import java.util.ArrayList;

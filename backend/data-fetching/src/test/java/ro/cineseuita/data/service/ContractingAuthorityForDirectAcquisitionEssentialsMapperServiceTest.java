@@ -6,7 +6,7 @@ import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetail
 import ro.cineseuita.data.essentials.entity.directacquisitions.ContractingAuthorityForDirectAcquisitionEssentials;
 import ro.cineseuita.data.essentials.service.ContractingAuthorityEssentialsMapperService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.FetchContractingAuthorityDetails;
+import ro.cineseuita.data.shared.requests.seap.FetchContractingAuthorityDetails;
 
 import java.io.IOException;
 

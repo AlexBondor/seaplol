@@ -1,4 +1,6 @@
-package ro.cineseuita.data.shared.requests;
+package ro.cineseuita.data.shared.requests.seap;
+
+import ro.cineseuita.data.shared.requests.GetRequest;
 
 public abstract class FetchParticipant implements GetRequest {
 

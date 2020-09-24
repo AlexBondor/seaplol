@@ -19,8 +19,8 @@ import ro.cineseuita.data.essentials.repository.DirectContractEssentialsReposito
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.FetchDirectAcquisitionContracts;
-import ro.cineseuita.data.shared.requests.FetchDirectAcquisitionContractsRequestBuilder;
+import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContracts;
+import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContractsRequestBuilder;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
 import ro.cineseuita.data.supplier.repository.SupplierDetailsRepository;
 

@@ -12,7 +12,7 @@ import ro.cineseuita.data.contract.repository.AuctionAcquisitionContractDetailsR
 import ro.cineseuita.data.contract.repository.AuctionAcquisitionContractRepository;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.*;
+import ro.cineseuita.data.shared.requests.seap.*;
 
 import java.io.IOException;
 import java.util.Comparator;

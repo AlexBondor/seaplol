@@ -12,13 +12,13 @@ import java.util.Map;
 public abstract class PostRequestBase implements PostRequest {
 
     private static final String UTF_8 = StandardCharsets.UTF_8.toString();
-    final Map<String, Object> params;
+    protected final Map<String, Object> params;
 
-    PostRequestBase() {
+    public PostRequestBase() {
         params = new LinkedHashMap<>();
     }
 
-    byte[] buildContentData(Map<String, Object> params) throws UnsupportedEncodingException {
+    protected byte[] buildContentData(Map<String, Object> params) throws UnsupportedEncodingException {
         StringBuilder postData = new StringBuilder();
         for (Map.Entry<String, Object> param : params.entrySet()) {
             if (postData.length() != 0) {

@@ -1,4 +1,4 @@
-package ro.cineseuita.data.shared.requests;
+package ro.cineseuita.data.shared.requests.seap;
 
 public class FetchSupplierDetails extends FetchParticipant {
 

@@ -4,7 +4,7 @@ import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetail
 import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRepository;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.FetchDirectAcquisitionContractDetails;
+import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContractDetails;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,6 +1,7 @@
-package ro.cineseuita.data.shared.requests;
+package ro.cineseuita.data.shared.requests.seap;
 
 import org.joda.time.DateTime;
+import ro.cineseuita.data.shared.requests.PostRequestBase;
 
 import java.util.List;
 

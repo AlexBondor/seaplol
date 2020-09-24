@@ -14,7 +14,7 @@ import ro.cineseuita.data.contractingauthority.entity.ContractingAuthority;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuthorities;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.*;
+import ro.cineseuita.data.shared.requests.seap.*;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
 
 import java.io.IOException;

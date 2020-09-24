@@ -1,4 +1,6 @@
-package ro.cineseuita.data.shared.requests;
+package ro.cineseuita.data.shared.requests.seap;
+
+import ro.cineseuita.data.shared.requests.PostRequestBase;
 
 import java.util.ArrayList;
 import java.util.HashMap;

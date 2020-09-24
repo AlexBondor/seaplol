@@ -7,7 +7,7 @@ import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionIte
 import ro.cineseuita.data.essentials.entity.directacquisitions.DirectAcquisitionItemEssentials;
 import ro.cineseuita.data.essentials.service.DirectAcquisitionItemEssentialsMapperService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.FetchDirectAcquisitionContractDetails;
+import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContractDetails;
 
 import static org.junit.Assert.assertEquals;
 

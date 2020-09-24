@@ -1,4 +1,6 @@
-package ro.cineseuita.data.shared.requests;
+package ro.cineseuita.data.shared.requests.seap;
+
+import ro.cineseuita.data.shared.requests.PostRequestBase;
 
 public abstract class FetchParticipants extends PostRequestBase {
     private static final String URL_PRE = "http://e-licitatie.ro/api-pub/Participants/GetParticipants/";

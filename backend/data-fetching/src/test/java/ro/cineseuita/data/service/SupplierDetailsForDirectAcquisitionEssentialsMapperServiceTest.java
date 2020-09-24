@@ -5,7 +5,7 @@ import org.junit.Test;
 import ro.cineseuita.data.essentials.entity.directacquisitions.SupplierForDirectAcquisitionEssentials;
 import ro.cineseuita.data.essentials.service.SupplierEssentialsMapperService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.FetchSupplierDetails;
+import ro.cineseuita.data.shared.requests.seap.FetchSupplierDetails;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
 
 import java.io.IOException;

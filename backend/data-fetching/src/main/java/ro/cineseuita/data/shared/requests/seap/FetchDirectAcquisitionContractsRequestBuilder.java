@@ -1,4 +1,4 @@
-package ro.cineseuita.data.shared.requests;
+package ro.cineseuita.data.shared.requests.seap;
 
 import org.joda.time.DateTime;
 
