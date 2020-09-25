@@ -2,6 +2,7 @@ package ro.cineseuita.data.supplier.entity;
 
 import com.fasterxml.jackson.annotation.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.data.supplier.entity.components.OpenApiMeta;
 import ro.cineseuita.data.supplier.entity.components.OpenApiVatInfo;
 
@@ -31,6 +32,7 @@ import java.util.Map;
         "tva_la_incasare",
         "meta"
 })
+@Document(collection = "supplierOpenApiDetails")
 public class SupplierOpenApiDetails {
 
     @Id

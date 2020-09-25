@@ -12,6 +12,7 @@ import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionCon
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuthorities;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
+import ro.cineseuita.data.supplier.entity.SupplierOpenApiBalance;
 import ro.cineseuita.data.supplier.entity.SupplierOpenApiDetails;
 import ro.cineseuita.data.supplier.entity.components.Suppliers;
 
@@ -77,5 +78,9 @@ public class ObjectMapperService {
 
     public SupplierOpenApiDetails mapToSupplierOpenApiDetails(String content) throws IOException {
         return objectMapper.readValue(content, SupplierOpenApiDetails.class);
+    }
+
+    public SupplierOpenApiBalance mapToSupplierOpenApiBalance(String content) throws IOException {
+        return objectMapper.readValue(content, SupplierOpenApiBalance.class);
     }
 }

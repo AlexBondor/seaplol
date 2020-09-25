@@ -22,7 +22,8 @@ public class ProcessingPipelineService {
     private static final Boolean FETCH_SUPPLIERS = false;
     private static final Boolean FETCH_DIRECT_ACQUISITION_CONTRACTS = false;
     private static final Boolean FETCH_CPV_CODES_FROM_XLS = false;
-    private static final Boolean FETCH_SUPPLIERS_OPEN_API_DETAILS = true;
+    private static final Boolean FETCH_SUPPLIERS_OPEN_API_DETAILS = false;
+    private static final Boolean FETCH_SUPPLIERS_OPEN_API_BALANCES = true;
 
     private static final Boolean RESOLVE_MISSING_CONTRACTING_AUTHORITIES_AND_SUPPLIERS = false;
     private static final Boolean RESOLVE_MISSING_CONTRACTS = false;
@@ -70,6 +71,7 @@ public class ProcessingPipelineService {
         fetchContractingAuthorities();
         fetchSuppliers();
         fetchSuppliersOpenApiDetails();
+        fetchSuppliersOpenApiBalances();
         fetchContracts();
         fetchCpvCodesFromXls();
 
@@ -227,6 +229,14 @@ public class ProcessingPipelineService {
             System.out.println("--- FETCHING SUPPLIERS OPEN API DETAILS ---");
             supplierService.fetchAllSupplierOpenApiDetails();
             System.out.println("--- DONE FETCHING SUPPLIERS OPEN API DETAILS ---");
+        }
+    }
+
+    private void fetchSuppliersOpenApiBalances() {
+        if (FETCH_SUPPLIERS_OPEN_API_BALANCES) {
+            System.out.println("--- FETCHING SUPPLIERS OPEN API BALANCES ---");
+            supplierService.fetchAllSupplierOpenApiBalances();
+            System.out.println("--- DONE FETCHING SUPPLIERS OPEN API BALANCES ---");
         }
     }
 }

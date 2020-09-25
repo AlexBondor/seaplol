@@ -11,16 +11,20 @@ import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperSe
 import ro.cineseuita.data.essentials.service.SupplierEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.openapi.OpenApiCompanyDetails;
+import ro.cineseuita.data.shared.Period;
+import ro.cineseuita.data.shared.requests.openapi.FetchSupplierOpenApiBalance;
+import ro.cineseuita.data.shared.requests.openapi.FetchSupplierOpenApiDetails;
 import ro.cineseuita.data.shared.requests.seap.FetchParticipants;
 import ro.cineseuita.data.shared.requests.seap.FetchSupplierDetails;
 import ro.cineseuita.data.shared.requests.seap.FetchSuppliers;
 import ro.cineseuita.data.supplier.entity.Supplier;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
+import ro.cineseuita.data.supplier.entity.SupplierOpenApiBalance;
 import ro.cineseuita.data.supplier.entity.SupplierOpenApiDetails;
 import ro.cineseuita.data.supplier.entity.components.Suppliers;
 import ro.cineseuita.data.supplier.repository.SupplierDataRepository;
 import ro.cineseuita.data.supplier.repository.SupplierDetailsRepository;
+import ro.cineseuita.data.supplier.repository.SupplierOpenApiBalanceRepository;
 import ro.cineseuita.data.supplier.repository.SupplierOpenApiDetailsRepository;
 
 import java.io.IOException;
@@ -40,9 +44,10 @@ public class SupplierService {
     private final HttpService httpService;
     private final ObjectMapperService objectMapperService;
     private final SupplierOpenApiDetailsRepository supplierOpenApiDetailsRepository;
+    private final SupplierOpenApiBalanceRepository supplierOpenApiBalanceRepository;
 
     @Autowired
-    public SupplierService(SupplierEssentialsMapperService supplierEssentialsMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, SupplierDetailsRepository supplierDetailsRepository, SupplierDataRepository supplierDataRepository, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, SupplierEssentialsRepository supplierEssentialsRepository, HttpService httpService, ObjectMapperService objectMapperService, SupplierOpenApiDetailsRepository supplierOpenApiDetailsRepository) {
+    public SupplierService(SupplierEssentialsMapperService supplierEssentialsMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, SupplierDetailsRepository supplierDetailsRepository, SupplierDataRepository supplierDataRepository, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, SupplierEssentialsRepository supplierEssentialsRepository, HttpService httpService, ObjectMapperService objectMapperService, SupplierOpenApiDetailsRepository supplierOpenApiDetailsRepository, SupplierOpenApiBalanceRepository supplierOpenApiBalanceRepository) {
         this.supplierEssentialsMapperService = supplierEssentialsMapperService;
         this.directAcquisitionEssentialsMapperService = directAcquisitionEssentialsMapperService;
         this.supplierDetailsRepository = supplierDetailsRepository;
@@ -52,6 +57,7 @@ public class SupplierService {
         this.httpService = httpService;
         this.objectMapperService = objectMapperService;
         this.supplierOpenApiDetailsRepository = supplierOpenApiDetailsRepository;
+        this.supplierOpenApiBalanceRepository = supplierOpenApiBalanceRepository;
     }
 
     public void fetchAllSuppliersLite() throws IOException {
@@ -113,8 +119,8 @@ public class SupplierService {
                 System.out.printf("Fetching SupplierOpenAPIDetails %d/%d\n", i.getAndIncrement(), count);
 
 
-                OpenApiCompanyDetails openApiCompanyDetails = new OpenApiCompanyDetails(actualCui);
-                String response = httpService.doRequest(openApiCompanyDetails);
+                FetchSupplierOpenApiDetails fetchSupplierOpenApiDetails = new FetchSupplierOpenApiDetails(actualCui);
+                String response = httpService.doRequest(fetchSupplierOpenApiDetails);
 
                 if (!response.equals("") && !response.contains("cif_valid\":false")) {
                     SupplierOpenApiDetails openApiDetails;
@@ -128,6 +134,44 @@ public class SupplierService {
             } else {
                 System.out.printf("Already did %d\n", i.incrementAndGet());
             }
+        });
+    }
+
+    public void fetchAllSupplierOpenApiBalances() {
+        Period.getYears().forEach(period -> {
+            final int year = period.getNumVal();
+            long count = supplierOpenApiDetailsRepository.count();
+            int startFrom = 0;
+            AtomicInteger i = new AtomicInteger(startFrom);
+            List<SupplierOpenApiDetails> all = supplierOpenApiDetailsRepository.findAll();
+            all.subList(startFrom, all.size())
+                    .stream().parallel().forEach(supplier -> {
+                String cui = supplier.getCif();
+
+                String id = cui + "-" + year;
+
+                if (!supplierOpenApiBalanceRepository.existsById(id)) {
+
+                    System.out.printf("Fetching SupplierOpenAPIDetails %d/%d\n", i.getAndIncrement(), count);
+
+
+                    FetchSupplierOpenApiBalance fetchSupplierOpenApiBalance = new FetchSupplierOpenApiBalance(cui, year);
+                    String response = httpService.doRequest(fetchSupplierOpenApiBalance);
+
+                    if (!response.equals("") && !response.contains("cif_valid\":false")) {
+                        SupplierOpenApiBalance openApiBalance;
+                        try {
+                            openApiBalance = objectMapperService.mapToSupplierOpenApiBalance(response);
+                            openApiBalance.setId(id);
+                            supplierOpenApiBalanceRepository.save(openApiBalance);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    System.out.printf("Already did %d\n", i.incrementAndGet());
+                }
+            });
         });
     }
 
