@@ -71,7 +71,7 @@ public class MissingEntitiesResolutionService {
         contractingAuthoritiesIds.removeAll(contractingAuthorityIdsInList);
 
         supplierIds.forEach(supplierId -> {
-            SupplierDetails supplierDetails = supplierService.getSupplierDetails(supplierId);
+            SupplierDetails supplierDetails = supplierService.fetchSupplierDetails(supplierId);
             supplierDetailsRepository.save(supplierDetails);
             Supplier supplier = supplierMapper.fromDetailsToBasic(supplierDetails);
             supplierDataRepository.save(supplier);

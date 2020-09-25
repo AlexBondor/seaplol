@@ -1,6 +1,7 @@
 package ro.cineseuita.data.supplier.entity;
 
 import com.fasterxml.jackson.annotation.*;
+import org.springframework.data.annotation.Id;
 import ro.cineseuita.data.supplier.entity.components.OpenApiMeta;
 import ro.cineseuita.data.supplier.entity.components.OpenApiVatInfo;
 
@@ -32,6 +33,7 @@ import java.util.Map;
 })
 public class SupplierOpenApiDetails {
 
+    @Id
     @JsonProperty("cif")
     private String cif;
     @JsonProperty("numar_reg_com")

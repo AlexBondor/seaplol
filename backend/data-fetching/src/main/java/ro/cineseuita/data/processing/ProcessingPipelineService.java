@@ -22,8 +22,11 @@ public class ProcessingPipelineService {
     private static final Boolean FETCH_SUPPLIERS = false;
     private static final Boolean FETCH_DIRECT_ACQUISITION_CONTRACTS = false;
     private static final Boolean FETCH_CPV_CODES_FROM_XLS = false;
+    private static final Boolean FETCH_SUPPLIERS_OPEN_API_DETAILS = true;
+
     private static final Boolean RESOLVE_MISSING_CONTRACTING_AUTHORITIES_AND_SUPPLIERS = false;
     private static final Boolean RESOLVE_MISSING_CONTRACTS = false;
+
     private static final Boolean COMPUTE_ITEM_MEASUREMENT_CLASS = false;
     private static final Boolean COMPUTE_TOTAL_CONTRACTS_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_CONTRACTING_AUTHORITIES_TOTAL_SPENDING_BY_TYPE = false;
@@ -32,7 +35,7 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA = false;
     private static final Boolean COMPUTE_SUPPLIER_CPV_DATA = false;
     private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || COMPUTE_SUPPLIER_CPV_DATA || false;
-    private static final Boolean COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN = true;
+    private static final Boolean COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN = false;
 
 
     private final DirectAcquisitionContractService directAcquisitionContractService;
@@ -66,6 +69,7 @@ public class ProcessingPipelineService {
         System.out.println("BEGINNING EXECUTION PIPELINE");
         fetchContractingAuthorities();
         fetchSuppliers();
+        fetchSuppliersOpenApiDetails();
         fetchContracts();
         fetchCpvCodesFromXls();
 
@@ -99,11 +103,11 @@ public class ProcessingPipelineService {
     private void fetchSuppliers() throws IOException {
         if (FETCH_SUPPLIERS) {
             System.out.println("--- FETCHING SUPPLIERS (LITE) ---");
-            supplierService.getAllSuppliersLite();
+            supplierService.fetchAllSuppliersLite();
             System.out.println("--- DONE FETCHING SUPPLIERS (LITE) ---");
 
             System.out.println("--- FETCHING SUPPLIERS (DETAILS) ---");
-            supplierService.getAllSupplierDetails();
+            supplierService.fetchAllSupplierDetails();
             System.out.println("--- DONE FETCHING SUPPLIERS (DETAILS) ---");
         }
     }
@@ -214,7 +218,15 @@ public class ProcessingPipelineService {
         if (COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN) {
             System.out.println("--- COMPUTING COMPANY AUTHORITY CONTRACTS WITHIN 5k MARGIN ---");
             contractingAuthorityService.computeAllContractsWithin5kEurMarginForAllContractingAuthorities();
-            System.out.println("--- COMPUTING COMPANY AUTHORITY CONTRACTS WITHIN 5k MARGIN ---");
+            System.out.println("--- DONE COMPUTING COMPANY AUTHORITY CONTRACTS WITHIN 5k MARGIN ---");
+        }
+    }
+
+    private void fetchSuppliersOpenApiDetails() {
+        if (FETCH_SUPPLIERS_OPEN_API_DETAILS) {
+            System.out.println("--- FETCHING SUPPLIERS OPEN API DETAILS ---");
+            supplierService.fetchAllSupplierOpenApiDetails();
+            System.out.println("--- DONE FETCHING SUPPLIERS OPEN API DETAILS ---");
         }
     }
 }
