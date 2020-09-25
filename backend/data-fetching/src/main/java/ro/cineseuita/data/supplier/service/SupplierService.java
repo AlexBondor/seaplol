@@ -11,11 +11,11 @@ import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperSe
 import ro.cineseuita.data.essentials.service.SupplierEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.entityComponents.Participant;
 import ro.cineseuita.data.shared.requests.openapi.OpenApiCompanyDetails;
 import ro.cineseuita.data.shared.requests.seap.FetchParticipants;
 import ro.cineseuita.data.shared.requests.seap.FetchSupplierDetails;
 import ro.cineseuita.data.shared.requests.seap.FetchSuppliers;
+import ro.cineseuita.data.supplier.entity.Supplier;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
 import ro.cineseuita.data.supplier.entity.SupplierOpenApiDetails;
 import ro.cineseuita.data.supplier.entity.components.Suppliers;
@@ -98,20 +98,35 @@ public class SupplierService {
     }
 
     public void fetchAllSupplierOpenApiDetails() {
-        supplierDataRepository.findAll().stream().map(Participant::getCui).map(String::trim).forEach(cui -> {
-            if (cui.startsWith("RO")) {
-                cui = cui.replaceAll("RO", "");
-            }
-            OpenApiCompanyDetails openApiCompanyDetails = new OpenApiCompanyDetails(cui);
-            String response = httpService.doRequest(openApiCompanyDetails);
-            if(!response.equals("")) {
-                SupplierOpenApiDetails openApiDetails;
-                try {
-                    openApiDetails = objectMapperService.mapToSupplierOpenApiDetails(response);
-                    supplierOpenApiDetailsRepository.save(openApiDetails);
-                } catch (IOException e) {
-                    e.printStackTrace();
+        long count = supplierDataRepository.count();
+        int startFrom = 0;
+        AtomicInteger i = new AtomicInteger(startFrom);
+        List<Supplier> all = supplierDataRepository.findAll();
+        all.subList(startFrom, all.size())
+                .stream().parallel().forEach(supplier -> {
+            String cui = supplier.getCui();
+            String actualCui = cui.replaceAll("\\D+", "");
+            actualCui = actualCui.trim();
+
+            if (!supplierOpenApiDetailsRepository.existsById(actualCui)) {
+
+                System.out.printf("Fetching SupplierOpenAPIDetails %d/%d\n", i.getAndIncrement(), count);
+
+
+                OpenApiCompanyDetails openApiCompanyDetails = new OpenApiCompanyDetails(actualCui);
+                String response = httpService.doRequest(openApiCompanyDetails);
+
+                if (!response.equals("") && !response.contains("cif_valid\":false")) {
+                    SupplierOpenApiDetails openApiDetails;
+                    try {
+                        openApiDetails = objectMapperService.mapToSupplierOpenApiDetails(response);
+                        supplierOpenApiDetailsRepository.save(openApiDetails);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
+            } else {
+                System.out.printf("Already did %d\n", i.incrementAndGet());
             }
         });
     }

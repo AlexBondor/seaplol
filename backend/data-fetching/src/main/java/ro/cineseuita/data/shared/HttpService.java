@@ -1,5 +1,7 @@
 package ro.cineseuita.data.shared;
 
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.client.ClientProperties;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.shared.requests.GetRequest;
 import ro.cineseuita.data.shared.requests.OpenApiGet;
@@ -16,6 +18,15 @@ import java.net.URL;
 
 @Service
 public class HttpService {
+
+    private final Client client;
+
+    public HttpService() {
+        ClientConfig configuration = new ClientConfig();
+        configuration = configuration.property(ClientProperties.CONNECT_TIMEOUT, 42000);
+        configuration = configuration.property(ClientProperties.READ_TIMEOUT, 42000);
+        client = ClientBuilder.newClient(configuration);
+    }
 
     public String doRequest(PostRequest postRequest) throws IOException {
         URL url = new URL(postRequest.getUrl());
@@ -42,14 +53,11 @@ public class HttpService {
 
     // TODO: maybe refactor above request to all use javax.ws ...
     public String doRequest(OpenApiGet openApiGet) {
-        Client client = ClientBuilder.newClient();
         Response response = client.target(openApiGet.getUrl())
                 .request(openApiGet.getMediaType())
                 .header("x-api-key", openApiGet.getApiKey())
                 .get();
 
-        System.out.println("status: " + response.getStatus());
-        System.out.println("headers: " + response.getHeaders());
         return response.readEntity(String.class);
     }
 
