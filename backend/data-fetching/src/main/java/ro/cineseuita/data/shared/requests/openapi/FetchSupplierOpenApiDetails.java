@@ -7,7 +7,6 @@ import javax.ws.rs.core.MediaType;
 public class FetchSupplierOpenApiDetails implements OpenApiGet {
 
     private static final String URL = "https://api.openapi.ro/api/companies/";
-    private static final String KEY = "";
 
     private final String cui;
 
