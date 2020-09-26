@@ -152,13 +152,13 @@ public class SupplierService {
 
                 if (!supplierOpenApiBalanceRepository.existsById(id)) {
 
-                    System.out.printf("Fetching SupplierOpenAPIDetails %d/%d\n", i.getAndIncrement(), count);
+                    System.out.printf("Fetching SupplierOpenAPIBalance %d/%d\n", i.getAndIncrement(), count);
 
 
                     FetchSupplierOpenApiBalance fetchSupplierOpenApiBalance = new FetchSupplierOpenApiBalance(cui, year);
                     String response = httpService.doRequest(fetchSupplierOpenApiBalance);
 
-                    if (!response.equals("") && !response.contains("cif_valid\":false")) {
+                    if (!response.equals("") && !response.contains("Balance not available")) {
                         SupplierOpenApiBalance openApiBalance;
                         try {
                             openApiBalance = objectMapperService.mapToSupplierOpenApiBalance(response);

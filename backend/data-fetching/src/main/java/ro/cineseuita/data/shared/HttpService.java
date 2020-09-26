@@ -9,6 +9,7 @@ import ro.cineseuita.data.shared.requests.PostRequest;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Response;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,10 +54,18 @@ public class HttpService {
 
     // TODO: maybe refactor above request to all use javax.ws ...
     public String doRequest(OpenApiGet openApiGet) {
-        Response response = client.target(openApiGet.getUrl())
+        Invocation.Builder resBuilder = client.target(openApiGet.getUrl())
                 .request(openApiGet.getMediaType())
-                .header("x-api-key", openApiGet.getApiKey())
-                .get();
+                .header("x-api-key", openApiGet.getApiKey());
+        Response response = null;
+
+        try {
+            response = resBuilder
+                    .get();
+        } catch (Exception e) {
+            return "";
+        }
+
 
         return response.readEntity(String.class);
     }

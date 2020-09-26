@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.data.supplier.entity.components.OpenApiMeta;
-import ro.cineseuita.data.supplier.entity.components.balance.BalanceData;
+import ro.cineseuita.data.supplier.entity.components.OpenApiBalanceData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +33,7 @@ public class SupplierOpenApiBalance {
     @Indexed
     private String cif;
     @JsonProperty("data")
-    private BalanceData data;
+    private OpenApiBalanceData data;
     @JsonProperty("meta")
     private OpenApiMeta meta;
     @JsonProperty("year")
@@ -73,12 +73,12 @@ public class SupplierOpenApiBalance {
     }
 
     @JsonProperty("data")
-    public BalanceData getData() {
+    public OpenApiBalanceData getData() {
         return data;
     }
 
     @JsonProperty("data")
-    public void setData(BalanceData data) {
+    public void setData(OpenApiBalanceData data) {
         this.data = data;
     }
 

@@ -1,13 +1,9 @@
-package ro.cineseuita.data.supplier.entity.components.balance;
+package ro.cineseuita.data.supplier.entity.components;
+
+import com.fasterxml.jackson.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -34,72 +30,72 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
         "venituri_in_avans",
         "venituri_totale"
 })
-public class BalanceData {
+public class OpenApiBalanceData {
 
     @JsonProperty("active_circulante_total")
-    private Integer activeCirculanteTotal;
+    private Long activeCirculanteTotal;
     @JsonProperty("active_imobilizate_total")
-    private Integer activeImobilizateTotal;
+    private Long activeImobilizateTotal;
     @JsonProperty("caen_descriere")
     private String caenDescriere;
     @JsonProperty("capitaluri_capital")
-    private Integer capitaluriCapital;
+    private Long capitaluriCapital;
     @JsonProperty("capitaluri_patrimoniul_regiei")
-    private CapitaluriPatrimoniulRegiei capitaluriPatrimoniulRegiei;
+    private Long capitaluriPatrimoniulRegiei;
     @JsonProperty("capitaluri_total")
-    private Integer capitaluriTotal;
+    private Long capitaluriTotal;
     @JsonProperty("casa_si_conturi")
-    private Integer casaSiConturi;
+    private Long casaSiConturi;
     @JsonProperty("cheltuieli_in_avans")
-    private Integer cheltuieliInAvans;
+    private Long cheltuieliInAvans;
     @JsonProperty("cheltuieli_totale")
-    private Integer cheltuieliTotale;
+    private Long cheltuieliTotale;
     @JsonProperty("cif")
-    private Integer cif;
+    private Long cif;
     @JsonProperty("cifra_de_afaceri_neta")
-    private Integer cifraDeAfaceriNeta;
+    private Long cifraDeAfaceriNeta;
     @JsonProperty("creante")
-    private Integer creante;
+    private Long creante;
     @JsonProperty("datorii_total")
-    private Integer datoriiTotal;
+    private Long datoriiTotal;
     @JsonProperty("numar_mediu_de_salariati")
-    private Integer numarMediuDeSalariati;
+    private Long numarMediuDeSalariati;
     @JsonProperty("pierdere_bruta")
-    private Integer pierdereBruta;
+    private Long pierdereBruta;
     @JsonProperty("pierdere_neta")
-    private Integer pierdereNeta;
+    private Long pierdereNeta;
     @JsonProperty("profit_brut")
-    private Integer profitBrut;
+    private Long profitBrut;
     @JsonProperty("profit_net")
-    private Integer profitNet;
+    private Long profitNet;
     @JsonProperty("provizioane")
-    private Integer provizioane;
+    private Long provizioane;
     @JsonProperty("stocuri")
-    private Stocuri stocuri;
+    private Long stocuri;
     @JsonProperty("venituri_in_avans")
-    private VenituriInAvans venituriInAvans;
+    private Long venituriInAvans;
     @JsonProperty("venituri_totale")
-    private Integer venituriTotale;
+    private Long venituriTotale;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("active_circulante_total")
-    public Integer getActiveCirculanteTotal() {
+    public Long getActiveCirculanteTotal() {
         return activeCirculanteTotal;
     }
 
     @JsonProperty("active_circulante_total")
-    public void setActiveCirculanteTotal(Integer activeCirculanteTotal) {
+    public void setActiveCirculanteTotal(Long activeCirculanteTotal) {
         this.activeCirculanteTotal = activeCirculanteTotal;
     }
 
     @JsonProperty("active_imobilizate_total")
-    public Integer getActiveImobilizateTotal() {
+    public Long getActiveImobilizateTotal() {
         return activeImobilizateTotal;
     }
 
     @JsonProperty("active_imobilizate_total")
-    public void setActiveImobilizateTotal(Integer activeImobilizateTotal) {
+    public void setActiveImobilizateTotal(Long activeImobilizateTotal) {
         this.activeImobilizateTotal = activeImobilizateTotal;
     }
 
@@ -114,192 +110,192 @@ public class BalanceData {
     }
 
     @JsonProperty("capitaluri_capital")
-    public Integer getCapitaluriCapital() {
+    public Long getCapitaluriCapital() {
         return capitaluriCapital;
     }
 
     @JsonProperty("capitaluri_capital")
-    public void setCapitaluriCapital(Integer capitaluriCapital) {
+    public void setCapitaluriCapital(Long capitaluriCapital) {
         this.capitaluriCapital = capitaluriCapital;
     }
 
     @JsonProperty("capitaluri_patrimoniul_regiei")
-    public CapitaluriPatrimoniulRegiei getCapitaluriPatrimoniulRegiei() {
+    public Long getCapitaluriPatrimoniulRegiei() {
         return capitaluriPatrimoniulRegiei;
     }
 
     @JsonProperty("capitaluri_patrimoniul_regiei")
-    public void setCapitaluriPatrimoniulRegiei(CapitaluriPatrimoniulRegiei capitaluriPatrimoniulRegiei) {
+    public void setCapitaluriPatrimoniulRegiei(Long capitaluriPatrimoniulRegiei) {
         this.capitaluriPatrimoniulRegiei = capitaluriPatrimoniulRegiei;
     }
 
     @JsonProperty("capitaluri_total")
-    public Integer getCapitaluriTotal() {
+    public Long getCapitaluriTotal() {
         return capitaluriTotal;
     }
 
     @JsonProperty("capitaluri_total")
-    public void setCapitaluriTotal(Integer capitaluriTotal) {
+    public void setCapitaluriTotal(Long capitaluriTotal) {
         this.capitaluriTotal = capitaluriTotal;
     }
 
     @JsonProperty("casa_si_conturi")
-    public Integer getCasaSiConturi() {
+    public Long getCasaSiConturi() {
         return casaSiConturi;
     }
 
     @JsonProperty("casa_si_conturi")
-    public void setCasaSiConturi(Integer casaSiConturi) {
+    public void setCasaSiConturi(Long casaSiConturi) {
         this.casaSiConturi = casaSiConturi;
     }
 
     @JsonProperty("cheltuieli_in_avans")
-    public Integer getCheltuieliInAvans() {
+    public Long getCheltuieliInAvans() {
         return cheltuieliInAvans;
     }
 
     @JsonProperty("cheltuieli_in_avans")
-    public void setCheltuieliInAvans(Integer cheltuieliInAvans) {
+    public void setCheltuieliInAvans(Long cheltuieliInAvans) {
         this.cheltuieliInAvans = cheltuieliInAvans;
     }
 
     @JsonProperty("cheltuieli_totale")
-    public Integer getCheltuieliTotale() {
+    public Long getCheltuieliTotale() {
         return cheltuieliTotale;
     }
 
     @JsonProperty("cheltuieli_totale")
-    public void setCheltuieliTotale(Integer cheltuieliTotale) {
+    public void setCheltuieliTotale(Long cheltuieliTotale) {
         this.cheltuieliTotale = cheltuieliTotale;
     }
 
     @JsonProperty("cif")
-    public Integer getCif() {
+    public Long getCif() {
         return cif;
     }
 
     @JsonProperty("cif")
-    public void setCif(Integer cif) {
+    public void setCif(Long cif) {
         this.cif = cif;
     }
 
     @JsonProperty("cifra_de_afaceri_neta")
-    public Integer getCifraDeAfaceriNeta() {
+    public Long getCifraDeAfaceriNeta() {
         return cifraDeAfaceriNeta;
     }
 
     @JsonProperty("cifra_de_afaceri_neta")
-    public void setCifraDeAfaceriNeta(Integer cifraDeAfaceriNeta) {
+    public void setCifraDeAfaceriNeta(Long cifraDeAfaceriNeta) {
         this.cifraDeAfaceriNeta = cifraDeAfaceriNeta;
     }
 
     @JsonProperty("creante")
-    public Integer getCreante() {
+    public Long getCreante() {
         return creante;
     }
 
     @JsonProperty("creante")
-    public void setCreante(Integer creante) {
+    public void setCreante(Long creante) {
         this.creante = creante;
     }
 
     @JsonProperty("datorii_total")
-    public Integer getDatoriiTotal() {
+    public Long getDatoriiTotal() {
         return datoriiTotal;
     }
 
     @JsonProperty("datorii_total")
-    public void setDatoriiTotal(Integer datoriiTotal) {
+    public void setDatoriiTotal(Long datoriiTotal) {
         this.datoriiTotal = datoriiTotal;
     }
 
     @JsonProperty("numar_mediu_de_salariati")
-    public Integer getNumarMediuDeSalariati() {
+    public Long getNumarMediuDeSalariati() {
         return numarMediuDeSalariati;
     }
 
     @JsonProperty("numar_mediu_de_salariati")
-    public void setNumarMediuDeSalariati(Integer numarMediuDeSalariati) {
+    public void setNumarMediuDeSalariati(Long numarMediuDeSalariati) {
         this.numarMediuDeSalariati = numarMediuDeSalariati;
     }
 
     @JsonProperty("pierdere_bruta")
-    public Integer getPierdereBruta() {
+    public Long getPierdereBruta() {
         return pierdereBruta;
     }
 
     @JsonProperty("pierdere_bruta")
-    public void setPierdereBruta(Integer pierdereBruta) {
+    public void setPierdereBruta(Long pierdereBruta) {
         this.pierdereBruta = pierdereBruta;
     }
 
     @JsonProperty("pierdere_neta")
-    public Integer getPierdereNeta() {
+    public Long getPierdereNeta() {
         return pierdereNeta;
     }
 
     @JsonProperty("pierdere_neta")
-    public void setPierdereNeta(Integer pierdereNeta) {
+    public void setPierdereNeta(Long pierdereNeta) {
         this.pierdereNeta = pierdereNeta;
     }
 
     @JsonProperty("profit_brut")
-    public Integer getProfitBrut() {
+    public Long getProfitBrut() {
         return profitBrut;
     }
 
     @JsonProperty("profit_brut")
-    public void setProfitBrut(Integer profitBrut) {
+    public void setProfitBrut(Long profitBrut) {
         this.profitBrut = profitBrut;
     }
 
     @JsonProperty("profit_net")
-    public Integer getProfitNet() {
+    public Long getProfitNet() {
         return profitNet;
     }
 
     @JsonProperty("profit_net")
-    public void setProfitNet(Integer profitNet) {
+    public void setProfitNet(Long profitNet) {
         this.profitNet = profitNet;
     }
 
     @JsonProperty("provizioane")
-    public Integer getProvizioane() {
+    public Long getProvizioane() {
         return provizioane;
     }
 
     @JsonProperty("provizioane")
-    public void setProvizioane(Integer provizioane) {
+    public void setProvizioane(Long provizioane) {
         this.provizioane = provizioane;
     }
 
     @JsonProperty("stocuri")
-    public Stocuri getStocuri() {
+    public Long getStocuri() {
         return stocuri;
     }
 
     @JsonProperty("stocuri")
-    public void setStocuri(Stocuri stocuri) {
+    public void setStocuri(Long stocuri) {
         this.stocuri = stocuri;
     }
 
     @JsonProperty("venituri_in_avans")
-    public VenituriInAvans getVenituriInAvans() {
+    public Long getVenituriInAvans() {
         return venituriInAvans;
     }
 
     @JsonProperty("venituri_in_avans")
-    public void setVenituriInAvans(VenituriInAvans venituriInAvans) {
+    public void setVenituriInAvans(Long venituriInAvans) {
         this.venituriInAvans = venituriInAvans;
     }
 
     @JsonProperty("venituri_totale")
-    public Integer getVenituriTotale() {
+    public Long getVenituriTotale() {
         return venituriTotale;
     }
 
     @JsonProperty("venituri_totale")
-    public void setVenituriTotale(Integer venituriTotale) {
+    public void setVenituriTotale(Long venituriTotale) {
         this.venituriTotale = venituriTotale;
     }
 
