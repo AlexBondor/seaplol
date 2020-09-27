@@ -3,6 +3,7 @@ package ro.cineseuita.data.supplier.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
+import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionState;
 import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRepository;
 import ro.cineseuita.data.essentials.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.entity.supplier.SupplierEssentials;
@@ -21,6 +22,7 @@ import ro.cineseuita.data.supplier.entity.Supplier;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
 import ro.cineseuita.data.supplier.entity.SupplierOpenApiBalance;
 import ro.cineseuita.data.supplier.entity.SupplierOpenApiDetails;
+import ro.cineseuita.data.supplier.entity.components.AverageRevenuePerYearAndEmployeeCount;
 import ro.cineseuita.data.supplier.entity.components.Suppliers;
 import ro.cineseuita.data.supplier.repository.SupplierDataRepository;
 import ro.cineseuita.data.supplier.repository.SupplierDetailsRepository;
@@ -28,9 +30,11 @@ import ro.cineseuita.data.supplier.repository.SupplierOpenApiBalanceRepository;
 import ro.cineseuita.data.supplier.repository.SupplierOpenApiDetailsRepository;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 @Service
@@ -103,6 +107,25 @@ public class SupplierService {
         return null;
     }
 
+    public void normalizeCuiForEachSupplier() {
+        long count = supplierDataRepository.count();
+        List<Supplier> all = supplierDataRepository.findAll();
+        AtomicInteger i = new AtomicInteger();
+        all.stream().parallel().forEach(supplier -> {
+            SupplierDetails details = supplierDetailsRepository.findById(supplier.getId()).get();
+            String cui = supplier.getCui();
+            String actualCui = cui.replaceAll("\\D+", "");
+            actualCui = actualCui.trim();
+
+            supplier.setCui(actualCui);
+            details.setCui(actualCui);
+            supplierDataRepository.save(supplier);
+            supplierDetailsRepository.save(details);
+
+            System.out.printf("Done %d/%d\n", i.getAndIncrement(), count);
+        });
+    }
+
     public void fetchAllSupplierOpenApiDetails() {
         long count = supplierDataRepository.count();
         int startFrom = 0;
@@ -111,15 +134,13 @@ public class SupplierService {
         all.subList(startFrom, all.size())
                 .stream().parallel().forEach(supplier -> {
             String cui = supplier.getCui();
-            String actualCui = cui.replaceAll("\\D+", "");
-            actualCui = actualCui.trim();
 
-            if (!supplierOpenApiDetailsRepository.existsById(actualCui)) {
+            if (!supplierOpenApiDetailsRepository.existsById(cui)) {
 
                 System.out.printf("Fetching SupplierOpenAPIDetails %d/%d\n", i.getAndIncrement(), count);
 
 
-                FetchSupplierOpenApiDetails fetchSupplierOpenApiDetails = new FetchSupplierOpenApiDetails(actualCui);
+                FetchSupplierOpenApiDetails fetchSupplierOpenApiDetails = new FetchSupplierOpenApiDetails(cui);
                 String response = httpService.doRequest(fetchSupplierOpenApiDetails);
 
                 if (!response.equals("") && !response.contains("cif_valid\":false")) {
@@ -172,6 +193,57 @@ public class SupplierService {
                     System.out.printf("Already did %d\n", i.incrementAndGet());
                 }
             });
+        });
+    }
+
+    public void computeExtraInformationFromOpenApiData() {
+        extractGeneralInformationFromOpenApiData();
+        extractBalanceInformationFromOpenApiData();
+    }
+
+    private void extractGeneralInformationFromOpenApiData() {
+//        long count = supplierOpenApiDetailsRepository.count();
+//        int startFrom = 0;
+//        AtomicInteger i = new AtomicInteger(startFrom);
+//        List<SupplierOpenApiDetails> all = supplierOpenApiDetailsRepository.findAll();
+//
+//        all.stream().parallel().forEach(supplierOpenApiDetails -> {
+//            String stare = supplierOpenApiDetails.getStare();
+//
+//
+//        });
+    }
+
+    private void extractBalanceInformationFromOpenApiData() {
+        long count = supplierDataRepository.count();
+        AtomicInteger i = new AtomicInteger();
+        List<SupplierDetails> all = supplierDetailsRepository.findAll();
+        all.stream().parallel().forEach(supplierDetails -> {
+            List<SupplierOpenApiBalance> balancesByCif = supplierOpenApiBalanceRepository.findAllByCif(supplierDetails.getCui());
+            balancesByCif.sort(comparing(SupplierOpenApiBalance::getYear));
+            for (Iterator<SupplierOpenApiBalance> iterator = balancesByCif.iterator(); iterator.hasNext(); ) {
+                SupplierOpenApiBalance balance = iterator.next();
+                AverageRevenuePerYearAndEmployeeCount averageRevenuePerYearAndEmployeeCount = new AverageRevenuePerYearAndEmployeeCount();
+                Integer year = balance.getYear();
+                List<DirectAcquisitionContractDetails> allContractsWithThatSupplierThatYear = directAcquisitionContractDetailsRepository.findAllBySupplierIdAndYearAndSysDirectAcquisitionStateID(supplierDetails.getId(), year, DirectAcquisitionState.OFERTA_ACCEPTATA.getNumVal());
+                double total = allContractsWithThatSupplierThatYear.stream().mapToDouble(DirectAcquisitionContractDetails::getClosingValue).sum();
+                double totalSecondCurrency = allContractsWithThatSupplierThatYear.stream().mapToDouble(DirectAcquisitionContractDetails::getSecondCurrencyClosingValue).sum();
+                averageRevenuePerYearAndEmployeeCount.setYear(year);
+                Long numarMediuDeSalariati = balance.getData().getNumarMediuDeSalariati();
+                Integer numarMediuDeSalariatiNormalizat = numarMediuDeSalariati != null ? numarMediuDeSalariati.intValue() == 0 ? 1 : numarMediuDeSalariati.intValue() : 1;
+                averageRevenuePerYearAndEmployeeCount.setAverageNumberOfEmployeesThisYear(numarMediuDeSalariatiNormalizat);
+                averageRevenuePerYearAndEmployeeCount.setTotalRevenueFromPublicInstitutionsThisYear(total);
+                averageRevenuePerYearAndEmployeeCount.setTotalRevenueFromPublicInstitutionsThisYearSecondCurrency(totalSecondCurrency);
+                averageRevenuePerYearAndEmployeeCount.computeAverage();
+
+                supplierDetails.addAverageRevenuePerYearAndEmployeeCount(year, averageRevenuePerYearAndEmployeeCount);
+
+                if (!iterator.hasNext()) {
+                    supplierDetails.setLatestYearAverageRevenuePerEmployeeCount(averageRevenuePerYearAndEmployeeCount);
+                }
+            }
+            supplierDetailsRepository.save(supplierDetails);
+            System.out.printf("Done %d balances for %s (%d) - %d/%d\n", balancesByCif.size(), supplierDetails.getName(), supplierDetails.getId(), i.getAndIncrement(), count);
         });
     }
 

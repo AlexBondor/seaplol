@@ -23,10 +23,11 @@ public class ProcessingPipelineService {
     private static final Boolean FETCH_DIRECT_ACQUISITION_CONTRACTS = false;
     private static final Boolean FETCH_CPV_CODES_FROM_XLS = false;
     private static final Boolean FETCH_SUPPLIERS_OPEN_API_DETAILS = false;
-    private static final Boolean FETCH_SUPPLIERS_OPEN_API_BALANCES = true;
+    private static final Boolean FETCH_SUPPLIERS_OPEN_API_BALANCES = false;
 
     private static final Boolean RESOLVE_MISSING_CONTRACTING_AUTHORITIES_AND_SUPPLIERS = false;
     private static final Boolean RESOLVE_MISSING_CONTRACTS = false;
+    private static final Boolean NORMALIZE_SUPPLIER_CUI = false;
 
     private static final Boolean COMPUTE_ITEM_MEASUREMENT_CLASS = false;
     private static final Boolean COMPUTE_TOTAL_CONTRACTS_SPENDING_BY_TYPE = false;
@@ -37,6 +38,8 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_SUPPLIER_CPV_DATA = false;
     private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || COMPUTE_SUPPLIER_CPV_DATA || false;
     private static final Boolean COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN = false;
+    private static final Boolean COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT = true;
+
 
 
     private final DirectAcquisitionContractService directAcquisitionContractService;
@@ -77,6 +80,7 @@ public class ProcessingPipelineService {
 
         resolveMissingContractingAuthoritiesAndSuppliers();
         resolveMissingContracts();
+        normalizeCuiForEachSupplier();
 
         computeItemMeasurementClass();
         computeContractsTotalSpendingByType();
@@ -87,6 +91,9 @@ public class ProcessingPipelineService {
         computeContractingAuthorityCpvData(root);
         computeSupplierCpvData(root);
         computeContractingAuthorityWith5kMarginContracts();
+
+        computeExtraInformationFromOpenApiData();
+
         System.out.println("EXECUTION PIPELINE COMPLETE");
     }
 
@@ -134,6 +141,22 @@ public class ProcessingPipelineService {
         }
     }
 
+    private void fetchSuppliersOpenApiDetails() {
+        if (FETCH_SUPPLIERS_OPEN_API_DETAILS) {
+            System.out.println("--- FETCHING SUPPLIERS OPEN API DETAILS ---");
+            supplierService.fetchAllSupplierOpenApiDetails();
+            System.out.println("--- DONE FETCHING SUPPLIERS OPEN API DETAILS ---");
+        }
+    }
+
+    private void fetchSuppliersOpenApiBalances() {
+        if (FETCH_SUPPLIERS_OPEN_API_BALANCES) {
+            System.out.println("--- FETCHING SUPPLIERS OPEN API BALANCES ---");
+            supplierService.fetchAllSupplierOpenApiBalances();
+            System.out.println("--- DONE FETCHING SUPPLIERS OPEN API BALANCES ---");
+        }
+    }
+
     private void resolveMissingContractingAuthoritiesAndSuppliers() {
         if (RESOLVE_MISSING_CONTRACTING_AUTHORITIES_AND_SUPPLIERS) {
             System.out.println("--- RESOLVING MISSING CONTRACTING AUTHORITIES AND SUPPLIERS ---");
@@ -147,6 +170,14 @@ public class ProcessingPipelineService {
             System.out.println("--- RESOLVING MISSING CONTRACTS ---");
             missingEntitiesResolutionService.resolveMissingContractDetails();
             System.out.println("--- DONE RESOLVING MISSING CONTRACTS ---");
+        }
+    }
+
+    private void normalizeCuiForEachSupplier() {
+        if (NORMALIZE_SUPPLIER_CUI) {
+            System.out.println("--- NORMALIZING SUPPLIER CUIS ---");
+            supplierService.normalizeCuiForEachSupplier();
+            System.out.println("--- DONE NORMALIZING SUPPLIER CUIS ---");
         }
     }
 
@@ -224,19 +255,11 @@ public class ProcessingPipelineService {
         }
     }
 
-    private void fetchSuppliersOpenApiDetails() {
-        if (FETCH_SUPPLIERS_OPEN_API_DETAILS) {
-            System.out.println("--- FETCHING SUPPLIERS OPEN API DETAILS ---");
-            supplierService.fetchAllSupplierOpenApiDetails();
-            System.out.println("--- DONE FETCHING SUPPLIERS OPEN API DETAILS ---");
-        }
-    }
-
-    private void fetchSuppliersOpenApiBalances() {
-        if (FETCH_SUPPLIERS_OPEN_API_BALANCES) {
-            System.out.println("--- FETCHING SUPPLIERS OPEN API BALANCES ---");
-            supplierService.fetchAllSupplierOpenApiBalances();
-            System.out.println("--- DONE FETCHING SUPPLIERS OPEN API BALANCES ---");
+    private void computeExtraInformationFromOpenApiData() {
+        if (COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT) {
+            System.out.println("--- COMPUTING SUPPLIER AVERAGE FROM PUBLIC INSTITUTION PER YEAR AND EMPLOYEE COUNT ---");
+            supplierService.computeExtraInformationFromOpenApiData();
+            System.out.println("--- DONE COMPUTING SUPPLIER AVERAGE FROM PUBLIC INSTITUTION PER YEAR AND EMPLOYEE COUNT ---");
         }
     }
 }
