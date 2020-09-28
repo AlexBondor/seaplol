@@ -29,6 +29,10 @@ public class ProcessingPipelineService {
     private static final Boolean RESOLVE_MISSING_CONTRACTS = false;
     private static final Boolean NORMALIZE_SUPPLIER_CUI = false;
 
+    private static final Boolean MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS = true;
+    private static final Boolean MAP_SUPPLIERS_TO_ESSENTIALS = true;
+    private static final Boolean MAP_DIRECT_ACQUISITION_CONTRACTS_TO_ESSENTIALS = true;
+
     private static final Boolean COMPUTE_ITEM_MEASUREMENT_CLASS = false;
     private static final Boolean COMPUTE_TOTAL_CONTRACTS_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_CONTRACTING_AUTHORITIES_TOTAL_SPENDING_BY_TYPE = false;
@@ -40,8 +44,8 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN = false;
     private static final Boolean COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT = false;
 
-
     private final DirectAcquisitionContractService directAcquisitionContractService;
+
     private final SupplierService supplierService;
     private final ContractingAuthorityService contractingAuthorityService;
     private final ContractsTotalSpendingByTypeService contractsTotalSpendingByTypeService;
@@ -80,6 +84,10 @@ public class ProcessingPipelineService {
         resolveMissingContractingAuthoritiesAndSuppliers();
         resolveMissingContracts();
         normalizeCuiForEachSupplier();
+
+        mapContractingAuthoritiesToEssentials();
+        mapSuppliersToEssentials();
+        setMapDirectAcquisitionContractsToEssentials();
 
         computeItemMeasurementClass();
         computeContractsTotalSpendingByType();
@@ -177,6 +185,30 @@ public class ProcessingPipelineService {
             System.out.println("--- NORMALIZING SUPPLIER CUIS ---");
             supplierService.normalizeCuiForEachSupplier();
             System.out.println("--- DONE NORMALIZING SUPPLIER CUIS ---");
+        }
+    }
+
+    private void mapContractingAuthoritiesToEssentials() {
+        if (MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS) {
+            System.out.println("--- MAPPING CONTRACTING AUTHORITIES TO ESSENTIALS ---");
+            contractingAuthorityService.mapContractingAuthoritiesToEssentials();
+            System.out.println("--- DONE MAPPING CONTRACTING AUTHORITIES TO ESSENTIALS ---");
+        }
+    }
+
+    private void mapSuppliersToEssentials() {
+        if (MAP_SUPPLIERS_TO_ESSENTIALS) {
+            System.out.println("--- MAPPING SUPPLIERS TO ESSENTIALS ---");
+            supplierService.mapSuppliersToEssentials();
+            System.out.println("--- DONE MAPPING SUPPLIERS TO ESSENTIALS ---");
+        }
+    }
+
+    private void setMapDirectAcquisitionContractsToEssentials() {
+        if (MAP_DIRECT_ACQUISITION_CONTRACTS_TO_ESSENTIALS) {
+            System.out.println("--- MAPPING DIRECT ACQUISITION CONTRACTS TO ESSENTIALS ---");
+            directAcquisitionContractService.mapDirectAcquisitionsToEssentials();
+            System.out.println("--- DONE MAPPING DIRECT ACQUISITION CONTRACTS TO ESSENTIALS ---");
         }
     }
 
