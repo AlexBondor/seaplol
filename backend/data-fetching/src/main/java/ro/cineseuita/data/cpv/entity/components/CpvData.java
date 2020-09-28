@@ -103,12 +103,12 @@ public class CpvData {
         this.contracts.addAll(contractIds);
     }
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
     public String getParentId() {
         return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
     }
 
     public List<String> getChildrenIds() {

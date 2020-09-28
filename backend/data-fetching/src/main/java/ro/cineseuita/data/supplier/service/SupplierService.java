@@ -6,10 +6,10 @@ import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetail
 import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionState;
 import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRepository;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
-import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
-import ro.cineseuita.data.essentials.supplier.repository.SupplierEssentialsRepository;
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.essentials.service.SupplierEssentialsMapperService;
+import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
+import ro.cineseuita.data.essentials.supplier.repository.SupplierEssentialsRepository;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.Period;

@@ -1,7 +1,7 @@
 package ro.cineseuita.supplier.service;
 
-import ro.cineseuita.data.essentials.supplier.repository.SupplierFilter;
 import org.springframework.data.domain.Page;
+import ro.cineseuita.data.essentials.supplier.repository.SupplierFilter;
 import ro.cineseuita.supplier.api.dto.SupplierDetailDto;
 import ro.cineseuita.supplier.api.dto.SupplierListDto;
 

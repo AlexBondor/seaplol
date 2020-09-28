@@ -9,9 +9,9 @@ import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDe
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityEssentialsRepository;
 import ro.cineseuita.data.shared.entityComponents.Address;
-import ro.cineseuita.data.stats.repository.CountyStatsRepository;
 import ro.cineseuita.data.stats.entity.CountyStats;
 import ro.cineseuita.data.stats.entity.CountyStatsBuilder;
+import ro.cineseuita.data.stats.repository.CountyStatsRepository;
 
 import java.io.File;
 import java.io.FileReader;

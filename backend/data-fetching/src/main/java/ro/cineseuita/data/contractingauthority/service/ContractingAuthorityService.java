@@ -11,9 +11,9 @@ import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuth
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityWith5kMarginContractsRepository;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityEssentialsRepository;
+import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.service.ContractingAuthorityEssentialsMapperService;
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
@@ -31,6 +31,9 @@ import static java.util.stream.Collectors.toList;
 @Service
 public class ContractingAuthorityService {
 
+    private static final double closenessFactorPercentage = 2;
+    private static final double max = 5000;
+    private static final double min = max - closenessFactorPercentage / 100 * max;
     private final HttpService httpService;
     private final ObjectMapperService objectMapperService;
     private final ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService;
@@ -123,10 +126,6 @@ public class ContractingAuthorityService {
         }
 
     }
-
-    private static final double closenessFactorPercentage = 2;
-    private static final double max = 5000;
-    private static final double min = max - closenessFactorPercentage / 100 * max;
 
     private boolean isWithin5kBounds(Double closingValueInEur) {
         return closingValueInEur >= min && closingValueInEur <= max;

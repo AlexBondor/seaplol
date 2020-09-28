@@ -12,9 +12,9 @@ import ro.cineseuita.data.contractingauthority.service.ContractingAuthorityServi
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityEssentialsRepository;
 import ro.cineseuita.data.shared.entityComponents.Address;
-import ro.cineseuita.data.stats.repository.CityStatsRepository;
 import ro.cineseuita.data.stats.entity.CityStats;
 import ro.cineseuita.data.stats.entity.CityStatsBuilder;
+import ro.cineseuita.data.stats.repository.CityStatsRepository;
 
 import java.io.File;
 import java.io.FileReader;

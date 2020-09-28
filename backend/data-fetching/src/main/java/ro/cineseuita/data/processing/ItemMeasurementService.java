@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRepository;
 import ro.cineseuita.data.contract.service.DirectAcquisitionContractService;
-import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurementClassifier;
 import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurement;
+import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurementClassifier;
 
 import java.util.ArrayList;
 import java.util.List;

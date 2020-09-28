@@ -10,13 +10,13 @@ import ro.cineseuita.data.contract.repository.DirectAcquisitionContractRepositor
 import ro.cineseuita.data.contract.service.DirectAcquisitionContractService;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthority;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
-import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
+import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
 import ro.cineseuita.data.contractingauthority.service.ContractingAuthorityMapper;
 import ro.cineseuita.data.contractingauthority.service.ContractingAuthorityService;
-import ro.cineseuita.data.supplier.repository.SupplierDataRepository;
 import ro.cineseuita.data.supplier.entity.Supplier;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
+import ro.cineseuita.data.supplier.repository.SupplierDataRepository;
 import ro.cineseuita.data.supplier.repository.SupplierDetailsRepository;
 import ro.cineseuita.data.supplier.service.SupplierMapper;
 import ro.cineseuita.data.supplier.service.SupplierService;

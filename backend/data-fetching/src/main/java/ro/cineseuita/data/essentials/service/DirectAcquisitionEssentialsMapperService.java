@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionType;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.directcontract.entity.CpvCodeEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
+import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.shared.entityComponents.GenericSeapData;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
 

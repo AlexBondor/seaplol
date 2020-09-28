@@ -5,12 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ro.cineseuita.data.cpv.entity.NationalCpvData;
-import ro.cineseuita.data.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.national.api.dto.CpvDataDto;
 import ro.cineseuita.national.service.NationalDataService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/national")

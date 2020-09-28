@@ -41,7 +41,6 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT = false;
 
 
-
     private final DirectAcquisitionContractService directAcquisitionContractService;
     private final SupplierService supplierService;
     private final ContractingAuthorityService contractingAuthorityService;

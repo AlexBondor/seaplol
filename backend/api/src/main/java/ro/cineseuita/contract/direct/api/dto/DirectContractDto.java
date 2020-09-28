@@ -5,7 +5,6 @@ import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuth
 import ro.cineseuita.data.essentials.directcontract.entity.CpvCodeEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionItemEssentials;
 import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
-import ro.cineseuita.shared.CpvCode;
 
 import java.util.List;
 

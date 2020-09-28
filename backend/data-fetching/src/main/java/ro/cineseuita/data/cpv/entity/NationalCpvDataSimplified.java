@@ -21,6 +21,15 @@ public class NationalCpvDataSimplified {
     private NationalCpvDataSimplified parent;
     private List<NationalCpvDataSimplified> children;
 
+    public static NationalCpvDataSimplified fromSimpleNode(CpvSimpleTreeNode rootSimple) {
+        NationalCpvDataSimplified simplified = new NationalCpvDataSimplified();
+        simplified.setCpvCode(rootSimple.getCode());
+        simplified.setDescription(rootSimple.getDescription());
+        simplified.children = (rootSimple.getChildren() != null) ? rootSimple.getChildren().stream().map(NationalCpvDataSimplified::fromSimpleNode).collect(toList()) : new ArrayList<>();
+        simplified.children.forEach(child -> child.setParent(simplified));
+        return simplified;
+    }
+
     public String getCpvCode() {
         return cpvCode;
     }
@@ -51,15 +60,6 @@ public class NationalCpvDataSimplified {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public static NationalCpvDataSimplified fromSimpleNode(CpvSimpleTreeNode rootSimple) {
-        NationalCpvDataSimplified simplified = new NationalCpvDataSimplified();
-        simplified.setCpvCode(rootSimple.getCode());
-        simplified.setDescription(rootSimple.getDescription());
-        simplified.children = (rootSimple.getChildren() != null) ? rootSimple.getChildren().stream().map(NationalCpvDataSimplified::fromSimpleNode).collect(toList()) : new ArrayList<>();
-        simplified.children.forEach(child -> child.setParent(simplified));
-        return simplified;
     }
 
     public boolean hasChildren() {

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ro.cineseuita.data.supplier.entity.components.OpenApiMeta;
 import ro.cineseuita.data.supplier.entity.components.OpenApiBalanceData;
+import ro.cineseuita.data.supplier.entity.components.OpenApiMeta;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -107,6 +107,10 @@ public class SupplierOpenApiBalance {
         return this.additionalProperties;
     }
 
+    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+    }
+
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
@@ -118,9 +122,5 @@ public class SupplierOpenApiBalance {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
-        this.additionalProperties = additionalProperties;
     }
 }

@@ -34,32 +34,23 @@ import static org.springframework.util.Assert.notNull;
 public class CpvDataServiceTest {
 
     private static final double NEGLIGENT_ERROR = 0.01;
+    private final ObjectMapper mapper = new ObjectMapper();
     @Mock
     private DirectAcquisitionContractService directAcquisitionContractService;
-
     @Mock
     private DirectAcquisitionContractRepository directAcquisitionContractRepository;
-
     @Mock
     private NationalCpvDataRepository nationalCpvDataRepository;
     private NationalCpvDataSimplifiedRepository nationalCpvDataSimplifiedRepository;
-
     @Mock
     private ContractingAuthorityDataRepository contractingAuthorityRepository;
-
     @Mock
     private ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository;
-
     @Mock
     private SupplierDataRepository supplierDataRepository;
-
     @Mock
     private SupplierCpvDataRepository supplierCpvDataRepository;
-
     private CpvDataService cpvDataService;
-
-
-    private final ObjectMapper mapper = new ObjectMapper();
     private CpvSimpleTreeNode cpvSimpleTree;
     private List<DirectAcquisitionContractDetails> contractList;
 

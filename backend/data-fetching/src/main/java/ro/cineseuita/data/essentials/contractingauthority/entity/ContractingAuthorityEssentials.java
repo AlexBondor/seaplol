@@ -1,8 +1,8 @@
 package ro.cineseuita.data.essentials.contractingauthority.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.directcontract.entity.ContractingAuthorityForDirectAcquisitionEssentials;
+import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 
 import java.util.List;
 
