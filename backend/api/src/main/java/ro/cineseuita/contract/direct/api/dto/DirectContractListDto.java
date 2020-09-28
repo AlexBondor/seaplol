@@ -3,17 +3,17 @@ package ro.cineseuita.contract.direct.api.dto;
 import org.joda.time.DateTime;
 
 public class DirectContractListDto {
-    private Integer id;
+    private Long id;
     private String name;
     private Double closingValue;
     private DateTime finalizationDate;
     private Double corruption;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

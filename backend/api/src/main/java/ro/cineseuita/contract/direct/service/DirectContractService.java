@@ -11,7 +11,4 @@ public interface DirectContractService {
 
     DirectContractDto get(Long id);
 
-    List<DirectContractListDto> findAllForSupplier(Long supplierId);
-
-    List<DirectContractListDto> findAllForContractingAuthority(Long caId);
 }

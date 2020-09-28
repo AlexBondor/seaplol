@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ro.cineseuita.supplier.api.dto.SupplierContractorsBasicStatsDto;
+import ro.cineseuita.data.essentials.supplier.repository.SupplierFilter;
 import ro.cineseuita.supplier.api.dto.SupplierDetailDto;
 import ro.cineseuita.supplier.api.dto.SupplierListDto;
-import ro.cineseuita.supplier.entity.SupplierFilter;
 import ro.cineseuita.supplier.service.SupplierService;
 
 import java.util.List;
@@ -33,11 +32,6 @@ public class SupplierController {
     @GetMapping("/{id}")
     public SupplierDetailDto get(@PathVariable Long id) {
         return supplierService.get(id);
-    }
-
-    @GetMapping("/getMostContractedFromStats/{id}")
-    public SupplierContractorsBasicStatsDto getMostContractedFromStats(@PathVariable Long id) {
-        return supplierService.getMostContractedFromStats(id);
     }
 
     @GetMapping("/treeMap/{id}")

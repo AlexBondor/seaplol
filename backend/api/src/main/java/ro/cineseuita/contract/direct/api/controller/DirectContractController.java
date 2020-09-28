@@ -21,25 +21,9 @@ public class DirectContractController {
         this.directContractService = supplierService;
     }
 
-    @GetMapping("/findAll") // don't use...
-    public List<DirectContractListDto> findAll() {
-        return directContractService.findAll();
-    }
-
     @GetMapping("/{id}")
     public DirectContractDto get(@PathVariable Long id) {
         return directContractService.get(id);
     }
-
-    @GetMapping("/supplier/{supplierId}")
-    public List<DirectContractListDto> findAllForSupplier(@PathVariable Long supplierId) {
-        return directContractService.findAllForSupplier(supplierId);
-    }
-
-    @GetMapping("/contractingAuthority/{caId}")
-    public List<DirectContractListDto> findAllForContractingAuthority(@PathVariable Long caId) {
-        return directContractService.findAllForContractingAuthority(caId);
-    }
-
 
 }

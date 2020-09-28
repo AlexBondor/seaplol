@@ -11,9 +11,9 @@ import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuth
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityWith5kMarginContractsRepository;
-import ro.cineseuita.data.essentials.entity.DirectAcquisitionContractMinimal;
-import ro.cineseuita.data.essentials.entity.contractingauthority.ContractingAuthorityEssentials;
-import ro.cineseuita.data.essentials.repository.ContractingAuthorityEssentialsRepository;
+import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
+import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
+import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityEssentialsRepository;
 import ro.cineseuita.data.essentials.service.ContractingAuthorityEssentialsMapperService;
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;

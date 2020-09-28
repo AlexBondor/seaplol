@@ -3,7 +3,7 @@ package ro.cineseuita.data.essentials.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionItem;
-import ro.cineseuita.data.essentials.entity.directacquisitions.DirectAcquisitionItemEssentials;
+import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionItemEssentials;
 
 @Service
 public class DirectAcquisitionItemEssentialsMapperService {

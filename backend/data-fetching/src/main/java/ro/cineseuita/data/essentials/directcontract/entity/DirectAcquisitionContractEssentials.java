@@ -1,17 +1,14 @@
-package ro.cineseuita.contract.direct.api.dto;
+package ro.cineseuita.data.essentials.directcontract.entity;
 
 import org.joda.time.DateTime;
-import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
-import ro.cineseuita.data.essentials.directcontract.entity.CpvCodeEssentials;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionItemEssentials;
-import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
-import ro.cineseuita.shared.CpvCode;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-public class DirectContractDto {
+@Document(collection = "directAcquisitionEssentials")
+public class DirectAcquisitionContractEssentials {
 
-    private Long id;
+    private Long _id;
     private String name;
     private String description;
     private Double estimatedValue;
@@ -21,9 +18,11 @@ public class DirectContractDto {
     private String deliveryCondition;
     private String paymentCondition;
     private CpvCodeEssentials cpvCode;
-    private ContractingAuthorityEssentials contractingAuthority; // Todo: lasam aici? prea mult? sau doar id-uri?
-    private SupplierEssentials supplier; // Todo: lasam aici? prea mult? sau doar id-uri?
-    private List<DirectAcquisitionItemEssentials> directContractItems = null;
+    private ContractingAuthorityForDirectAcquisitionEssentials contractingAuthority;
+    private SupplierForDirectAcquisitionEssentials supplier;
+    private List<DirectAcquisitionItemEssentials> directAcquisitionItems = null;
+    private Integer year;
+    private double corruption;
 
     public Double getEstimatedValue() {
         return estimatedValue;
@@ -57,12 +56,12 @@ public class DirectContractDto {
         this.finalizationDate = finalizationDate;
     }
 
-    public Long getId() {
-        return id;
+    public Long get_id() {
+        return _id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void set_id(Long _id) {
+        this._id = _id;
     }
 
     public String getName() {
@@ -105,27 +104,43 @@ public class DirectContractDto {
         this.cpvCode = cpvCode;
     }
 
-    public ContractingAuthorityEssentials getContractingAuthority() {
+    public ContractingAuthorityForDirectAcquisitionEssentials getContractingAuthority() {
         return contractingAuthority;
     }
 
-    public void setContractingAuthority(ContractingAuthorityEssentials contractingAuthority) {
+    public void setContractingAuthority(ContractingAuthorityForDirectAcquisitionEssentials contractingAuthority) {
         this.contractingAuthority = contractingAuthority;
     }
 
-    public SupplierEssentials getSupplier() {
+    public SupplierForDirectAcquisitionEssentials getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(SupplierEssentials supplier) {
+    public void setSupplier(SupplierForDirectAcquisitionEssentials supplier) {
         this.supplier = supplier;
     }
 
-    public List<DirectAcquisitionItemEssentials> getDirectContractItems() {
-        return directContractItems;
+    public List<DirectAcquisitionItemEssentials> getDirectAcquisitionItems() {
+        return directAcquisitionItems;
     }
 
-    public void setDirectContractItems(List<DirectAcquisitionItemEssentials> directContractItems) {
-        this.directContractItems = directContractItems;
+    public void setDirectAcquisitionItems(List<DirectAcquisitionItemEssentials> directAcquisitionItems) {
+        this.directAcquisitionItems = directAcquisitionItems;
+    }
+
+    public double getCorruption() {
+        return corruption;
+    }
+
+    public void setCorruption(double corruption) {
+        this.corruption = corruption;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 }

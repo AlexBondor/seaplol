@@ -3,8 +3,8 @@ package ro.cineseuita.data.essentials.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
-import ro.cineseuita.data.essentials.entity.contractingauthority.ContractingAuthorityEssentials;
-import ro.cineseuita.data.essentials.entity.directacquisitions.ContractingAuthorityForDirectAcquisitionEssentials;
+import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
+import ro.cineseuita.data.essentials.directcontract.entity.ContractingAuthorityForDirectAcquisitionEssentials;
 
 @Service
 public class ContractingAuthorityEssentialsMapperService {
