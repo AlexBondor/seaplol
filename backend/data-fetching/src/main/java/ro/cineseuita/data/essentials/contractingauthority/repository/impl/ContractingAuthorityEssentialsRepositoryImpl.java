@@ -15,11 +15,11 @@ import java.util.regex.Pattern;
 
 import static ro.cineseuita.data.shared.search.SearchHelper.setSort;
 
-public class ContractingAuthorityRepositoryImpl implements ContractingAuthorityCustomRepository {
+public class ContractingAuthorityEssentialsRepositoryImpl implements ContractingAuthorityCustomRepository {
     private final MongoOperations operations;
 
     @Autowired
-    public ContractingAuthorityRepositoryImpl(final MongoOperations operations) {
+    public ContractingAuthorityEssentialsRepositoryImpl(final MongoOperations operations) {
         this.operations = operations;
     }
 
