@@ -61,7 +61,20 @@ export default {
       headers: [
         { text: "Denumire", value: "name" },
         { text: "Valoare contracte (RON)", value: "totalContractsValue" },
-        { text: "Număr contracte", value: "totalContractsCount" }
+        { text: "Număr contracte", value: "totalContractsCount" },
+        {
+          text: "Număr de angajați (medie anul trecut)",
+          value: "averageNumberOfEmployeesLastYear"
+        },
+        {
+          text: "Câștig mediu per angajat de la stat",
+          value: "averageRevenueFromPublicInstitutionsPerEmployeeLastYear"
+        },
+        {
+          text: "Câștig mediu per angajat de la stat (EUR)",
+          value:
+            "averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency"
+        }
       ],
       search: ""
     };

@@ -3,7 +3,6 @@ package ro.cineseuita.data.supplier.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
-import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionState;
 import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRepository;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
@@ -36,6 +35,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
+import static ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionState.OFERTA_ACCEPTATA;
 
 @Service
 public class SupplierService {
@@ -225,7 +225,7 @@ public class SupplierService {
                 SupplierOpenApiBalance balance = iterator.next();
                 AverageRevenuePerYearAndEmployeeCount averageRevenuePerYearAndEmployeeCount = new AverageRevenuePerYearAndEmployeeCount();
                 Integer year = balance.getYear();
-                List<DirectAcquisitionContractDetails> allContractsWithThatSupplierThatYear = directAcquisitionContractDetailsRepository.findAllBySupplierIdAndYearAndSysDirectAcquisitionStateID(supplierDetails.getId(), year, DirectAcquisitionState.OFERTA_ACCEPTATA.getNumVal());
+                List<DirectAcquisitionContractDetails> allContractsWithThatSupplierThatYear = directAcquisitionContractDetailsRepository.findAllBySupplierIdAndYearAndSysDirectAcquisitionStateID(supplierDetails.getId(), year, OFERTA_ACCEPTATA.getNumVal());
                 double total = allContractsWithThatSupplierThatYear.stream().mapToDouble(DirectAcquisitionContractDetails::getClosingValue).sum();
                 double totalSecondCurrency = allContractsWithThatSupplierThatYear.stream().mapToDouble(DirectAcquisitionContractDetails::getSecondCurrencyClosingValue).sum();
                 averageRevenuePerYearAndEmployeeCount.setYear(year);
@@ -250,25 +250,25 @@ public class SupplierService {
     public void mapSuppliersToEssentials() {
         List<SupplierDetails> suppliersDetails = supplierDetailsRepository.findAll();
 
-        for (int i = 0; i < suppliersDetails.size(); i++) {
-            SupplierDetails supplierDetails = suppliersDetails.get(i);
+        AtomicInteger i = new AtomicInteger();
+        suppliersDetails.stream().parallel().forEach(supplierDetails -> {
             SupplierEssentials supplierEssentials = supplierEssentialsMapperService.mapToSupplierWithContractsForDirectAcquisitionEssentials(supplierDetails);
-
-            List<DirectAcquisitionContractDetails> directAcquisitionContractsForContractingAuthority = directAcquisitionContractDetailsRepository.findAllBySupplierId(supplierDetails.getId());
-
+            List<DirectAcquisitionContractDetails> directAcquisitionContractsForContractingAuthority = directAcquisitionContractDetailsRepository.findAllBySysDirectAcquisitionStateIDAndSupplierId(OFERTA_ACCEPTATA.getNumVal(), supplierDetails.getId());
             List<DirectAcquisitionContractMinimal> minimalContracts = directAcquisitionContractsForContractingAuthority.stream()
-                    .filter(DirectAcquisitionContractDetails::isAcceptedContract)
                     .map(directAcquisitionEssentialsMapperService::mapToDirectAcquisitionContractMinimal).collect(toList());
             double totalValue = minimalContracts.stream().mapToDouble(DirectAcquisitionContractMinimal::getClosingValue).sum();
-
-            supplierEssentials.setContracts(minimalContracts);
             supplierEssentials.setTotalContractsValue(totalValue);
             supplierEssentials.setTotalContractsCount((long) minimalContracts.size());
-
+            AverageRevenuePerYearAndEmployeeCount latestYearAverageRevenuePerEmployeeCount = supplierDetails.getLatestYearAverageRevenuePerEmployeeCount();
+            if (latestYearAverageRevenuePerEmployeeCount != null) {
+                supplierEssentials.setAverageNumberOfEmployeesLastYear(latestYearAverageRevenuePerEmployeeCount.getAverageNumberOfEmployeesThisYear().longValue());
+                supplierEssentials.setAverageRevenueFromPublicInstitutionsPerEmployeeLastYear(latestYearAverageRevenuePerEmployeeCount.getAverageRevenueFromPublicInstitutionsPerEmployeeThisYear());
+                supplierEssentials.setAverageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency(latestYearAverageRevenuePerEmployeeCount.getAverageRevenueFromPublicInstitutionsPerEmployeeThisYearSecondCurrency());
+            }
             supplierEssentialsRepository.save(supplierEssentials);
 
-            System.out.println("Mapped supplierDetails " + i + "/" + suppliersDetails.size());
-        }
+            System.out.println("Mapped supplierDetails " + i.getAndIncrement() + "/" + suppliersDetails.size());
+        });
     }
 
 }

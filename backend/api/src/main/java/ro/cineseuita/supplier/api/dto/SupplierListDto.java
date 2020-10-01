@@ -5,6 +5,9 @@ public class SupplierListDto {
     private String name;
     private Long totalContractsValue;
     private Long totalContractsCount;
+    private Long averageNumberOfEmployeesLastYear;
+    private Double averageRevenueFromPublicInstitutionsPerEmployeeLastYear;
+    private Double averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency;
 
     public Long getId() {
         return id;
@@ -36,5 +39,29 @@ public class SupplierListDto {
 
     public void setTotalContractsCount(final Long totalContractsCount) {
         this.totalContractsCount = totalContractsCount;
+    }
+
+    public Long getAverageNumberOfEmployeesLastYear() {
+        return averageNumberOfEmployeesLastYear;
+    }
+
+    public void setAverageNumberOfEmployeesLastYear(Long averageNumberOfEmployeesLastYear) {
+        this.averageNumberOfEmployeesLastYear = averageNumberOfEmployeesLastYear;
+    }
+
+    public Double getAverageRevenueFromPublicInstitutionsPerEmployeeLastYear() {
+        return averageRevenueFromPublicInstitutionsPerEmployeeLastYear;
+    }
+
+    public void setAverageRevenueFromPublicInstitutionsPerEmployeeLastYear(Double averageRevenueFromPublicInstitutionsPerEmployeeLastYear) {
+        this.averageRevenueFromPublicInstitutionsPerEmployeeLastYear = averageRevenueFromPublicInstitutionsPerEmployeeLastYear;
+    }
+
+    public Double getAverageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency() {
+        return averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency;
+    }
+
+    public void setAverageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency(Double averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency) {
+        this.averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency = averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency;
     }
 }
