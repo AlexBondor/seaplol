@@ -32,6 +32,26 @@
         <template v-slot:item.totalContractsValue="{ item }">
           <span>{{ item.totalContractsValue | formatCurrency }}</span>
         </template>
+        <template
+          v-slot:item.averageRevenueFromPublicInstitutionsPerEmployeeLastYear="{
+            item
+          }"
+        >
+          <span>{{
+            item.averageRevenueFromPublicInstitutionsPerEmployeeLastYear
+              | formatCurrency
+          }}</span>
+        </template>
+        <template
+          v-slot:item.averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency="{
+            item
+          }"
+        >
+          <span>{{
+            item.averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency
+              | formatCurrencyEur
+          }}</span>
+        </template>
         <template #footer.page-text="props">
           {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
         </template>
