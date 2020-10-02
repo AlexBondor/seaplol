@@ -12,14 +12,12 @@ import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDe
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractRepository;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthority;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
-import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
 import ro.cineseuita.data.essentials.directcontract.repository.DirectContractEssentialsRepository;
 import ro.cineseuita.data.essentials.mappers.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContracts;
 import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContractsRequestBuilder;
-import ro.cineseuita.data.supplier.repository.SupplierDetailsRepository;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,9 +45,7 @@ public class DirectAcquisitionContractService {
     private final HttpService httpService;
     private final ObjectMapperService objectMapperService;
     private final DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService;
-    private final SupplierDetailsRepository supplierDetailsRepository;
     private final ContractingAuthorityDataRepository contractingAuthorityRepository;
-    private final ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository;
     private final DirectContractEssentialsRepository directContractEssentialsRepository;
     private final DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository;
     private final DirectAcquisitionContractRepository directAcquisitionContractRepository;
@@ -57,13 +53,13 @@ public class DirectAcquisitionContractService {
     private Integer yearForSearch;
 
     @Autowired
-    public DirectAcquisitionContractService(HttpService httpService, ObjectMapperService objectMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, SupplierDetailsRepository supplierDetailsRepository, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository, DirectContractEssentialsRepository directContractEssentialsRepository, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, DirectAcquisitionContractRepository directAcquisitionContractRepository) {
+    public DirectAcquisitionContractService(HttpService httpService, ObjectMapperService objectMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService,
+                                            ContractingAuthorityDataRepository contractingAuthorityRepository, DirectContractEssentialsRepository directContractEssentialsRepository,
+                                            DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, DirectAcquisitionContractRepository directAcquisitionContractRepository) {
         this.httpService = httpService;
         this.objectMapperService = objectMapperService;
         this.directAcquisitionEssentialsMapperService = directAcquisitionEssentialsMapperService;
-        this.supplierDetailsRepository = supplierDetailsRepository;
         this.contractingAuthorityRepository = contractingAuthorityRepository;
-        this.contractingAuthorityDetailsRepository = contractingAuthorityDetailsRepository;
         this.directContractEssentialsRepository = directContractEssentialsRepository;
         this.directAcquisitionContractDetailsRepository = directAcquisitionContractDetailsRepository;
         this.directAcquisitionContractRepository = directAcquisitionContractRepository;

@@ -2,10 +2,10 @@ package ro.cineseuita.data.contract.shared.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
-import ro.cineseuita.data.contract.shared.entity.ContractsTotalSpendingByType;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionType;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.shared.entity.ContractsTotalSpendingByType;
 import ro.cineseuita.data.contract.shared.repository.ContractsTotalSpendingByTypeRepository;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityTotalSpendingByType;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
