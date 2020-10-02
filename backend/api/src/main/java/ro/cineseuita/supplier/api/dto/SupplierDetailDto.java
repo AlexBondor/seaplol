@@ -1,6 +1,6 @@
 package ro.cineseuita.supplier.api.dto;
 
-import ro.cineseuita.data.essentials.contractingauthority.entity.Address;
+import ro.cineseuita.data.shared.entityComponents.Address;
 
 public class SupplierDetailDto {
 

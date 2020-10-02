@@ -1,7 +1,7 @@
 package ro.cineseuita.contractingauthority.api.dto;
 
 
-import ro.cineseuita.data.essentials.contractingauthority.entity.Address;
+import ro.cineseuita.data.shared.entityComponents.Address;
 
 public class ContractingAuthorityDetailDto {
     private Long id;
