@@ -143,12 +143,13 @@ public class DirectAcquisitionContractService {
 
     public void mapDirectAcquisitionsToEssentials() {
         AtomicInteger i = new AtomicInteger();
+        long count = directAcquisitionContractDetailsRepository.count();
         getAllDirectAcquisitionContractsDetailsStreamed()
                 .parallel()
                 .map(directAcquisitionEssentialsMapperService::mapToDirectAcquisitionContractEssentials)
                 .forEach(s -> {
                     directContractEssentialsRepository.save(s);
-                    System.out.printf("Done contract %d\n", i.getAndIncrement());
+                    System.out.printf("Done contract %d/%d\n", i.getAndIncrement(), count);
                 });
     }
 
