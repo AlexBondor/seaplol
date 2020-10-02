@@ -7,8 +7,8 @@ import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetail
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
-import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
-import ro.cineseuita.data.essentials.service.DirectAcquisitionItemEssentialsMapperService;
+import ro.cineseuita.data.essentials.mappers.DirectAcquisitionEssentialsMapperService;
+import ro.cineseuita.data.essentials.mappers.DirectAcquisitionItemEssentialsMapperService;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchContractingAuthorityDetails;
 import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContractDetails;

@@ -5,7 +5,7 @@ import org.junit.Test;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionItem;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionItemEssentials;
-import ro.cineseuita.data.essentials.service.DirectAcquisitionItemEssentialsMapperService;
+import ro.cineseuita.data.essentials.mappers.DirectAcquisitionItemEssentialsMapperService;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContractDetails;
 

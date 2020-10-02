@@ -13,8 +13,8 @@ import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDe
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityWith5kMarginContractsRepository;
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityEssentialsRepository;
-import ro.cineseuita.data.essentials.service.ContractingAuthorityEssentialsMapperService;
-import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
+import ro.cineseuita.data.essentials.mappers.ContractingAuthorityEssentialsMapperService;
+import ro.cineseuita.data.essentials.mappers.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchContractingAuthorities;

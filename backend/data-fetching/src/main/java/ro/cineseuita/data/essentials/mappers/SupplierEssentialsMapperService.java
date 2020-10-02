@@ -1,4 +1,4 @@
-package ro.cineseuita.data.essentials.service;
+package ro.cineseuita.data.essentials.mappers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

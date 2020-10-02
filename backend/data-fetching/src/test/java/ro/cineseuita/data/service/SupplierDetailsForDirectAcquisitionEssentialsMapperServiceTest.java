@@ -2,7 +2,7 @@ package ro.cineseuita.data.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import ro.cineseuita.data.essentials.service.SupplierEssentialsMapperService;
+import ro.cineseuita.data.essentials.mappers.SupplierEssentialsMapperService;
 import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchSupplierDetails;

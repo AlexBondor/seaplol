@@ -1,4 +1,4 @@
-package ro.cineseuita.data.essentials.service;
+package ro.cineseuita.data.essentials.mappers;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
-import ro.cineseuita.data.essentials.service.ContractingAuthorityEssentialsMapperService;
+import ro.cineseuita.data.essentials.mappers.ContractingAuthorityEssentialsMapperService;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchContractingAuthorityDetails;
 
