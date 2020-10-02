@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRepository;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.essentials.service.SupplierEssentialsMapperService;
 import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
@@ -34,7 +33,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
 import static ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionState.OFERTA_ACCEPTATA;
 
 @Service
@@ -254,11 +252,11 @@ public class SupplierService {
         suppliersDetails.stream().parallel().forEach(supplierDetails -> {
             SupplierEssentials supplierEssentials = supplierEssentialsMapperService.mapToSupplierWithContractsForDirectAcquisitionEssentials(supplierDetails);
             List<DirectAcquisitionContractDetails> directAcquisitionContractsForContractingAuthority = directAcquisitionContractDetailsRepository.findAllBySysDirectAcquisitionStateIDAndSupplierId(OFERTA_ACCEPTATA.getNumVal(), supplierDetails.getId());
-            List<DirectAcquisitionContractMinimal> minimalContracts = directAcquisitionContractsForContractingAuthority.stream()
-                    .map(directAcquisitionEssentialsMapperService::mapToDirectAcquisitionContractMinimal).collect(toList());
-            double totalValue = minimalContracts.stream().mapToDouble(DirectAcquisitionContractMinimal::getClosingValue).sum();
+            double totalValue = directAcquisitionContractsForContractingAuthority.stream().mapToDouble(DirectAcquisitionContractDetails::getClosingValue).sum();
+            double totalValueSecondCurrency = directAcquisitionContractsForContractingAuthority.stream().mapToDouble(DirectAcquisitionContractDetails::getSecondCurrencyClosingValue).sum();
             supplierEssentials.setTotalContractsValue(totalValue);
-            supplierEssentials.setTotalContractsCount((long) minimalContracts.size());
+            supplierEssentials.setTotalContractsValueSecondCurrency(totalValueSecondCurrency);
+            supplierEssentials.setTotalContractsCount((long) directAcquisitionContractsForContractingAuthority.size());
             AverageRevenuePerYearAndEmployeeCount latestYearAverageRevenuePerEmployeeCount = supplierDetails.getLatestYearAverageRevenuePerEmployeeCount();
             if (latestYearAverageRevenuePerEmployeeCount != null) {
                 supplierEssentials.setAverageNumberOfEmployeesLastYear(latestYearAverageRevenuePerEmployeeCount.getAverageNumberOfEmployeesThisYear().longValue());

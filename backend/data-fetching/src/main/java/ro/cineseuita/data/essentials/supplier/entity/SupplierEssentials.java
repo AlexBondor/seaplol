@@ -1,15 +1,13 @@
 package ro.cineseuita.data.essentials.supplier.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.directcontract.entity.SupplierForDirectAcquisitionEssentials;
-
-import java.util.List;
 
 @Document(collection = "supplierEssentials")
 public class SupplierEssentials extends SupplierForDirectAcquisitionEssentials {
 
     private Double totalContractsValue;
+    private Double totalContractsValueSecondCurrency;
     private Long totalContractsCount;
 
     private Long averageNumberOfEmployeesLastYear;
@@ -22,6 +20,14 @@ public class SupplierEssentials extends SupplierForDirectAcquisitionEssentials {
 
     public void setTotalContractsValue(Double totalContractsValue) {
         this.totalContractsValue = totalContractsValue;
+    }
+
+    public Double getTotalContractsValueSecondCurrency() {
+        return totalContractsValueSecondCurrency;
+    }
+
+    public void setTotalContractsValueSecondCurrency(Double totalContractsValueSecondCurrency) {
+        this.totalContractsValueSecondCurrency = totalContractsValueSecondCurrency;
     }
 
     public Long getTotalContractsCount() {

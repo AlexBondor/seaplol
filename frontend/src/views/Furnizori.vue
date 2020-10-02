@@ -30,27 +30,22 @@
         class="elevation-1 row-pointer"
       >
         <template v-slot:item.totalContractsValue="{ item }">
-          <span>{{ item.totalContractsValue | formatCurrency }}</span>
+          <CurrencyTooltip
+            :ron="item.totalContractsValue"
+            :eur="item.totalContractsValueSecondCurrency"
+          ></CurrencyTooltip>
         </template>
         <template
           v-slot:item.averageRevenueFromPublicInstitutionsPerEmployeeLastYear="{
             item
           }"
         >
-          <span>{{
-            item.averageRevenueFromPublicInstitutionsPerEmployeeLastYear
-              | formatCurrency
-          }}</span>
-        </template>
-        <template
-          v-slot:item.averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency="{
-            item
-          }"
-        >
-          <span>{{
-            item.averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency
-              | formatCurrencyEur
-          }}</span>
+          <CurrencyTooltip
+            :ron="item.averageRevenueFromPublicInstitutionsPerEmployeeLastYear"
+            :eur="
+              item.averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency
+            "
+          ></CurrencyTooltip>
         </template>
         <template #footer.page-text="props">
           {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
@@ -64,8 +59,10 @@
 import api from "@/api";
 import debounce from "lodash-es/debounce";
 import { router } from "@/router";
+import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
 export default {
   name: "furnizori",
+  components: { CurrencyTooltip },
   data() {
     return {
       totalCount: 0,
@@ -87,13 +84,8 @@ export default {
           value: "averageNumberOfEmployeesLastYear"
         },
         {
-          text: "Câștig mediu per angajat de la stat",
+          text: "Câștig mediu per angajat din contracte cu statul",
           value: "averageRevenueFromPublicInstitutionsPerEmployeeLastYear"
-        },
-        {
-          text: "Câștig mediu per angajat de la stat (EUR)",
-          value:
-            "averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency"
         }
       ],
       search: ""

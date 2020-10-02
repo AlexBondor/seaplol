@@ -3,7 +3,8 @@ package ro.cineseuita.supplier.api.dto;
 public class SupplierListDto {
     private Long id;
     private String name;
-    private Long totalContractsValue;
+    private Double totalContractsValue;
+    private Double totalContractsValueSecondCurrency;
     private Long totalContractsCount;
     private Long averageNumberOfEmployeesLastYear;
     private Double averageRevenueFromPublicInstitutionsPerEmployeeLastYear;
@@ -25,12 +26,20 @@ public class SupplierListDto {
         this.name = name;
     }
 
-    public Long getTotalContractsValue() {
+    public Double getTotalContractsValue() {
         return totalContractsValue;
     }
 
-    public void setTotalContractsValue(final Long totalContractsValue) {
+    public void setTotalContractsValue(final Double totalContractsValue) {
         this.totalContractsValue = totalContractsValue;
+    }
+
+    public Double getTotalContractsValueSecondCurrency() {
+        return totalContractsValueSecondCurrency;
+    }
+
+    public void setTotalContractsValueSecondCurrency(Double totalContractsValueSecondCurrency) {
+        this.totalContractsValueSecondCurrency = totalContractsValueSecondCurrency;
     }
 
     public Long getTotalContractsCount() {
