@@ -13,7 +13,11 @@
         <p>Reprezentant: {{ representative }}</p>
         <div class="text--primary">
           Număr de contracte: {{ details.totalContractsCount }}<br />
-          Valoare contracte (RON): {{ value }}
+          Valoare contracte:
+          <CurrencyTooltip
+            :ron="details.totalContractsValue"
+            :eur="details.totalContractsValueSecondCurrency"
+          ></CurrencyTooltip>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -56,7 +60,9 @@ export default {
       return titleCase(this.details.name);
     },
     value() {
-      return this.$options.filters.formatCurrency(this.details.totalContractsValue);
+      return this.$options.filters.formatCurrency(
+        this.details.totalContractsValue
+      );
     }
   },
   beforeDestroy() {

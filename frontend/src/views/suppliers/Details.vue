@@ -1,19 +1,19 @@
 <template>
   <v-container>
     <h1>{{ details.name }}</h1>
+    <TreeMap entity="contractingAuthority" :id="id"></TreeMap>
     <br />
     <br />
     <v-card class="mx-auto">
       <v-card-text>
-        <div>CUI: {{ details.numericFiscalNumber }}</div>
+        <div>CUI: {{ details.cui }}</div>
         <p class="display-1 text--primary">
           {{ name }}
         </p>
-        <p>Telefon: {{ details.phone }}</p>
-        <p>Adresă: {{ details.address }}</p>
+        <p>Reprezentant: {{ representative }}</p>
         <div class="text--primary">
           Număr de contracte: {{ details.totalContractsCount }}<br />
-          Valoare contracte :
+          Valoare contracte:
           <CurrencyTooltip
             :ron="details.totalContractsValue"
             :eur="details.totalContractsValueSecondCurrency"

@@ -2,8 +2,8 @@ package ro.cineseuita.data.service;
 
 import org.junit.Before;
 import org.junit.Test;
-import ro.cineseuita.data.essentials.directcontract.entity.SupplierForDirectAcquisitionEssentials;
 import ro.cineseuita.data.essentials.service.SupplierEssentialsMapperService;
+import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchSupplierDetails;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
@@ -26,17 +26,12 @@ public class SupplierDetailsForDirectAcquisitionEssentialsMapperServiceTest {
     @Test
     public void mapToSupplierEssentials() throws IOException {
         SupplierDetails supplierDetails = objectMapperService.mapToSupplier(new FetchSupplierDetails(-1L).getMockResponse());
-        SupplierForDirectAcquisitionEssentials supplierForDirectAcquisitionEssentials = service.mapToSupplierWithContractsForDirectAcquisitionEssentials(supplierDetails);
+        SupplierEssentials supplierForDirectAcquisitionEssentials = service.mapToSupplierEssentials(supplierDetails);
 
         assertEquals(supplierForDirectAcquisitionEssentials.get_id(), supplierDetails.getId());
         assertEquals(supplierForDirectAcquisitionEssentials.getName(), supplierDetails.getName());
-        assertEquals(supplierForDirectAcquisitionEssentials.getNumericFiscalNumber(), supplierDetails.getCui());
-        assertEquals(supplierForDirectAcquisitionEssentials.getAddress(), supplierDetails.getAddress().getAddress());
-        assertEquals(supplierForDirectAcquisitionEssentials.getPhone(), supplierDetails.getAddress().getPhone());
-        assertEquals(supplierForDirectAcquisitionEssentials.getFax(), supplierDetails.getAddress().getFax());
-        assertEquals(supplierForDirectAcquisitionEssentials.getUrl(), supplierDetails.getAddress().getWebsite());
-        assertEquals(supplierForDirectAcquisitionEssentials.getCity(), supplierDetails.getAddress().getCity());
-        assertEquals(supplierForDirectAcquisitionEssentials.getCounty(), supplierDetails.getAddress().getCounty());
-        assertEquals(supplierForDirectAcquisitionEssentials.getPostalCode(), supplierDetails.getAddress().getPostalCode());
+        assertEquals(supplierForDirectAcquisitionEssentials.getCui(), supplierDetails.getCui());
+        assertEquals(supplierForDirectAcquisitionEssentials.getLegalRepresentative(), supplierDetails.getRegistration().getLegalRepresentative());
+        assertEquals(supplierForDirectAcquisitionEssentials.getAddress(), supplierDetails.getAddress());
     }
 }

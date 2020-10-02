@@ -13,7 +13,6 @@ import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDe
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityWith5kMarginContractsRepository;
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityEssentialsRepository;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.service.ContractingAuthorityEssentialsMapperService;
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
@@ -27,6 +26,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.stream.Collectors.toList;
+import static ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionState.OFERTA_ACCEPTATA;
 
 @Service
 public class ContractingAuthorityService {
@@ -140,21 +140,20 @@ public class ContractingAuthorityService {
             ContractingAuthorityEssentials contractingAuthorityEssentials = contractingAuthorityEssentialsMapperService.mapToContractingAuthorityWithContractsEssentials(contractingAuthorityDetails);
 
 
-            List<DirectAcquisitionContractDetails> directAcquisitionContractsForCA =
-                    directAcquisitionContractDetailsRepository.findAllByContractingAuthorityID(contractingAuthorityDetails.getId());
-            List<DirectAcquisitionContractMinimal> minimalContracts = directAcquisitionContractsForCA
+            List<DirectAcquisitionContractDetails> contractsForCA =
+                    directAcquisitionContractDetailsRepository.findAllBySysDirectAcquisitionStateIDAndContractingAuthorityID(OFERTA_ACCEPTATA.getNumVal(), contractingAuthorityDetails.getId());
+            double totalValue = contractsForCA
                     .stream()
-                    .filter(DirectAcquisitionContractDetails::isAcceptedContract)
-                    .map(directAcquisitionEssentialsMapperService::mapToDirectAcquisitionContractMinimal)
-                    .collect(toList());
-            double totalValue = minimalContracts
+                    .mapToDouble(DirectAcquisitionContractDetails::getClosingValue)
+                    .sum();
+            double totalValueSecondCurrency = contractsForCA
                     .stream()
-                    .mapToDouble(DirectAcquisitionContractMinimal::getClosingValue)
+                    .mapToDouble(DirectAcquisitionContractDetails::getSecondCurrencyClosingValue)
                     .sum();
 
-            contractingAuthorityEssentials.setContracts(minimalContracts);
-            contractingAuthorityEssentials.setTotalContractsCount((long) minimalContracts.size());
+            contractingAuthorityEssentials.setTotalContractsCount((long) contractsForCA.size());
             contractingAuthorityEssentials.setTotalContractsValue(totalValue);
+            contractingAuthorityEssentials.setTotalContractsValueSecondCurrency(totalValueSecondCurrency);
 
             essentials.add(contractingAuthorityEssentials);
             System.out.println("Done CA essentials " + i + "/" + contractingAuthorityDetailsList.size());

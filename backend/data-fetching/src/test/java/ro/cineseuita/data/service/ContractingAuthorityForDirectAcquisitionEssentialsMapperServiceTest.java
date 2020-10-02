@@ -3,7 +3,7 @@ package ro.cineseuita.data.service;
 import org.junit.Before;
 import org.junit.Test;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
-import ro.cineseuita.data.essentials.directcontract.entity.ContractingAuthorityForDirectAcquisitionEssentials;
+import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.service.ContractingAuthorityEssentialsMapperService;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchContractingAuthorityDetails;
@@ -27,9 +27,9 @@ public class ContractingAuthorityForDirectAcquisitionEssentialsMapperServiceTest
     public void mapToContractingAuthorityEssentials() throws IOException {
         ContractingAuthorityDetails contractingAuthorityDetails = objectMapperService.mapToContractingAuthorityDetails(new FetchContractingAuthorityDetails(-1L).getMockResponse());
 
-        ContractingAuthorityForDirectAcquisitionEssentials contractingAuthorityForDirectAcquisitionEssentials = service.mapToContractingAuthorityEssentials(contractingAuthorityDetails);
+        ContractingAuthorityEssentials contractingAuthorityForDirectAcquisitionEssentials = service.mapToContractingAuthorityWithContractsEssentials(contractingAuthorityDetails);
 
-        assertEquals(contractingAuthorityForDirectAcquisitionEssentials.get_id(), Long.valueOf(contractingAuthorityDetails.getId()));
+        assertEquals(contractingAuthorityForDirectAcquisitionEssentials.get_id(), contractingAuthorityDetails.getId());
         assertEquals(contractingAuthorityForDirectAcquisitionEssentials.getName(), contractingAuthorityDetails.getName());
         assertEquals(contractingAuthorityForDirectAcquisitionEssentials.getCui(), contractingAuthorityDetails.getCui());
         assertEquals(contractingAuthorityForDirectAcquisitionEssentials.getLegalRepresentative(), contractingAuthorityDetails.getRegistration().getLegalRepresentative());

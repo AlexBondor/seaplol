@@ -18,15 +18,11 @@ import java.util.stream.Collectors;
 public class DirectAcquisitionEssentialsMapperService {
 
 
-    private final SupplierEssentialsMapperService supplierEssentialsMapperService;
     private final DirectAcquisitionItemEssentialsMapperService directAcquisitionItemEssentialsMapperService;
-    private final ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService;
 
     @Autowired
-    public DirectAcquisitionEssentialsMapperService(SupplierEssentialsMapperService supplierEssentialsMapperService, DirectAcquisitionItemEssentialsMapperService directAcquisitionItemEssentialsMapperService, ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService) {
-        this.supplierEssentialsMapperService = supplierEssentialsMapperService;
+    public DirectAcquisitionEssentialsMapperService(DirectAcquisitionItemEssentialsMapperService directAcquisitionItemEssentialsMapperService) {
         this.directAcquisitionItemEssentialsMapperService = directAcquisitionItemEssentialsMapperService;
-        this.contractingAuthorityEssentialsMapperService = contractingAuthorityEssentialsMapperService;
     }
 
     public DirectAcquisitionContractEssentials mapToDirectAcquisitionContractEssentials(DirectAcquisitionContractDetails contractDetails, SupplierDetails supplierDetails, ContractingAuthorityDetails contractingAuthorityDetails) {
@@ -42,9 +38,10 @@ public class DirectAcquisitionEssentialsMapperService {
         contractEssentials.setPaymentCondition(contractDetails.getPaymentCondition());
         contractEssentials.setCpvCode(mapToCpvCodeEssentials(contractDetails.getCpvCode()));
         contractEssentials.setCorruption(contractDetails.getCorruption());
+        contractEssentials.setSysDirectAcquisitionStateID(contractDetails.getSysDirectAcquisitionStateID());
 
-        contractEssentials.setContractingAuthority(contractingAuthorityEssentialsMapperService.mapToContractingAuthorityEssentials(contractingAuthorityDetails));
-        contractEssentials.setSupplier(supplierEssentialsMapperService.mapToSupplierWithContractsForDirectAcquisitionEssentials(supplierDetails));
+        contractEssentials.setContractingAuthorityId(contractingAuthorityDetails.getId());
+        contractEssentials.setSupplierId(supplierDetails.getId());
         contractEssentials.setDirectAcquisitionItems(
                 contractDetails
                         .getDirectAcquisitionItems()

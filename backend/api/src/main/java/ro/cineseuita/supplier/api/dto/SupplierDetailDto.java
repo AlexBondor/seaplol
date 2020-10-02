@@ -1,26 +1,26 @@
 package ro.cineseuita.supplier.api.dto;
 
+import ro.cineseuita.data.essentials.contractingauthority.entity.Address;
+
 public class SupplierDetailDto {
+
     private Long id;
     private String name;
-    private String numericFiscalNumber;
-    private String address;
-    private String phone;
-    private String fax;
-    private Object url;
-    private String city;
-    private String county;
-    private String postalCode;
+    private String cui;
+    private Address address;
+    private String legalRepresentative;
     private Double totalContractsValue;
     private Double totalContractsValueSecondCurrency;
     private Long totalContractsCount;
-
+    private Long averageNumberOfEmployeesLastYear;
+    private Double averageRevenueFromPublicInstitutionsPerEmployeeLastYear;
+    private Double averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(final Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -28,72 +28,32 @@ public class SupplierDetailDto {
         return name;
     }
 
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getNumericFiscalNumber() {
-        return numericFiscalNumber;
+    public String getCui() {
+        return cui;
     }
 
-    public void setNumericFiscalNumber(final String numericFiscalNumber) {
-        this.numericFiscalNumber = numericFiscalNumber;
+    public void setCui(String cui) {
+        this.cui = cui;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(final String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getLegalRepresentative() {
+        return legalRepresentative;
     }
 
-    public void setPhone(final String phone) {
-        this.phone = phone;
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public void setFax(final String fax) {
-        this.fax = fax;
-    }
-
-    public Object getUrl() {
-        return url;
-    }
-
-    public void setUrl(final Object url) {
-        this.url = url;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(final String city) {
-        this.city = city;
-    }
-
-    public String getCounty() {
-        return county;
-    }
-
-    public void setCounty(final String county) {
-        this.county = county;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(final String postalCode) {
-        this.postalCode = postalCode;
+    public void setLegalRepresentative(String legalRepresentative) {
+        this.legalRepresentative = legalRepresentative;
     }
 
     public Double getTotalContractsValue() {
@@ -116,7 +76,31 @@ public class SupplierDetailDto {
         return totalContractsCount;
     }
 
-    public void setTotalContractsCount(final Long totalContractsCount) {
+    public void setTotalContractsCount(Long totalContractsCount) {
         this.totalContractsCount = totalContractsCount;
+    }
+
+    public Long getAverageNumberOfEmployeesLastYear() {
+        return averageNumberOfEmployeesLastYear;
+    }
+
+    public void setAverageNumberOfEmployeesLastYear(Long averageNumberOfEmployeesLastYear) {
+        this.averageNumberOfEmployeesLastYear = averageNumberOfEmployeesLastYear;
+    }
+
+    public Double getAverageRevenueFromPublicInstitutionsPerEmployeeLastYear() {
+        return averageRevenueFromPublicInstitutionsPerEmployeeLastYear;
+    }
+
+    public void setAverageRevenueFromPublicInstitutionsPerEmployeeLastYear(Double averageRevenueFromPublicInstitutionsPerEmployeeLastYear) {
+        this.averageRevenueFromPublicInstitutionsPerEmployeeLastYear = averageRevenueFromPublicInstitutionsPerEmployeeLastYear;
+    }
+
+    public Double getAverageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency() {
+        return averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency;
+    }
+
+    public void setAverageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency(Double averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency) {
+        this.averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency = averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency;
     }
 }

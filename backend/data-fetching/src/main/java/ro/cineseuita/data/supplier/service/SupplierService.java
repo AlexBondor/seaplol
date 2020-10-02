@@ -250,7 +250,7 @@ public class SupplierService {
 
         AtomicInteger i = new AtomicInteger();
         suppliersDetails.stream().parallel().forEach(supplierDetails -> {
-            SupplierEssentials supplierEssentials = supplierEssentialsMapperService.mapToSupplierWithContractsForDirectAcquisitionEssentials(supplierDetails);
+            SupplierEssentials supplierEssentials = supplierEssentialsMapperService.mapToSupplierEssentials(supplierDetails);
             List<DirectAcquisitionContractDetails> directAcquisitionContractsForContractingAuthority = directAcquisitionContractDetailsRepository.findAllBySysDirectAcquisitionStateIDAndSupplierId(OFERTA_ACCEPTATA.getNumVal(), supplierDetails.getId());
             double totalValue = directAcquisitionContractsForContractingAuthority.stream().mapToDouble(DirectAcquisitionContractDetails::getClosingValue).sum();
             double totalValueSecondCurrency = directAcquisitionContractsForContractingAuthority.stream().mapToDouble(DirectAcquisitionContractDetails::getSecondCurrencyClosingValue).sum();

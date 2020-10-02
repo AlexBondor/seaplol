@@ -18,10 +18,11 @@ public class DirectAcquisitionContractEssentials {
     private String deliveryCondition;
     private String paymentCondition;
     private CpvCodeEssentials cpvCode;
-    private ContractingAuthorityForDirectAcquisitionEssentials contractingAuthority;
-    private SupplierForDirectAcquisitionEssentials supplier;
+    private Long contractingAuthorityId;
+    private Long supplierId;
     private List<DirectAcquisitionItemEssentials> directAcquisitionItems = null;
     private Integer year;
+    private Integer sysDirectAcquisitionStateID;
     private double corruption;
 
     public Double getEstimatedValue() {
@@ -104,20 +105,20 @@ public class DirectAcquisitionContractEssentials {
         this.cpvCode = cpvCode;
     }
 
-    public ContractingAuthorityForDirectAcquisitionEssentials getContractingAuthority() {
-        return contractingAuthority;
+    public Long getContractingAuthorityId() {
+        return contractingAuthorityId;
     }
 
-    public void setContractingAuthority(ContractingAuthorityForDirectAcquisitionEssentials contractingAuthority) {
-        this.contractingAuthority = contractingAuthority;
+    public void setContractingAuthorityId(Long contractingAuthorityId) {
+        this.contractingAuthorityId = contractingAuthorityId;
     }
 
-    public SupplierForDirectAcquisitionEssentials getSupplier() {
-        return supplier;
+    public Long getSupplierId() {
+        return supplierId;
     }
 
-    public void setSupplier(SupplierForDirectAcquisitionEssentials supplier) {
-        this.supplier = supplier;
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
     }
 
     public List<DirectAcquisitionItemEssentials> getDirectAcquisitionItems() {
@@ -126,6 +127,14 @@ public class DirectAcquisitionContractEssentials {
 
     public void setDirectAcquisitionItems(List<DirectAcquisitionItemEssentials> directAcquisitionItems) {
         this.directAcquisitionItems = directAcquisitionItems;
+    }
+
+    public Integer getSysDirectAcquisitionStateID() {
+        return sysDirectAcquisitionStateID;
+    }
+
+    public void setSysDirectAcquisitionStateID(Integer sysDirectAcquisitionStateID) {
+        this.sysDirectAcquisitionStateID = sysDirectAcquisitionStateID;
     }
 
     public double getCorruption() {
