@@ -11,17 +11,14 @@ import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionCon
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDetailsRepository;
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractRepository;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthority;
-import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
 import ro.cineseuita.data.essentials.directcontract.repository.DirectContractEssentialsRepository;
 import ro.cineseuita.data.essentials.mappers.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContracts;
 import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContractsRequestBuilder;
-import ro.cineseuita.data.supplier.entity.SupplierDetails;
 import ro.cineseuita.data.supplier.repository.SupplierDetailsRepository;
 
 import java.io.IOException;
@@ -29,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -144,15 +142,14 @@ public class DirectAcquisitionContractService {
 
 
     public void mapDirectAcquisitionsToEssentials() {
+        AtomicInteger i = new AtomicInteger();
         getAllDirectAcquisitionContractsDetailsStreamed()
-                .map(this::getDirectAcquisitionContractEssentials)
-                .forEach(directContractEssentialsRepository::save);
-    }
-
-    private DirectAcquisitionContractEssentials getDirectAcquisitionContractEssentials(DirectAcquisitionContractDetails directAcquisitionContractDetail) {
-        ContractingAuthorityDetails contractingAuthorityDetails = contractingAuthorityDetailsRepository.findById(directAcquisitionContractDetail.getContractingAuthorityID()).get();
-        SupplierDetails supplierDetails = supplierDetailsRepository.findById(directAcquisitionContractDetail.getSupplierId()).get();
-        return directAcquisitionEssentialsMapperService.mapToDirectAcquisitionContractEssentials(directAcquisitionContractDetail, supplierDetails, contractingAuthorityDetails);
+                .parallel()
+                .map(directAcquisitionEssentialsMapperService::mapToDirectAcquisitionContractEssentials)
+                .forEach(s -> {
+                    directContractEssentialsRepository.save(s);
+                    System.out.printf("Done contract %d\n", i.getAndIncrement());
+                });
     }
 
     private void executeFullFetch(List<ContractingAuthority> contractingAuthorityIds, int i, Interval interval) throws IOException, InterruptedException {

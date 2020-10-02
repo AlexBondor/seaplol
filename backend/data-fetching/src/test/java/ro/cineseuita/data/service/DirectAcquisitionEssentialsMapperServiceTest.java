@@ -4,18 +4,12 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
-import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.essentials.mappers.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.essentials.mappers.DirectAcquisitionItemEssentialsMapperService;
 import ro.cineseuita.data.shared.ObjectMapperService;
-import ro.cineseuita.data.shared.requests.seap.FetchContractingAuthorityDetails;
 import ro.cineseuita.data.shared.requests.seap.FetchDirectAcquisitionContractDetails;
-import ro.cineseuita.data.shared.requests.seap.FetchSupplierDetails;
-import ro.cineseuita.data.supplier.entity.SupplierDetails;
-
-import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,21 +17,17 @@ public class DirectAcquisitionEssentialsMapperServiceTest {
 
     private DirectAcquisitionEssentialsMapperService service;
     private DirectAcquisitionContractDetails contractDetails;
-    private SupplierDetails supplierDetails;
-    private ContractingAuthorityDetails contractingAuthorityDetails;
 
     @Before
-    public void setUp() throws IOException {
+    public void setUp() {
         service = new DirectAcquisitionEssentialsMapperService(new DirectAcquisitionItemEssentialsMapperService());
         ObjectMapperService objectMapperService = new ObjectMapperService();
         contractDetails = objectMapperService.mapToDirectAcquisitionContractDetails(new FetchDirectAcquisitionContractDetails(-1L).getMockResponse());
-        supplierDetails = objectMapperService.mapToSupplier(new FetchSupplierDetails(-1L).getMockResponse());
-        contractingAuthorityDetails = objectMapperService.mapToContractingAuthorityDetails(new FetchContractingAuthorityDetails(-1L).getMockResponse());
     }
 
     @Test
     public void mapToDirectAcquisitionContractEssentials() {
-        DirectAcquisitionContractEssentials contractEssentials = service.mapToDirectAcquisitionContractEssentials(contractDetails, supplierDetails, contractingAuthorityDetails);
+        DirectAcquisitionContractEssentials contractEssentials = service.mapToDirectAcquisitionContractEssentials(contractDetails);
 
         assertEquals(contractDetails.getDirectAcquisitionID(), contractEssentials.get_id());
         assertEquals(contractDetails.getDirectAcquisitionName(), contractEssentials.getName());

@@ -134,12 +134,9 @@ public class ContractingAuthorityService {
     public void mapContractingAuthoritiesToEssentials() {
         List<ContractingAuthorityDetails> contractingAuthorityDetailsList = contractingAuthorityDetailsRepository.findAll();
         List<ContractingAuthorityEssentials> essentials = new ArrayList<>();
-
-        for (int i = 0; i < contractingAuthorityDetailsList.size(); i++) {
-            ContractingAuthorityDetails contractingAuthorityDetails = contractingAuthorityDetailsList.get(i);
+        AtomicInteger i = new AtomicInteger();
+        contractingAuthorityDetailsList.stream().parallel().forEach(contractingAuthorityDetails -> {
             ContractingAuthorityEssentials contractingAuthorityEssentials = contractingAuthorityEssentialsMapperService.mapToContractingAuthorityWithContractsEssentials(contractingAuthorityDetails);
-
-
             List<DirectAcquisitionContractDetails> contractsForCA =
                     directAcquisitionContractDetailsRepository.findAllBySysDirectAcquisitionStateIDAndContractingAuthorityID(OFERTA_ACCEPTATA.getNumVal(), contractingAuthorityDetails.getId());
             double totalValue = contractsForCA
@@ -150,14 +147,12 @@ public class ContractingAuthorityService {
                     .stream()
                     .mapToDouble(DirectAcquisitionContractDetails::getSecondCurrencyClosingValue)
                     .sum();
-
             contractingAuthorityEssentials.setTotalContractsCount((long) contractsForCA.size());
             contractingAuthorityEssentials.setTotalContractsValue(totalValue);
             contractingAuthorityEssentials.setTotalContractsValueSecondCurrency(totalValueSecondCurrency);
-
             essentials.add(contractingAuthorityEssentials);
-            System.out.println("Done CA essentials " + i + "/" + contractingAuthorityDetailsList.size());
-        }
+            System.out.println("Done CA essentials " + i.getAndIncrement() + "/" + contractingAuthorityDetailsList.size());
+        });
         contractingAuthorityEssentialsRepository.saveAll(essentials);
     }
 

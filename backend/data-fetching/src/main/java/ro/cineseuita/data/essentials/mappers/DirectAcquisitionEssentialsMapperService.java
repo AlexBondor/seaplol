@@ -5,12 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionType;
-import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.essentials.directcontract.entity.CpvCodeEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.shared.entityComponents.GenericSeapData;
-import ro.cineseuita.data.supplier.entity.SupplierDetails;
 
 import java.util.stream.Collectors;
 
@@ -25,7 +23,7 @@ public class DirectAcquisitionEssentialsMapperService {
         this.directAcquisitionItemEssentialsMapperService = directAcquisitionItemEssentialsMapperService;
     }
 
-    public DirectAcquisitionContractEssentials mapToDirectAcquisitionContractEssentials(DirectAcquisitionContractDetails contractDetails, SupplierDetails supplierDetails, ContractingAuthorityDetails contractingAuthorityDetails) {
+    public DirectAcquisitionContractEssentials mapToDirectAcquisitionContractEssentials(DirectAcquisitionContractDetails contractDetails) {
         DirectAcquisitionContractEssentials contractEssentials = new DirectAcquisitionContractEssentials();
         contractEssentials.set_id(contractDetails.getDirectAcquisitionID());
         contractEssentials.setName(contractDetails.getDirectAcquisitionName());
@@ -40,8 +38,8 @@ public class DirectAcquisitionEssentialsMapperService {
         contractEssentials.setCorruption(contractDetails.getCorruption());
         contractEssentials.setSysDirectAcquisitionStateID(contractDetails.getSysDirectAcquisitionStateID());
 
-        contractEssentials.setContractingAuthorityId(contractingAuthorityDetails.getId());
-        contractEssentials.setSupplierId(supplierDetails.getId());
+        contractEssentials.setContractingAuthorityId(contractDetails.getContractingAuthorityID());
+        contractEssentials.setSupplierId(contractDetails.getSupplierId());
         contractEssentials.setDirectAcquisitionItems(
                 contractDetails
                         .getDirectAcquisitionItems()
