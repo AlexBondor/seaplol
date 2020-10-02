@@ -1,27 +1,62 @@
 <template>
   <v-container>
-    DETAILS SUPPLIER {{ id }}
-    <TreeMap entity="supplier" :id="id"></TreeMap>
+    <h1>{{ details.name }}</h1>
+    <br />
+    <br />
+    <v-card class="mx-auto">
+      <v-card-text>
+        <div>CUI: {{ details.numericFiscalNumber }}</div>
+        <p class="display-1 text--primary">
+          {{ name }}
+        </p>
+        <p>Telefon: {{ details.phone }}</p>
+        <p>Adresă: {{ details.address }}</p>
+        <div class="text--primary">
+          Număr de contracte: {{ details.totalContractsCount }}<br />
+          Valoare contracte :
+          <CurrencyTooltip
+            :ron="details.totalContractsValue"
+            :eur="details.totalContractsValueSecondCurrency"
+          ></CurrencyTooltip>
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn text color="deep-purple accent-4">
+          Learn More
+        </v-btn>
+      </v-card-actions>
+    </v-card>
   </v-container>
 </template>
 
 <script>
-import TreeMap from "@/components/shared/TreeMap";
+import api from "@/api";
+import { titleCase } from "@/utils/strings";
+import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
 
 export default {
   name: "supplierDetails",
-  components: { TreeMap },
+  components: { CurrencyTooltip },
   data: function() {
     return {
-      id: parseInt(this.$route.params.id)
+      id: parseInt(this.$route.params.id),
+      details: {}
     };
   },
-  async mounted() {},
-  methods: {},
-  beforeDestroy() {
-    if (this.chart) {
-      this.chart.dispose();
+  async mounted() {
+    this.loadDetails();
+  },
+  methods: {
+    async loadDetails() {
+      this.details = await api.suppliers.details(this.id);
+      console.log(this.details);
     }
-  }
+  },
+  computed: {
+    name() {
+      return titleCase(this.details.name);
+    }
+  },
+  created() {}
 };
 </script>

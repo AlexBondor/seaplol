@@ -4,18 +4,17 @@ public class SupplierDetailDto {
     private Long id;
     private String name;
     private String numericFiscalNumber;
-    private String fiscalNumber;
     private String address;
     private String phone;
     private String fax;
-    private String email;
     private Object url;
     private String city;
     private String county;
-    private String country;
     private String postalCode;
-    private Long totalContractsValue;
+    private Double totalContractsValue;
+    private Double totalContractsValueSecondCurrency;
     private Long totalContractsCount;
+
 
     public Long getId() {
         return id;
@@ -39,14 +38,6 @@ public class SupplierDetailDto {
 
     public void setNumericFiscalNumber(final String numericFiscalNumber) {
         this.numericFiscalNumber = numericFiscalNumber;
-    }
-
-    public String getFiscalNumber() {
-        return fiscalNumber;
-    }
-
-    public void setFiscalNumber(final String fiscalNumber) {
-        this.fiscalNumber = fiscalNumber;
     }
 
     public String getAddress() {
@@ -73,14 +64,6 @@ public class SupplierDetailDto {
         this.fax = fax;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-
     public Object getUrl() {
         return url;
     }
@@ -105,14 +88,6 @@ public class SupplierDetailDto {
         this.county = county;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(final String country) {
-        this.country = country;
-    }
-
     public String getPostalCode() {
         return postalCode;
     }
@@ -121,12 +96,20 @@ public class SupplierDetailDto {
         this.postalCode = postalCode;
     }
 
-    public Long getTotalContractsValue() {
+    public Double getTotalContractsValue() {
         return totalContractsValue;
     }
 
-    public void setTotalContractsValue(final Long totalContractsValue) {
+    public void setTotalContractsValue(Double totalContractsValue) {
         this.totalContractsValue = totalContractsValue;
+    }
+
+    public Double getTotalContractsValueSecondCurrency() {
+        return totalContractsValueSecondCurrency;
+    }
+
+    public void setTotalContractsValueSecondCurrency(Double totalContractsValueSecondCurrency) {
+        this.totalContractsValueSecondCurrency = totalContractsValueSecondCurrency;
     }
 
     public Long getTotalContractsCount() {

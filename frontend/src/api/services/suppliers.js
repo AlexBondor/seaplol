@@ -12,5 +12,9 @@ export default {
   async getTreeMapForSupplier(id) {
     let res = await HTTP.get(BASE_URL + "api/suppliers/treeMap/" + id);
     return res.data;
+  },
+  async details(id) {
+    let res = await HTTP.get(BASE_URL + "api/suppliers/" + id);
+    return res.data;
   }
 };
