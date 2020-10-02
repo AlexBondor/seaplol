@@ -37,6 +37,8 @@ public class DirectContractServiceImpl implements DirectContractService {
         return mapper.toDetailDto(supplier);
     }
 
+//    public void
+
     private List<DirectContractListDto> formDtoList(List<DirectAcquisitionContractEssentials> contracts) {
         return contracts.stream()
                 .map(mapper::toListDto)
