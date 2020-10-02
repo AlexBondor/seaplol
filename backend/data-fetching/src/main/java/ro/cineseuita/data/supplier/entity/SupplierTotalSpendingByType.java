@@ -1,8 +1,8 @@
 package ro.cineseuita.data.supplier.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
-import ro.cineseuita.data.contract.entity.direct.ContractsTotalSpendingByType;
-import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionType;
+import ro.cineseuita.data.contract.shared.entity.ContractsTotalSpendingByType;
+import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionType;
 
 @Document(collection = "supplierTotalSpendingByType")
 public class SupplierTotalSpendingByType extends ContractsTotalSpendingByType {

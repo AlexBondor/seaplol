@@ -2,7 +2,7 @@ package ro.cineseuita.data.contractingauthority.entity;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
+import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 
 import java.util.ArrayList;
 import java.util.List;

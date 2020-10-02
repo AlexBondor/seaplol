@@ -2,8 +2,8 @@ package ro.cineseuita.data.processing;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.cineseuita.data.contract.service.ContractsTotalSpendingByTypeService;
-import ro.cineseuita.data.contract.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.shared.service.ContractsTotalSpendingByTypeService;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
 import ro.cineseuita.data.contractingauthority.service.ContractingAuthorityService;
 import ro.cineseuita.data.cpv.entity.components.CpvSimpleTreeNode;
 import ro.cineseuita.data.cpv.service.CpvCodesService;

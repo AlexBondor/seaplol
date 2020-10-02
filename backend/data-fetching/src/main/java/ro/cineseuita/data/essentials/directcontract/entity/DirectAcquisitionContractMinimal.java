@@ -1,7 +1,7 @@
 package ro.cineseuita.data.essentials.directcontract.entity;
 
 import org.joda.time.DateTime;
-import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionType;
+import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionType;
 
 public class DirectAcquisitionContractMinimal {
 

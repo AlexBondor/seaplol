@@ -3,7 +3,7 @@ package ro.cineseuita.data.service;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
+import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;

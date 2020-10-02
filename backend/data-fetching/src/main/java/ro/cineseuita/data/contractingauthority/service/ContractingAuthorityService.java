@@ -2,9 +2,9 @@ package ro.cineseuita.data.contractingauthority.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
-import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRepository;
-import ro.cineseuita.data.contract.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
+import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDetailsRepository;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityWith5kMarginContracts;
 import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuthorities;

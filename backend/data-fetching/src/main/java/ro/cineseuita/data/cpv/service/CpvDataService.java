@@ -2,10 +2,10 @@ package ro.cineseuita.data.cpv.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
-import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionItem;
-import ro.cineseuita.data.contract.repository.DirectAcquisitionContractRepository;
-import ro.cineseuita.data.contract.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
+import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionItem;
+import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractRepository;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.cpv.entity.ContractingAuthorityCpvData;
 import ro.cineseuita.data.cpv.entity.NationalCpvData;

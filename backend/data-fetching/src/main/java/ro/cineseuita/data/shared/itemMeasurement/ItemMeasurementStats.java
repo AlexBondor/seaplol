@@ -1,6 +1,6 @@
 package ro.cineseuita.data.shared.itemMeasurement;
 
-import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionItem;
+import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionItem;
 
 import java.util.Arrays;
 import java.util.Collections;

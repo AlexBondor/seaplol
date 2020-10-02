@@ -1,7 +1,7 @@
 package ro.cineseuita.data.shared.requests.seap;
 
 import org.joda.time.DateTime;
-import ro.cineseuita.data.contract.entity.auction.AuctionType;
+import ro.cineseuita.data.contract.auction.entity.AuctionType;
 
 import java.util.ArrayList;
 import java.util.List;

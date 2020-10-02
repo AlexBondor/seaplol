@@ -7,8 +7,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContract;
-import ro.cineseuita.data.contract.repository.DirectAcquisitionContractRepository;
+import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContract;
+import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractRepository;
 import ro.cineseuita.data.shared.XlsUtilities;
 
 import java.io.File;

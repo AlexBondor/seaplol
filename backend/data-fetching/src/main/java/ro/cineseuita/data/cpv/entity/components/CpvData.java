@@ -1,6 +1,6 @@
 package ro.cineseuita.data.cpv.entity.components;
 
-import ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionItem;
+import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionItem;
 import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurementStats;
 
 import java.util.ArrayList;

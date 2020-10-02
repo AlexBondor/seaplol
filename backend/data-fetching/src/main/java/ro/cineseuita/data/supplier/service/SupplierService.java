@@ -2,8 +2,8 @@ package ro.cineseuita.data.supplier.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.cineseuita.data.contract.entity.direct.DirectAcquisitionContractDetails;
-import ro.cineseuita.data.contract.repository.DirectAcquisitionContractDetailsRepository;
+import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
+import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDetailsRepository;
 import ro.cineseuita.data.essentials.service.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.essentials.service.SupplierEssentialsMapperService;
 import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.Comparator.comparing;
-import static ro.cineseuita.data.contract.entity.direct.components.DirectAcquisitionState.OFERTA_ACCEPTATA;
+import static ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionState.OFERTA_ACCEPTATA;
 
 @Service
 public class SupplierService {
