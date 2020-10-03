@@ -30,6 +30,7 @@ public class DirectAcquisitionEssentialsMapperService {
         contractEssentials.setDescription(contractDetails.getDirectAcquisitionDescription());
         contractEssentials.setEstimatedValue(contractDetails.getEstimatedValue());
         contractEssentials.setClosingValue(contractDetails.getClosingValue());
+        contractEssentials.setClosingValueSecondCurrency(contractDetails.getSecondCurrencyClosingValue());
         contractEssentials.setPublicationDate(new DateTime(contractDetails.getPublicationDate()));
         contractEssentials.setFinalizationDate(new DateTime(contractDetails.getFinalizationDate()));
         contractEssentials.setDeliveryCondition(contractDetails.getDeliveryCondition());

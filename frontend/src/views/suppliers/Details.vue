@@ -26,6 +26,8 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+
+    <ContractsTable entity="supplier" :entity-id="id"></ContractsTable>
   </v-container>
 </template>
 
@@ -33,10 +35,11 @@
 import api from "@/api";
 import { titleCase } from "@/utils/strings";
 import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
+import ContractsTable from "@/components/shared/ContractsTable";
 
 export default {
   name: "supplierDetails",
-  components: { CurrencyTooltip },
+  components: { ContractsTable, CurrencyTooltip },
   data: function() {
     return {
       id: parseInt(this.$route.params.id),

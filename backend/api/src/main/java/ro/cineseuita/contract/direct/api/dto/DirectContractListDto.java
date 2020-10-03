@@ -6,6 +6,7 @@ public class DirectContractListDto {
     private Long id;
     private String name;
     private Double closingValue;
+    private Double closingValueSecondCurrency;
     private DateTime finalizationDate;
     private Double corruption;
 
@@ -31,6 +32,14 @@ public class DirectContractListDto {
 
     public void setClosingValue(Double closingValue) {
         this.closingValue = closingValue;
+    }
+
+    public Double getClosingValueSecondCurrency() {
+        return closingValueSecondCurrency;
+    }
+
+    public void setClosingValueSecondCurrency(Double closingValueSecondCurrency) {
+        this.closingValueSecondCurrency = closingValueSecondCurrency;
     }
 
     public DateTime getFinalizationDate() {

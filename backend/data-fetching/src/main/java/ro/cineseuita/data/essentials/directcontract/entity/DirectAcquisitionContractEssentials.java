@@ -13,6 +13,7 @@ public class DirectAcquisitionContractEssentials {
     private String description;
     private Double estimatedValue;
     private Double closingValue;
+    private Double closingValueSecondCurrency;
     private DateTime publicationDate;
     private DateTime finalizationDate;
     private String deliveryCondition;
@@ -39,6 +40,14 @@ public class DirectAcquisitionContractEssentials {
 
     public void setClosingValue(Double closingValue) {
         this.closingValue = closingValue;
+    }
+
+    public Double getClosingValueSecondCurrency() {
+        return closingValueSecondCurrency;
+    }
+
+    public void setClosingValueSecondCurrency(Double closingValueSecondCurrency) {
+        this.closingValueSecondCurrency = closingValueSecondCurrency;
     }
 
     public DateTime getPublicationDate() {
