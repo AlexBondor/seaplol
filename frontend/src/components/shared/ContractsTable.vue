@@ -46,6 +46,9 @@
       <template v-slot:item.supplier="{ item }">
         <ParticipantLink :participant="item.supplier"></ParticipantLink>
       </template>
+      <template v-slot:item.id="{ item }">
+        <LinkToSeap :id="item.id" type="CONTRACT"></LinkToSeap>
+      </template>
       <template #footer.page-text="props">
         {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
       </template>
@@ -58,10 +61,11 @@ import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
 import debounce from "lodash-es/debounce";
 import api from "@/api";
 import ParticipantLink from "@/components/shared/ParticipantLink";
+import LinkToSeap from "@/components/shared/LinkToSeap";
 
 export default {
   name: "ContractsTable",
-  components: { ParticipantLink, CurrencyTooltip },
+  components: { LinkToSeap, ParticipantLink, CurrencyTooltip },
   props: {
     entity: String,
     entityId: Number,
@@ -81,7 +85,7 @@ export default {
         sortBy: ["name"]
       },
       headers: [
-        { text: "Denumire", value: "name", width: "50%", show: true },
+        { text: "Denumire", value: "name", width: "45%", show: true },
         {
           text: "Valoare închidere",
           value: "closingValue",
@@ -105,6 +109,13 @@ export default {
           value: "supplier",
           width: "20%",
           show: this.showSupplier
+        },
+        {
+          text: "",
+          value: "id",
+          sortable: false,
+          width: "5%",
+          show: this.showContractingAuthority
         }
       ],
       search: ""

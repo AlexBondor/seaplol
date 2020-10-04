@@ -12,7 +12,7 @@ import ro.cineseuita.contractingauthority.service.ContractingAuthorityService;
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityEssentialsRepository;
 import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityFilter;
-import ro.cineseuita.shared.treemaps.TreeMap;
+import ro.cineseuita.shared.TreeMap;
 
 import java.util.List;
 import java.util.Map;

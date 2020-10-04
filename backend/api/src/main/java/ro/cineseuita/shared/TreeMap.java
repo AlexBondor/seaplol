@@ -1,4 +1,4 @@
-package ro.cineseuita.shared.treemaps;
+package ro.cineseuita.shared;
 
 import java.util.*;
 

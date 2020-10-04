@@ -4,7 +4,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ro.cineseuita.contractingauthority.api.dto.ContractingAuthorityDetailDto;
 import ro.cineseuita.contractingauthority.api.dto.ContractingAuthorityListDto;
-import ro.cineseuita.contractingauthority.api.dto.ContractingAuthoritySearchDto;
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 
 @Mapper
@@ -15,8 +14,5 @@ public interface ContractingAuthorityMapper {
 
     @Mapping(source = "_id", target = "id")
     ContractingAuthorityDetailDto toDetailDto(ContractingAuthorityEssentials contractingAuthority);
-
-    @Mapping(source = "_id", target = "id")
-    ContractingAuthoritySearchDto toSearchDto(ContractingAuthorityEssentials authority);
 
 }

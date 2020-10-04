@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
 import ro.cineseuita.data.essentials.supplier.repository.SupplierEssentialsRepository;
 import ro.cineseuita.data.essentials.supplier.repository.SupplierFilter;
-import ro.cineseuita.shared.treemaps.TreeMap;
+import ro.cineseuita.shared.TreeMap;
 import ro.cineseuita.supplier.api.dto.SupplierDetailDto;
 import ro.cineseuita.supplier.api.dto.SupplierListDto;
 import ro.cineseuita.supplier.service.SupplierMapper;

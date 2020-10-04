@@ -48,6 +48,11 @@
             "
           ></CurrencyTooltip>
         </template>
+
+        <template v-slot:item.id="{ item }">
+          <LinkToSeap :id="item.id" type="SUPPLIER"></LinkToSeap>
+        </template>
+
         <template #footer.page-text="props">
           {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
         </template>
@@ -61,9 +66,11 @@ import api from "@/api";
 import debounce from "lodash-es/debounce";
 import { router } from "@/router";
 import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
+import LinkToSeap from "@/components/shared/LinkToSeap";
+
 export default {
   name: "furnizori",
-  components: { CurrencyTooltip },
+  components: { CurrencyTooltip, LinkToSeap },
   data() {
     return {
       totalCount: 0,
@@ -92,8 +99,9 @@ export default {
         {
           text: "Câștig mediu per angajat din contracte cu statul",
           value: "averageRevenueFromPublicInstitutionsPerEmployeeLastYear",
-          width: "20%"
-        }
+          width: "15%"
+        },
+        { text: "", value: "id", sortable: false, width: "5%" }
       ],
       search: ""
     };
