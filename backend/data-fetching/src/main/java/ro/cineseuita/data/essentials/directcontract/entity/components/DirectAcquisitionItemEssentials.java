@@ -1,4 +1,4 @@
-package ro.cineseuita.data.essentials.directcontract.entity;
+package ro.cineseuita.data.essentials.directcontract.entity.components;
 
 public class DirectAcquisitionItemEssentials {
 

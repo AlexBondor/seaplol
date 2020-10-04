@@ -5,22 +5,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionType;
-import ro.cineseuita.data.essentials.directcontract.entity.CpvCodeEssentials;
+import ro.cineseuita.data.contractingauthority.entity.ContractingAuthority;
+import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractMinimal;
+import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;
+import ro.cineseuita.data.essentials.directcontract.entity.components.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.shared.entityComponents.GenericSeapData;
+import ro.cineseuita.data.supplier.entity.Supplier;
+import ro.cineseuita.data.supplier.repository.SupplierDataRepository;
 
 import java.util.stream.Collectors;
+
+import static ro.cineseuita.data.essentials.directcontract.entity.components.ParticipantMinimal.fromParticipant;
 
 @Service
 public class DirectAcquisitionEssentialsMapperService {
 
 
     private final DirectAcquisitionItemEssentialsMapperService directAcquisitionItemEssentialsMapperService;
+    private final ContractingAuthorityDataRepository contractingAuthorityDataRepository;
+    private final SupplierDataRepository supplierDataRepository;
 
     @Autowired
-    public DirectAcquisitionEssentialsMapperService(DirectAcquisitionItemEssentialsMapperService directAcquisitionItemEssentialsMapperService) {
+    public DirectAcquisitionEssentialsMapperService(DirectAcquisitionItemEssentialsMapperService directAcquisitionItemEssentialsMapperService, ContractingAuthorityDataRepository contractingAuthorityDataRepository, SupplierDataRepository supplierDataRepository) {
         this.directAcquisitionItemEssentialsMapperService = directAcquisitionItemEssentialsMapperService;
+        this.contractingAuthorityDataRepository = contractingAuthorityDataRepository;
+        this.supplierDataRepository = supplierDataRepository;
     }
 
     public DirectAcquisitionContractEssentials mapToDirectAcquisitionContractEssentials(DirectAcquisitionContractDetails contractDetails) {
@@ -38,8 +48,12 @@ public class DirectAcquisitionEssentialsMapperService {
         contractEssentials.setCpvCode(mapToCpvCodeEssentials(contractDetails.getCpvCode()));
         contractEssentials.setCorruption(contractDetails.getCorruption());
 
-        contractEssentials.setContractingAuthorityId(contractDetails.getContractingAuthorityID());
-        contractEssentials.setSupplierId(contractDetails.getSupplierId());
+        ContractingAuthority contractingAuthority = contractingAuthorityDataRepository.findById(contractDetails.getContractingAuthorityID()).get();
+        contractEssentials.setContractingAuthority(fromParticipant(contractingAuthority));
+
+        Supplier supplier = supplierDataRepository.findById(contractDetails.getSupplierId()).get();
+        contractEssentials.setSupplier(fromParticipant(supplier));
+
         contractEssentials.setDirectAcquisitionItems(
                 contractDetails
                         .getDirectAcquisitionItems()

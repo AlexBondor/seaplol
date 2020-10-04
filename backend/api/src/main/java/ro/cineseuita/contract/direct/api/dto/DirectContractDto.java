@@ -2,8 +2,8 @@ package ro.cineseuita.contract.direct.api.dto;
 
 import org.joda.time.DateTime;
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
-import ro.cineseuita.data.essentials.directcontract.entity.CpvCodeEssentials;
-import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionItemEssentials;
+import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;
+import ro.cineseuita.data.essentials.directcontract.entity.components.DirectAcquisitionItemEssentials;
 import ro.cineseuita.data.essentials.supplier.entity.SupplierEssentials;
 
 import java.util.List;

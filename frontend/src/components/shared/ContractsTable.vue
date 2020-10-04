@@ -13,7 +13,7 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
-      :headers="headers"
+      :headers="computedHeaders"
       :items="contracts"
       :options.sync="pagination"
       :server-items-length="totalCount"
@@ -38,6 +38,14 @@
       <template v-slot:item.finalizationDate="{ item }">
         {{ item.finalizationDate | formatDate }}
       </template>
+      <template v-slot:item.contractingAuthority="{ item }">
+        <ParticipantLink
+          :participant="item.contractingAuthority"
+        ></ParticipantLink>
+      </template>
+      <template v-slot:item.supplier="{ item }">
+        <ParticipantLink :participant="item.supplier"></ParticipantLink>
+      </template>
       <template #footer.page-text="props">
         {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
       </template>
@@ -49,13 +57,16 @@
 import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
 import debounce from "lodash-es/debounce";
 import api from "@/api";
+import ParticipantLink from "@/components/shared/ParticipantLink";
 
 export default {
   name: "ContractsTable",
-  components: { CurrencyTooltip },
+  components: { ParticipantLink, CurrencyTooltip },
   props: {
     entity: String,
-    entityId: Number
+    entityId: Number,
+    showContractingAuthority: Boolean,
+    showSupplier: Boolean
   },
   data() {
     return {
@@ -70,9 +81,31 @@ export default {
         sortBy: ["name"]
       },
       headers: [
-        { text: "Denumire", value: "name", width: "50%" },
-        { text: "Valoare închidere", value: "closingValue", width: "25%" },
-        { text: "Dată finalizare", value: "finalizationDate", width: "25%" }
+        { text: "Denumire", value: "name", width: "50%", show: true },
+        {
+          text: "Valoare închidere",
+          value: "closingValue",
+          width: "10%",
+          show: true
+        },
+        {
+          text: "Dată finalizare",
+          value: "finalizationDate",
+          width: "10%",
+          show: true
+        },
+        {
+          text: "Autoritate contractantă",
+          value: "contractingAuthority",
+          width: "20%",
+          show: this.showContractingAuthority
+        },
+        {
+          text: "Furnizor",
+          value: "supplier",
+          width: "20%",
+          show: this.showSupplier
+        }
       ],
       search: ""
     };
@@ -111,6 +144,11 @@ export default {
     search: debounce(async function(field) {
       this.pagination.searchTerm = field ? field : "";
     }, 500)
+  },
+  computed: {
+    computedHeaders() {
+      return this.headers.filter(header => header.show);
+    }
   }
 };
 </script>

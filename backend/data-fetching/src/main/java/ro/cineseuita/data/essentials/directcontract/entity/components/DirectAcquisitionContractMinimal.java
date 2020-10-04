@@ -1,4 +1,4 @@
-package ro.cineseuita.data.essentials.directcontract.entity;
+package ro.cineseuita.data.essentials.directcontract.entity.components;
 
 import org.joda.time.DateTime;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionType;

@@ -1,14 +1,24 @@
 package ro.cineseuita.data.essentials.directcontract.entity;
 
 import org.joda.time.DateTime;
-import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;
+import ro.cineseuita.data.essentials.directcontract.entity.components.DirectAcquisitionItemEssentials;
+import ro.cineseuita.data.essentials.directcontract.entity.components.ParticipantMinimal;
 
 import java.util.List;
 
-@Document(collection = "directAcquisitionEssentials")
+@Document(collection = "directAcquisitionContractEssentials")
+@CompoundIndexes({
+        @CompoundIndex(name = "contractingAuthorityId", def = "{ '_id': 1, 'contractingAuthority.id': 1 }", unique = true),
+        @CompoundIndex(name = "supplierId", def = "{ '_id': 1, 'supplier.id': 1 }", unique = true)
+})
 public class DirectAcquisitionContractEssentials {
 
+    @Id
     private Long _id;
     private String name;
     private String description;
@@ -20,10 +30,8 @@ public class DirectAcquisitionContractEssentials {
     private String deliveryCondition;
     private String paymentCondition;
     private CpvCodeEssentials cpvCode;
-    @Indexed
-    private Long contractingAuthorityId;
-    @Indexed
-    private Long supplierId;
+    private ParticipantMinimal contractingAuthority;
+    private ParticipantMinimal supplier;
     private List<DirectAcquisitionItemEssentials> directAcquisitionItems = null;
     private Integer year;
     private double corruption;
@@ -116,20 +124,20 @@ public class DirectAcquisitionContractEssentials {
         this.cpvCode = cpvCode;
     }
 
-    public Long getContractingAuthorityId() {
-        return contractingAuthorityId;
+    public ParticipantMinimal getContractingAuthority() {
+        return contractingAuthority;
     }
 
-    public void setContractingAuthorityId(Long contractingAuthorityId) {
-        this.contractingAuthorityId = contractingAuthorityId;
+    public void setContractingAuthority(ParticipantMinimal contractingAuthority) {
+        this.contractingAuthority = contractingAuthority;
     }
 
-    public Long getSupplierId() {
-        return supplierId;
+    public ParticipantMinimal getSupplier() {
+        return supplier;
     }
 
-    public void setSupplierId(Long supplierId) {
-        this.supplierId = supplierId;
+    public void setSupplier(ParticipantMinimal supplier) {
+        this.supplier = supplier;
     }
 
     public List<DirectAcquisitionItemEssentials> getDirectAcquisitionItems() {

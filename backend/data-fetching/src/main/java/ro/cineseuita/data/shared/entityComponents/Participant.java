@@ -138,4 +138,8 @@ public class Participant {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+    public ParticipantType getType() {
+        return this.participantType.equals("Ofertant") ? ParticipantType.SUPPLIER : ParticipantType.CONTRACTING_AUTHORITY;
+    }
 }

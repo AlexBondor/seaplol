@@ -27,7 +27,11 @@
     </v-card>
     <br/>
     <br/>
-    <ContractsTable entity="supplier" :entity-id="id"></ContractsTable>
+    <ContractsTable
+      entity="supplier"
+      :entity-id="id"
+      :show-contracting-authority="true"
+    ></ContractsTable>
   </v-container>
 </template>
 
