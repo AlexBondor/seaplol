@@ -1,4 +1,5 @@
 import Vue from "vue";
+import moment from "moment";
 
 Vue.prototype.$filters = Vue.options.filters;
 
@@ -15,4 +16,8 @@ Vue.filter("formatCurrencyEur", function(value) {
     style: "currency",
     currency: "EUR"
   }).format(value);
+});
+Vue.filter("formatDate", function(value) {
+  if (value === null || value === undefined) return "";
+  return moment(value).format("D/MM/y");
 });

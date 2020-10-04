@@ -10,6 +10,7 @@
           label="Search"
           single-line
           hide-details
+          clearable
         ></v-text-field>
       </v-card-title>
       <v-data-table
@@ -76,16 +77,22 @@ export default {
         sortBy: ["name"]
       },
       headers: [
-        { text: "Denumire", value: "name" },
-        { text: "Valoare contracte (RON)", value: "totalContractsValue" },
-        { text: "Număr contracte", value: "totalContractsCount" },
+        { text: "Denumire", value: "name", width: "45%" },
+        {
+          text: "Valoare contracte (RON)",
+          value: "totalContractsValue",
+          width: "15%"
+        },
+        { text: "Număr contracte", value: "totalContractsCount", width: "10%" },
         {
           text: "Număr de angajați (medie anul trecut)",
-          value: "averageNumberOfEmployeesLastYear"
+          value: "averageNumberOfEmployeesLastYear",
+          width: "10%"
         },
         {
           text: "Câștig mediu per angajat din contracte cu statul",
-          value: "averageRevenueFromPublicInstitutionsPerEmployeeLastYear"
+          value: "averageRevenueFromPublicInstitutionsPerEmployeeLastYear",
+          width: "20%"
         }
       ],
       search: ""
@@ -100,7 +107,7 @@ export default {
       immediate: true
     },
     search: debounce(async function(field) {
-      this.pagination.searchTerm = field;
+      this.pagination.searchTerm = field ? field : "";
     }, 500)
   },
   methods: {

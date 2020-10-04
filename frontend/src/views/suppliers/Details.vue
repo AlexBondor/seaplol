@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <h1>{{ details.name }}</h1>
-    <TreeMap entity="contractingAuthority" :id="id"></TreeMap>
     <br />
     <br />
     <v-card class="mx-auto">
@@ -26,7 +25,8 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-
+    <br/>
+    <br/>
     <ContractsTable entity="supplier" :entity-id="id"></ContractsTable>
   </v-container>
 </template>
@@ -58,6 +58,9 @@ export default {
   computed: {
     name() {
       return titleCase(this.details.name);
+    },
+    representative() {
+      return titleCase(this.details.legalRepresentative);
     }
   },
   created() {}

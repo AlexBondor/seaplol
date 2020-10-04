@@ -10,6 +10,7 @@
           label="Search"
           single-line
           hide-details
+          clearable
         ></v-text-field>
       </v-card-title>
       <v-data-table
@@ -77,7 +78,7 @@ export default {
       immediate: true
     },
     search: debounce(async function(field) {
-      this.pagination.searchTerm = field;
+      this.pagination.searchTerm = field ? field : "";
     }, 500)
   },
   methods: {

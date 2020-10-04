@@ -1,31 +1,48 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="contracts"
-    :options.sync="pagination"
-    :server-items-length="totalCount"
-    must-sort
-    :loading="loading"
-    loading-text="Se încarcă..."
-    no-data-text="Nu sunt date"
-    :footer-props="{
-      showFirstLastPage: true,
-      'items-per-page-text': 'Rânduri pe pagină',
-      'items-per-page-options': [5, 10, 25, 50, 100]
-    }"
-    @click:row="details"
-    class="elevation-1 row-pointer"
-  >
-    <template v-slot:item.closingValue="{ item }">
-      <CurrencyTooltip
-        :ron="item.closingValue"
-        :eur="item.closingValueSecondCurrency"
-      ></CurrencyTooltip>
-    </template>
-    <template #footer.page-text="props">
-      {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
-    </template>
-  </v-data-table>
+  <v-card>
+    <v-card-title>
+      Contracte
+      <v-spacer></v-spacer>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        label="Search"
+        single-line
+        hide-details
+        clearable
+      ></v-text-field>
+    </v-card-title>
+    <v-data-table
+      :headers="headers"
+      :items="contracts"
+      :options.sync="pagination"
+      :server-items-length="totalCount"
+      must-sort
+      :loading="loading"
+      loading-text="Se încarcă..."
+      no-data-text="Nu sunt date"
+      :footer-props="{
+        showFirstLastPage: true,
+        'items-per-page-text': 'Rânduri pe pagină',
+        'items-per-page-options': [5, 10, 25, 50, 100]
+      }"
+      @click:row="details"
+      class="elevation-1 row-pointer"
+    >
+      <template v-slot:item.closingValue="{ item }">
+        <CurrencyTooltip
+          :ron="item.closingValue"
+          :eur="item.closingValueSecondCurrency"
+        ></CurrencyTooltip>
+      </template>
+      <template v-slot:item.finalizationDate="{ item }">
+        {{ item.finalizationDate | formatDate }}
+      </template>
+      <template #footer.page-text="props">
+        {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
+      </template>
+    </v-data-table>
+  </v-card>
 </template>
 
 <script>
@@ -53,9 +70,9 @@ export default {
         sortBy: ["name"]
       },
       headers: [
-        { text: "Denumire", value: "name" },
-        { text: "Valoare închidere", value: "closingValue" },
-        { text: "Dată finalizare", value: "finalizationDate" }
+        { text: "Denumire", value: "name", width: "50%" },
+        { text: "Valoare închidere", value: "closingValue", width: "25%" },
+        { text: "Dată finalizare", value: "finalizationDate", width: "25%" }
       ],
       search: ""
     };
@@ -92,7 +109,7 @@ export default {
       immediate: true
     },
     search: debounce(async function(field) {
-      this.pagination.searchTerm = field;
+      this.pagination.searchTerm = field ? field : "";
     }, 500)
   }
 };

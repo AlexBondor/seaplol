@@ -1,7 +1,6 @@
 <template>
   <v-container>
     <h1>{{ details.name }}</h1>
-    <TreeMap entity="contractingAuthority" :id="id"></TreeMap>
     <br />
     <br />
     <v-card class="mx-auto">
@@ -30,13 +29,11 @@
 </template>
 
 <script>
-import TreeMap from "@/components/shared/TreeMap";
 import api from "@/api";
 import { titleCase } from "@/utils/strings";
 
 export default {
   name: "contractingAuthorityDetails",
-  components: { TreeMap },
   data: function() {
     return {
       id: parseInt(this.$route.params.id),
@@ -58,11 +55,6 @@ export default {
     },
     name() {
       return titleCase(this.details.name);
-    },
-    value() {
-      return this.$options.filters.formatCurrency(
-        this.details.totalContractsValue
-      );
     }
   },
   beforeDestroy() {

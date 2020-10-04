@@ -12,6 +12,7 @@
     "axios": "0.18.1",
     "lodash-es": "4.17.15",
     "material-design-icons-iconfont": "5.0.1",
+    "moment": "^2.29.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
     "vuetify": "^2.1.0",
