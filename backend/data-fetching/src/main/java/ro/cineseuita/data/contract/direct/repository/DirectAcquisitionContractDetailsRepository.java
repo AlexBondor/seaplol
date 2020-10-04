@@ -20,6 +20,8 @@ public interface DirectAcquisitionContractDetailsRepository extends MongoReposit
 
     Page<DirectAcquisitionContractDetails> findAllBySysDirectAcquisitionStateID(Integer id, PageRequest of);
 
+    Long countBySysDirectAcquisitionStateID(Integer id);
+
     Page<DirectAcquisitionContractDetails> findAllBySysDirectAcquisitionStateIDAndYear(Integer id, Integer year, PageRequest of);
 
     @Query(value = "{}", fields = "{supplierId : 1, contractingAuthorityID : 1}")

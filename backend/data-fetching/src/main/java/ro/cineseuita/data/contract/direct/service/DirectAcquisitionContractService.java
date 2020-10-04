@@ -12,7 +12,7 @@ import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDe
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractRepository;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthority;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
-import ro.cineseuita.data.essentials.directcontract.repository.DirectContractEssentialsRepository;
+import ro.cineseuita.data.essentials.directcontract.repository.DirectAcquisitionContractEssentialsRepository;
 import ro.cineseuita.data.essentials.mappers.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
@@ -46,7 +46,7 @@ public class DirectAcquisitionContractService {
     private final ObjectMapperService objectMapperService;
     private final DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService;
     private final ContractingAuthorityDataRepository contractingAuthorityRepository;
-    private final DirectContractEssentialsRepository directContractEssentialsRepository;
+    private final DirectAcquisitionContractEssentialsRepository directAcquisitionContractEssentialsRepository;
     private final DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository;
     private final DirectAcquisitionContractRepository directAcquisitionContractRepository;
 
@@ -54,13 +54,13 @@ public class DirectAcquisitionContractService {
 
     @Autowired
     public DirectAcquisitionContractService(HttpService httpService, ObjectMapperService objectMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService,
-                                            ContractingAuthorityDataRepository contractingAuthorityRepository, DirectContractEssentialsRepository directContractEssentialsRepository,
+                                            ContractingAuthorityDataRepository contractingAuthorityRepository, DirectAcquisitionContractEssentialsRepository directAcquisitionContractEssentialsRepository,
                                             DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, DirectAcquisitionContractRepository directAcquisitionContractRepository) {
         this.httpService = httpService;
         this.objectMapperService = objectMapperService;
         this.directAcquisitionEssentialsMapperService = directAcquisitionEssentialsMapperService;
         this.contractingAuthorityRepository = contractingAuthorityRepository;
-        this.directContractEssentialsRepository = directContractEssentialsRepository;
+        this.directAcquisitionContractEssentialsRepository = directAcquisitionContractEssentialsRepository;
         this.directAcquisitionContractDetailsRepository = directAcquisitionContractDetailsRepository;
         this.directAcquisitionContractRepository = directAcquisitionContractRepository;
     }
@@ -118,6 +118,13 @@ public class DirectAcquisitionContractService {
                 .flatMap(Collection::stream);
     }
 
+    public Stream<DirectAcquisitionContractDetails> getAllAcceptedDirectAcquisitionContractsDetailsStreamed() {
+        int range = (int) (directAcquisitionContractDetailsRepository.count() / LIMIT) + 1;
+        return IntStream.rangeClosed(0, range)
+                .mapToObj(skip -> directAcquisitionContractDetailsRepository.findAllBySysDirectAcquisitionStateID(OFERTA_ACCEPTATA.getNumVal(), PageRequest.of(skip, LIMIT)).getContent())
+                .flatMap(Collection::stream);
+    }
+
     public void fullFetch(Integer yearForSearch) throws IOException, InterruptedException {
         this.yearForSearch = yearForSearch;
         final DateTime firstDayOfYear = DateTime.parse(yearForSearch.toString() + "-01-01T00:00:00.000Z");
@@ -139,12 +146,12 @@ public class DirectAcquisitionContractService {
 
     public void mapDirectAcquisitionsToEssentials() {
         AtomicInteger i = new AtomicInteger();
-        long count = directAcquisitionContractDetailsRepository.count();
-        getAllDirectAcquisitionContractsDetailsStreamed()
+        long count = directAcquisitionContractDetailsRepository.countBySysDirectAcquisitionStateID(OFERTA_ACCEPTATA.getNumVal());
+        getAllAcceptedDirectAcquisitionContractsDetailsStreamed()
                 .parallel()
                 .map(directAcquisitionEssentialsMapperService::mapToDirectAcquisitionContractEssentials)
                 .forEach(s -> {
-                    directContractEssentialsRepository.save(s);
+                    directAcquisitionContractEssentialsRepository.save(s);
                     System.out.printf("Done contract %d/%d\n", i.getAndIncrement(), count);
                 });
     }

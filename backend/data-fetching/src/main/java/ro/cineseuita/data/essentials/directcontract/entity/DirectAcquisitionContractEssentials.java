@@ -1,6 +1,7 @@
 package ro.cineseuita.data.essentials.directcontract.entity;
 
 import org.joda.time.DateTime;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -19,11 +20,12 @@ public class DirectAcquisitionContractEssentials {
     private String deliveryCondition;
     private String paymentCondition;
     private CpvCodeEssentials cpvCode;
+    @Indexed
     private Long contractingAuthorityId;
+    @Indexed
     private Long supplierId;
     private List<DirectAcquisitionItemEssentials> directAcquisitionItems = null;
     private Integer year;
-    private Integer sysDirectAcquisitionStateID;
     private double corruption;
 
     public Double getEstimatedValue() {
@@ -136,14 +138,6 @@ public class DirectAcquisitionContractEssentials {
 
     public void setDirectAcquisitionItems(List<DirectAcquisitionItemEssentials> directAcquisitionItems) {
         this.directAcquisitionItems = directAcquisitionItems;
-    }
-
-    public Integer getSysDirectAcquisitionStateID() {
-        return sysDirectAcquisitionStateID;
-    }
-
-    public void setSysDirectAcquisitionStateID(Integer sysDirectAcquisitionStateID) {
-        this.sysDirectAcquisitionStateID = sysDirectAcquisitionStateID;
     }
 
     public double getCorruption() {

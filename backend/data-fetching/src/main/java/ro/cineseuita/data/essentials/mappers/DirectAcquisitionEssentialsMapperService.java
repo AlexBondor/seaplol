@@ -37,7 +37,6 @@ public class DirectAcquisitionEssentialsMapperService {
         contractEssentials.setPaymentCondition(contractDetails.getPaymentCondition());
         contractEssentials.setCpvCode(mapToCpvCodeEssentials(contractDetails.getCpvCode()));
         contractEssentials.setCorruption(contractDetails.getCorruption());
-        contractEssentials.setSysDirectAcquisitionStateID(contractDetails.getSysDirectAcquisitionStateID());
 
         contractEssentials.setContractingAuthorityId(contractDetails.getContractingAuthorityID());
         contractEssentials.setSupplierId(contractDetails.getSupplierId());
