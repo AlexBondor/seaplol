@@ -10,7 +10,7 @@ import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionCont
 public interface DirectContractMapper {
 
     @Mapping(source = "_id", target = "id")
-    @Mapping(source = "corruption", target = "corruption")
+    @Mapping(target = "finalizationDate", dateFormat = "dd/MM/yyyy")
     DirectContractListDto toListDto(DirectAcquisitionContractEssentials directContract);
 
     @Mapping(source = "_id", target = "id")

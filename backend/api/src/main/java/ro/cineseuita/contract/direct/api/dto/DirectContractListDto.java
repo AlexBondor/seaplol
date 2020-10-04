@@ -1,6 +1,5 @@
 package ro.cineseuita.contract.direct.api.dto;
 
-import org.joda.time.DateTime;
 import ro.cineseuita.data.essentials.directcontract.entity.components.ParticipantMinimal;
 
 public class DirectContractListDto {
@@ -8,7 +7,7 @@ public class DirectContractListDto {
     private String name;
     private Double closingValue;
     private Double closingValueSecondCurrency;
-    private DateTime finalizationDate;
+    private String finalizationDate;
     private ParticipantMinimal contractingAuthority;
     private ParticipantMinimal supplier;
     private Double corruption;
@@ -45,11 +44,11 @@ public class DirectContractListDto {
         this.closingValueSecondCurrency = closingValueSecondCurrency;
     }
 
-    public DateTime getFinalizationDate() {
+    public String getFinalizationDate() {
         return finalizationDate;
     }
 
-    public void setFinalizationDate(DateTime finalizationDate) {
+    public void setFinalizationDate(String finalizationDate) {
         this.finalizationDate = finalizationDate;
     }
 
