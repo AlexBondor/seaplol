@@ -115,7 +115,7 @@ export default {
           value: "id",
           sortable: false,
           width: "5%",
-          show: this.showContractingAuthority
+          show: true
         }
       ],
       search: ""
