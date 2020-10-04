@@ -139,7 +139,6 @@ export default {
         code === ROOT_PARENT_CPV
           ? await api.national.cpvData()
           : await api.national.getChildrenOf(code);
-      console.log(result);
       this.chart.data = result.children;
       this.currentCodeDetails = result.details;
     },

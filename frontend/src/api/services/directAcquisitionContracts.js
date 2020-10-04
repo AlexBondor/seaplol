@@ -9,5 +9,14 @@ export default {
       }
     );
     return res.data;
+  },
+  async getAllForContractingAuthority(contractingAuthorityId, pagination) {
+    let res = await HTTP.get(
+      BASE_URL + "api/directContracts/contractingAuthority/" + contractingAuthorityId,
+      {
+        params: { ...encodeParams(pagination) }
+      }
+    );
+    return res.data;
   }
 };

@@ -53,6 +53,17 @@ public class DirectContractServiceImpl implements DirectContractService {
         return new PageImpl<>(contractListDtos, buildPageRequest(directAcquisitionContractFilter), matchingContractsCount);
     }
 
+    @Override
+    public Page<DirectContractListDto> getAllForContractingAuthority(Long contractingAuthorityId, DirectAcquisitionContractFilter directAcquisitionContractFilter) {
+        final long matchingContractsCount = directAcquisitionContractEssentialsRepository.countByContractingAuthorityId(contractingAuthorityId, directAcquisitionContractFilter);
+        final List<DirectAcquisitionContractEssentials> contracts = directAcquisitionContractEssentialsRepository.findAllByContractingAuthorityId(contractingAuthorityId, directAcquisitionContractFilter);
+        final List<DirectContractListDto> contractListDtos = contracts.stream()
+                .map(mapper::toListDto)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(contractListDtos, buildPageRequest(directAcquisitionContractFilter), matchingContractsCount);
+    }
+
     private List<DirectContractListDto> formDtoList(List<DirectAcquisitionContractEssentials> contracts) {
         return contracts.stream()
                 .map(mapper::toListDto)

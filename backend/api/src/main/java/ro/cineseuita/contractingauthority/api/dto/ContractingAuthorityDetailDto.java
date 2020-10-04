@@ -10,6 +10,7 @@ public class ContractingAuthorityDetailDto {
     private Address address;
     private String legalRepresentative;
     private Long totalContractsValue;
+    private Long totalContractsValueSecondCurrency;
     private Long totalContractsCount;
 
     public Long getId() {
@@ -58,6 +59,14 @@ public class ContractingAuthorityDetailDto {
 
     public void setTotalContractsValue(final Long totalContractsValue) {
         this.totalContractsValue = totalContractsValue;
+    }
+
+    public Long getTotalContractsValueSecondCurrency() {
+        return totalContractsValueSecondCurrency;
+    }
+
+    public void setTotalContractsValueSecondCurrency(Long totalContractsValueSecondCurrency) {
+        this.totalContractsValueSecondCurrency = totalContractsValueSecondCurrency;
     }
 
     public Long getTotalContractsCount() {

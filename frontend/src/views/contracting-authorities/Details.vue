@@ -25,15 +25,25 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <br />
+    <br />
+    <ContractsTable
+      entity="contractingAuthority"
+      :entity-id="id"
+      :show-supplier="true"
+    ></ContractsTable>
   </v-container>
 </template>
 
 <script>
 import api from "@/api";
 import { titleCase } from "@/utils/strings";
+import ContractsTable from "@/components/shared/ContractsTable";
+import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
 
 export default {
   name: "contractingAuthorityDetails",
+  components: { ContractsTable, CurrencyTooltip },
   data: function() {
     return {
       id: parseInt(this.$route.params.id),
@@ -46,7 +56,6 @@ export default {
   methods: {
     async loadDetails() {
       this.details = await api.contractingAuthorities.details(this.id);
-      console.log(this.details);
     }
   },
   computed: {

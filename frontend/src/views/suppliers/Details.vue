@@ -56,7 +56,6 @@ export default {
   methods: {
     async loadDetails() {
       this.details = await api.suppliers.details(this.id);
-      console.log(this.details);
     }
   },
   computed: {

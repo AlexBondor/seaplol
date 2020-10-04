@@ -19,5 +19,5 @@ Vue.filter("formatCurrencyEur", function(value) {
 });
 Vue.filter("formatDate", function(value) {
   if (value === null || value === undefined) return "";
-  return moment(value).format("D/MM/y");
+  return moment(value).format("DD/MM/YYYY");
 });

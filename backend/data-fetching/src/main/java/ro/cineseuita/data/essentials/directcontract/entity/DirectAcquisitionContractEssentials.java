@@ -4,6 +4,7 @@ import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.components.DirectAcquisitionItemEssentials;
@@ -12,10 +13,6 @@ import ro.cineseuita.data.essentials.directcontract.entity.components.Participan
 import java.util.List;
 
 @Document(collection = "directAcquisitionContractEssentials")
-@CompoundIndexes({
-        @CompoundIndex(name = "contractingAuthorityId", def = "{ '_id': 1, 'contractingAuthority.id': 1 }", unique = true),
-        @CompoundIndex(name = "supplierId", def = "{ '_id': 1, 'supplier.id': 1 }", unique = true)
-})
 public class DirectAcquisitionContractEssentials {
 
     @Id
@@ -32,6 +29,10 @@ public class DirectAcquisitionContractEssentials {
     private CpvCodeEssentials cpvCode;
     private ParticipantMinimal contractingAuthority;
     private ParticipantMinimal supplier;
+    @Indexed
+    private Long contractingAuthorityId;
+    @Indexed
+    private Long supplierId;
     private List<DirectAcquisitionItemEssentials> directAcquisitionItems = null;
     private Integer year;
     private double corruption;
@@ -138,6 +139,22 @@ public class DirectAcquisitionContractEssentials {
 
     public void setSupplier(ParticipantMinimal supplier) {
         this.supplier = supplier;
+    }
+
+    public Long getContractingAuthorityId() {
+        return contractingAuthorityId;
+    }
+
+    public void setContractingAuthorityId(Long contractingAuthorityId) {
+        this.contractingAuthorityId = contractingAuthorityId;
+    }
+
+    public Long getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(Long supplierId) {
+        this.supplierId = supplierId;
     }
 
     public List<DirectAcquisitionItemEssentials> getDirectAcquisitionItems() {

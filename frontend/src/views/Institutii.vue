@@ -62,9 +62,13 @@ export default {
         sortBy: ["name"]
       },
       headers: [
-        { text: "Denumire", value: "name" },
-        { text: "Valoare contracte (RON)", value: "totalContractsValue" },
-        { text: "Număr contracte", value: "totalContractsCount" }
+        { text: "Denumire", value: "name", width: "65%" },
+        {
+          text: "Valoare contracte (RON)",
+          value: "totalContractsValue",
+          width: "25%"
+        },
+        { text: "Număr contracte", value: "totalContractsCount", width: "10%" }
       ],
       search: ""
     };

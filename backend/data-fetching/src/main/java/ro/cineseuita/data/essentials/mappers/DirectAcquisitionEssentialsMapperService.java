@@ -50,9 +50,11 @@ public class DirectAcquisitionEssentialsMapperService {
 
         ContractingAuthority contractingAuthority = contractingAuthorityDataRepository.findById(contractDetails.getContractingAuthorityID()).get();
         contractEssentials.setContractingAuthority(fromParticipant(contractingAuthority));
+        contractEssentials.setContractingAuthorityId(contractingAuthority.getId());
 
         Supplier supplier = supplierDataRepository.findById(contractDetails.getSupplierId()).get();
         contractEssentials.setSupplier(fromParticipant(supplier));
+        contractEssentials.setSupplierId(supplier.getId());
 
         contractEssentials.setDirectAcquisitionItems(
                 contractDetails

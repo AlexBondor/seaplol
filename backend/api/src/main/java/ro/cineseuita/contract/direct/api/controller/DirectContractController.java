@@ -30,4 +30,9 @@ public class DirectContractController {
     public Page<DirectContractListDto> getAllForSupplier(@PathVariable Long supplierId, DirectAcquisitionContractFilter directAcquisitionContractFilter) {
         return directContractService.getAllForSupplier(supplierId, directAcquisitionContractFilter);
     }
+
+    @GetMapping("/contractingAuthority/{contractingAuthorityId}")
+    public Page<DirectContractListDto> getAllForContractingAuthority(@PathVariable Long contractingAuthorityId, DirectAcquisitionContractFilter directAcquisitionContractFilter) {
+        return directContractService.getAllForContractingAuthority(contractingAuthorityId, directAcquisitionContractFilter);
+    }
 }

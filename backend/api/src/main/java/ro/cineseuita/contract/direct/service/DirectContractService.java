@@ -15,4 +15,6 @@ public interface DirectContractService {
 
     Page<DirectContractListDto> getAllForSupplier(Long supplierId, DirectAcquisitionContractFilter directAcquisitionContractFilter);
 
+    Page<DirectContractListDto> getAllForContractingAuthority(Long contractingAuthorityId, DirectAcquisitionContractFilter directAcquisitionContractFilter);
+
 }
