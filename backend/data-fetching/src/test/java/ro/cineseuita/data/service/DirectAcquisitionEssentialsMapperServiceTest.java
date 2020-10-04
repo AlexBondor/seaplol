@@ -54,7 +54,6 @@ public class DirectAcquisitionEssentialsMapperServiceTest {
         assertEquals(contractDetails.getPaymentCondition(), contractEssentials.getPaymentCondition());
         assertEquals(contractDetails.getCpvCode().getId(), contractEssentials.getCpvCode().get_id());
         assertEquals(contractDetails.getCpvCode().getText(), contractEssentials.getCpvCode().getCode());
-        assertEquals(contractDetails.getCorruption(), contractEssentials.getCorruption(), 0.5);
     }
 
     @Test

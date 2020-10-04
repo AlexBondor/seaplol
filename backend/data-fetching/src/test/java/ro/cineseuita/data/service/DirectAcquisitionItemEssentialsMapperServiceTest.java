@@ -38,6 +38,5 @@ public class DirectAcquisitionItemEssentialsMapperServiceTest {
         assertEquals(itemEssentials.getQuantity(), itemDetails.getItemQuantity());
         assertEquals(itemEssentials.getRequestedQuantity(), itemDetails.getItemRequestedQuantity());
         assertEquals(itemEssentials.getMeasureUnit(), itemDetails.getItemMeasureUnit());
-        assertEquals(itemEssentials.getAssignedUserEmail(), itemDetails.getAssignedUserEmail());
     }
 }

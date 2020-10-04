@@ -35,7 +35,6 @@ public class DirectAcquisitionContractEssentials {
     private Long supplierId;
     private List<DirectAcquisitionItemEssentials> directAcquisitionItems = null;
     private Integer year;
-    private double corruption;
 
     public Double getEstimatedValue() {
         return estimatedValue;
@@ -163,14 +162,6 @@ public class DirectAcquisitionContractEssentials {
 
     public void setDirectAcquisitionItems(List<DirectAcquisitionItemEssentials> directAcquisitionItems) {
         this.directAcquisitionItems = directAcquisitionItems;
-    }
-
-    public double getCorruption() {
-        return corruption;
-    }
-
-    public void setCorruption(double corruption) {
-        this.corruption = corruption;
     }
 
     public Integer getYear() {

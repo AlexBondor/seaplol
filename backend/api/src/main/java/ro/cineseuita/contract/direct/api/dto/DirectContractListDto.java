@@ -10,7 +10,6 @@ public class DirectContractListDto {
     private String finalizationDate;
     private ParticipantMinimal contractingAuthority;
     private ParticipantMinimal supplier;
-    private Double corruption;
 
     public Long getId() {
         return id;
@@ -68,11 +67,4 @@ public class DirectContractListDto {
         this.supplier = supplier;
     }
 
-    public Double getCorruption() {
-        return corruption;
-    }
-
-    public void setCorruption(Double corruption) {
-        this.corruption = corruption;
-    }
 }

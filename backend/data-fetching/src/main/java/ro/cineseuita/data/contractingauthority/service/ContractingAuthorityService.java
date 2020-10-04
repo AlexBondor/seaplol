@@ -156,18 +156,6 @@ public class ContractingAuthorityService {
         contractingAuthorityEssentialsRepository.saveAll(essentials);
     }
 
-    public void computeContractingAuthorityCorruption() {
-        List<ContractingAuthorityDetails> contractingAuthorities = contractingAuthorityDetailsRepository.findAll();
-        for (ContractingAuthorityDetails contractingAuthority : contractingAuthorities) {
-            List<DirectAcquisitionContractDetails> allContractsOfContractingAuthority = directAcquisitionContractDetailsRepository.findAllByContractingAuthorityID(contractingAuthority.getId());
-
-            double sumOfAllContracts = allContractsOfContractingAuthority.stream().mapToDouble(DirectAcquisitionContractDetails::getClosingValue).sum();
-
-
-        }
-    }
-
-
 }
 
 

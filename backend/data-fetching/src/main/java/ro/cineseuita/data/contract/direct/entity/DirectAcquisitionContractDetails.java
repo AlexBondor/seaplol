@@ -157,8 +157,6 @@ public class DirectAcquisitionContractDetails {
     @JsonIgnore
     private Integer year;
 
-    private double corruption;
-
     @JsonProperty("isExpired")
     private Object isExpired;
 
@@ -615,14 +613,6 @@ public class DirectAcquisitionContractDetails {
 
     public void set_id(Long _id) {
         this._id = _id;
-    }
-
-    public double getCorruption() {
-        return corruption;
-    }
-
-    public void setCorruption(double corruption) {
-        this.corruption = corruption;
     }
 
     public Integer getYear() {

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionItem;
 import ro.cineseuita.data.essentials.directcontract.entity.components.DirectAcquisitionItemEssentials;
 
+import static ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials.fromGenericSeapData;
+
 @Service
 public class DirectAcquisitionItemEssentialsMapperService {
 
@@ -23,8 +25,7 @@ public class DirectAcquisitionItemEssentialsMapperService {
         itemEssentials.setQuantity(itemDetails.getItemQuantity());
         itemEssentials.setRequestedQuantity(itemDetails.getItemRequestedQuantity());
         itemEssentials.setMeasureUnit(itemDetails.getItemMeasureUnit());
-        itemEssentials.setAssignedUserEmail(itemDetails.getAssignedUserEmail());
-
+        itemEssentials.setCpvCode(fromGenericSeapData(itemDetails.getCpvCode()));
         return itemEssentials;
     }
 }

@@ -7,9 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ro.cineseuita.contract.direct.api.dto.DirectContractDto;
+import ro.cineseuita.contract.direct.api.dto.DirectContractExpandedItemDto;
 import ro.cineseuita.contract.direct.api.dto.DirectContractListDto;
 import ro.cineseuita.contract.direct.service.DirectContractService;
 import ro.cineseuita.data.essentials.directcontract.repository.DirectAcquisitionContractFilter;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/directContracts")
@@ -34,5 +37,10 @@ public class DirectContractController {
     @GetMapping("/contractingAuthority/{contractingAuthorityId}")
     public Page<DirectContractListDto> getAllForContractingAuthority(@PathVariable Long contractingAuthorityId, DirectAcquisitionContractFilter directAcquisitionContractFilter) {
         return directContractService.getAllForContractingAuthority(contractingAuthorityId, directAcquisitionContractFilter);
+    }
+
+    @GetMapping("/detailsForExpandedRow/{contractId}")
+    public List<DirectContractExpandedItemDto> detailsForExpandedRow(@PathVariable Long contractId) {
+        return directContractService.detailsForExpandedRow(contractId);
     }
 }

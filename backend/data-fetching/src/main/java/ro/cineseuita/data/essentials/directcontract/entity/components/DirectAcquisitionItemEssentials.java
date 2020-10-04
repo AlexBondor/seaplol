@@ -11,9 +11,7 @@ public class DirectAcquisitionItemEssentials {
     private Double quantity;
     private Double requestedQuantity;
     private String measureUnit;
-    private String assignedUserEmail;
-    private Double averageItemPrice;
-    private Double deviationFromAverage;
+    private CpvCodeEssentials cpvCode;
 
     public Integer get_id() {
         return _id;
@@ -87,27 +85,15 @@ public class DirectAcquisitionItemEssentials {
         this.measureUnit = measureUnit;
     }
 
-    public String getAssignedUserEmail() {
-        return assignedUserEmail;
+    public CpvCodeEssentials getCpvCode() {
+        return cpvCode;
     }
 
-    public void setAssignedUserEmail(String assignedUserEmail) {
-        this.assignedUserEmail = assignedUserEmail;
+    public void setCpvCode(CpvCodeEssentials cpvCode) {
+        this.cpvCode = cpvCode;
     }
 
-    public void setAverageItemPrice(Double averageItemPrice) {
-        this.averageItemPrice = averageItemPrice;
-    }
-
-    public Double getDeviationFromAverage() {
-        return deviationFromAverage;
-    }
-
-    public void setDeviationFromAverage(Double deviationFromAverage) {
-        this.deviationFromAverage = deviationFromAverage;
-    }
-
-    public void computeDeviationFromAverage() {
-        this.deviationFromAverage = this.closingPrice / this.averageItemPrice;
+    public Double getAverageCostPerItem() {
+        return closingPrice / quantity;
     }
 }

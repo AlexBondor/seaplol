@@ -12,10 +12,18 @@ export default {
   },
   async getAllForContractingAuthority(contractingAuthorityId, pagination) {
     let res = await HTTP.get(
-      BASE_URL + "api/directContracts/contractingAuthority/" + contractingAuthorityId,
+      BASE_URL +
+        "api/directContracts/contractingAuthority/" +
+        contractingAuthorityId,
       {
         params: { ...encodeParams(pagination) }
       }
+    );
+    return res.data;
+  },
+  async getContractDetailsForExpandedRow(contractId) {
+    let res = await HTTP.get(
+      BASE_URL + "api/directContracts/detailsForExpandedRow/" + contractId
     );
     return res.data;
   }

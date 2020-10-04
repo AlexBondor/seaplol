@@ -50,6 +50,10 @@ public class ItemMeasurementStats {
         return this.itemMeasurementCostCount.get(predominantMeasurementUnit).getAverage();
     }
 
+    public CostCountAverage getByItemMeasurement(ItemMeasurement itemMeasurement) {
+        return itemMeasurementCostCount.get(itemMeasurement);
+    }
+
     private ItemMeasurement computePredominantMeasurementUnit() {
         Map.Entry<ItemMeasurement, CostCountAverage> max = Collections.max(itemMeasurementCostCount.entrySet(),
                 Comparator.comparing(entry -> entry.getValue().getCost()));

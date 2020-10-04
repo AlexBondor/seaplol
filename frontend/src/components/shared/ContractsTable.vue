@@ -21,6 +21,8 @@
       :loading="loading"
       loading-text="Se încarcă..."
       no-data-text="Nu sunt date"
+      :single-expand="false"
+      :expanded.sync="expanded"
       :footer-props="{
         showFirstLastPage: true,
         'items-per-page-text': 'Rânduri pe pagină',
@@ -52,6 +54,10 @@
       <template #footer.page-text="props">
         {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
       </template>
+
+      <template v-slot:expanded-item="{ headers }">
+        <td :colspan="headers.length">Peek-a-boo!</td>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -76,6 +82,7 @@ export default {
     return {
       totalCount: 0,
       contracts: [],
+      expanded: [],
       loading: true,
       pagination: {
         searchTerm: "",
@@ -138,7 +145,13 @@ export default {
       });
     },
     details(item) {
-      console.log(item);
+      const index = this.expanded.indexOf(item);
+      if (index === -1) {
+        this.expanded.push(item);
+        const res = api.directAcquisitionContracts.getContractDetailsForExpandedRow(item.id);
+      } else {
+        this.expanded.splice(index, 1);
+      }
     }
   },
   mounted() {

@@ -10,12 +10,12 @@ import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDa
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.components.DirectAcquisitionContractMinimal;
-import ro.cineseuita.data.shared.entityComponents.GenericSeapData;
 import ro.cineseuita.data.supplier.entity.Supplier;
 import ro.cineseuita.data.supplier.repository.SupplierDataRepository;
 
 import java.util.stream.Collectors;
 
+import static ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials.fromGenericSeapData;
 import static ro.cineseuita.data.essentials.directcontract.entity.components.ParticipantMinimal.fromParticipant;
 
 @Service
@@ -45,8 +45,7 @@ public class DirectAcquisitionEssentialsMapperService {
         contractEssentials.setFinalizationDate(new DateTime(contractDetails.getFinalizationDate()));
         contractEssentials.setDeliveryCondition(contractDetails.getDeliveryCondition());
         contractEssentials.setPaymentCondition(contractDetails.getPaymentCondition());
-        contractEssentials.setCpvCode(mapToCpvCodeEssentials(contractDetails.getCpvCode()));
-        contractEssentials.setCorruption(contractDetails.getCorruption());
+        contractEssentials.setCpvCode(fromGenericSeapData(contractDetails.getCpvCode()));
 
         ContractingAuthority contractingAuthority = contractingAuthorityDataRepository.findById(contractDetails.getContractingAuthorityID()).get();
         contractEssentials.setContractingAuthority(fromParticipant(contractingAuthority));
@@ -73,18 +72,11 @@ public class DirectAcquisitionEssentialsMapperService {
         contractMinimal.set_id(contractDetails.getDirectAcquisitionID());
         contractMinimal.setName(contractDetails.getDirectAcquisitionName());
         contractMinimal.setClosingValue(contractDetails.getClosingValue());
-        contractMinimal.setCpvCode(mapToCpvCodeEssentials(contractDetails.getCpvCode()));
+        contractMinimal.setCpvCode(fromGenericSeapData(contractDetails.getCpvCode()));
         contractMinimal.setType(DirectAcquisitionType.fromVal(contractDetails.getSysAcquisitionContractTypeID()));
         contractMinimal.setFinalizationDate(new DateTime(contractDetails.getFinalizationDate()));
 
         return contractMinimal;
     }
 
-    private CpvCodeEssentials mapToCpvCodeEssentials(GenericSeapData cpvCode) {
-        CpvCodeEssentials cpvCodeEssentials = new CpvCodeEssentials();
-        cpvCodeEssentials.set_id(cpvCode.getId());
-        cpvCodeEssentials.setCode(cpvCode.getText());
-
-        return cpvCodeEssentials;
-    }
 }

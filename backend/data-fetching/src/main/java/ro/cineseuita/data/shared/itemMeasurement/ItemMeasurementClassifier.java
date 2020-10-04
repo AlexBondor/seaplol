@@ -2,8 +2,7 @@ package ro.cineseuita.data.shared.itemMeasurement;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static java.util.Arrays.asList;
 
@@ -46,6 +45,23 @@ public class ItemMeasurementClassifier {
 
     private static boolean metricSatisfied(String measurement, Set<String> collection) {
         return collection.stream().anyMatch(s -> LEVENSHTEIN_DISTANCE.apply(measurement, s) < Math.min(measurement.length(), 3));
+    }
+
+    public static List<String> getSubsetOfExamplesForBucket(ItemMeasurement bucket) {
+        if (bucket == ItemMeasurement.LITRI) {
+            return new ArrayList<>(UM_VOLUME).subList(0, 8);
+        } else if (bucket == ItemMeasurement.GRAME) {
+            return new ArrayList<>(UM_WEIGHT).subList(0, 8);
+        } else if (bucket == ItemMeasurement.BUCATI) {
+            return new ArrayList<>(UM_SINGLES).subList(0, 8);
+        } else if (bucket == ItemMeasurement.CUTII) {
+            return new ArrayList<>(UM_BOXES).subList(0, 8);
+        } else if (bucket == ItemMeasurement.TIMP) {
+            return new ArrayList<>(UM_TIME).subList(0, 8);
+        } else if (bucket == ItemMeasurement.SERVICIU) {
+            return new ArrayList<>(UM_SERVICES).subList(0, 8);
+        }
+        return Collections.singletonList("Nu s-a putut determina tipul unității de măsură...");
     }
 
 }
