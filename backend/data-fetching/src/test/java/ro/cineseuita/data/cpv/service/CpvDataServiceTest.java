@@ -84,7 +84,7 @@ public class CpvDataServiceTest {
 
     @Test
     public void testComputeNationalWideCpvData() {
-        CpvDataNode result = cpvDataService.computeNationalWideCpvData(cpvSimpleTree);
+        CpvDataNode result = cpvDataService.computeNationalCpvData(cpvSimpleTree);
         notNull(result, "The result cannot be null!");
 
         Double totalValue = contractList.stream().map(DirectAcquisitionContractDetails::getDirectAcquisitionItems).flatMap(List::stream).mapToDouble(DirectAcquisitionItem::getTotalItemCost).sum();

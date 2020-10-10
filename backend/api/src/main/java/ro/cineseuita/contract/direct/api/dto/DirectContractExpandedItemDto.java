@@ -11,6 +11,9 @@ public class DirectContractExpandedItemDto {
     private Double itemAverageCost;
     private Double nationalAverageCost;
     private Double priceDeviationPercentage;
+    private Double numberOfItems;
+    private Double pricePerItem;
+    private String description;
 
     public void setMeasurementUnit(String measurementUnit) {
         this.measurementUnit = measurementUnit;
@@ -58,5 +61,29 @@ public class DirectContractExpandedItemDto {
 
     public double getPriceDeviationPercentage() {
         return priceDeviationPercentage;
+    }
+
+    public void setNumberOfItems(Double numberOfItems) {
+        this.numberOfItems = numberOfItems;
+    }
+
+    public Double getNumberOfItems() {
+        return numberOfItems;
+    }
+
+    public void setPricePerItem(Double pricePerItem) {
+        this.pricePerItem = pricePerItem;
+    }
+
+    public Double getPricePerItem() {
+        return pricePerItem;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

@@ -77,18 +77,6 @@ public class CpvTreeConstructorService {
         }
     }
 
-    boolean findNodeInTree(CpvSimpleTreeNode currentRoot, CpvSimpleTreeNode toBeFound) {
-        if (currentRoot.getCode().equals(toBeFound.getCode())) {
-            return true;
-        } else {
-            if (currentRoot.isLeaf()) {
-                return false;
-            } else {
-                return currentRoot.getChildren().stream().anyMatch(child -> findNodeInTree(child, toBeFound));
-            }
-        }
-    }
-
     int countNumberOfApparitionsOfNodeInTree(CpvSimpleTreeNode currentRoot, CpvSimpleTreeNode toBeFound) {
         if (currentRoot.getCode().equals(toBeFound.getCode())) {
             return 1;

@@ -6,6 +6,7 @@ public class CpvCodeEssentials {
 
     private Long _id;
     private String code;
+    private String description;
 
     public Long get_id() {
         return _id;
@@ -23,10 +24,19 @@ public class CpvCodeEssentials {
         this.code = code;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public static CpvCodeEssentials fromGenericSeapData(GenericSeapData cpvCode) {
         CpvCodeEssentials cpvCodeEssentials = new CpvCodeEssentials();
         cpvCodeEssentials.set_id(cpvCode.getId());
-        cpvCodeEssentials.setCode(cpvCode.getText());
+        cpvCodeEssentials.setCode(cpvCode.getLocaleKey());
+        cpvCodeEssentials.setDescription(cpvCode.getText());
 
         return cpvCodeEssentials;
     }

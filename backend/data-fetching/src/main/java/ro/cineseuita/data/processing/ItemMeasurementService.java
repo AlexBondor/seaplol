@@ -56,7 +56,7 @@ public class ItemMeasurementService {
                 );
 
 
-        double perc = i[1] * 100 / i[0];
+        double perc = i[1] * 100.0 / i[0];
         System.out.println("There were a total of " + i[0] + " items. Out of these, " + i[1] + "(" + perc + "%) were in a defined bucked and " + (i[0] - i[1]) + " were put in the general class.");
         directAcquisitionContractDetailsRepository.saveAll(detailsList);
 

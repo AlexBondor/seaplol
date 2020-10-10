@@ -55,8 +55,8 @@
         {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
       </template>
 
-      <template v-slot:expanded-item="{ headers }">
-        <td :colspan="headers.length">Peek-a-boo!</td>
+      <template v-slot:expanded-item="{ item }">
+        <ContractItemDetails :details="item.details"></ContractItemDetails>
       </template>
     </v-data-table>
   </v-card>
@@ -68,10 +68,16 @@ import debounce from "lodash-es/debounce";
 import api from "@/api";
 import ParticipantLink from "@/components/shared/ParticipantLink";
 import LinkToSeap from "@/components/shared/LinkToSeap";
+import ContractItemDetails from "@/components/shared/ContractItemDetails";
 
 export default {
   name: "ContractsTable",
-  components: { LinkToSeap, ParticipantLink, CurrencyTooltip },
+  components: {
+    ContractItemDetails,
+    LinkToSeap,
+    ParticipantLink,
+    CurrencyTooltip
+  },
   props: {
     entity: String,
     entityId: Number,
@@ -144,11 +150,13 @@ export default {
         this.loading = false;
       });
     },
-    details(item) {
+    async details(item) {
       const index = this.expanded.indexOf(item);
       if (index === -1) {
+        item.details = await api.directAcquisitionContracts.getContractDetailsForExpandedRow(
+          item.id
+        );
         this.expanded.push(item);
-        const res = api.directAcquisitionContracts.getContractDetailsForExpandedRow(item.id);
       } else {
         this.expanded.splice(index, 1);
       }
@@ -177,4 +185,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.row-pointer >>> tbody tr :hover {
+  cursor: pointer;
+}
+</style>

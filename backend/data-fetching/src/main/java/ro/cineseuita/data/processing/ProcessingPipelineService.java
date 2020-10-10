@@ -29,11 +29,8 @@ public class ProcessingPipelineService {
     private static final Boolean RESOLVE_MISSING_CONTRACTS = false;
     private static final Boolean NORMALIZE_SUPPLIER_CUI = false;
 
-    private static final Boolean MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS = false;
-    private static final Boolean MAP_SUPPLIERS_TO_ESSENTIALS = false;
-    private static final Boolean MAP_DIRECT_ACQUISITION_CONTRACTS_TO_ESSENTIALS = true;
 
-    private static final Boolean COMPUTE_ITEM_MEASUREMENT_CLASS = false;
+    private static final Boolean COMPUTE_ITEM_MEASUREMENT_CLASS = true;
     private static final Boolean COMPUTE_TOTAL_CONTRACTS_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_CONTRACTING_AUTHORITIES_TOTAL_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_SUPPLIERS_TOTAL_SPENDING_BY_TYPE = false;
@@ -43,6 +40,10 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || COMPUTE_SUPPLIER_CPV_DATA || false;
     private static final Boolean COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN = false;
     private static final Boolean COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT = false;
+
+    private static final Boolean MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS = false;
+    private static final Boolean MAP_SUPPLIERS_TO_ESSENTIALS = false;
+    private static final Boolean MAP_DIRECT_ACQUISITION_CONTRACTS_TO_ESSENTIALS = true;
 
     private final DirectAcquisitionContractService directAcquisitionContractService;
 
@@ -85,10 +86,6 @@ public class ProcessingPipelineService {
         resolveMissingContracts();
         normalizeCuiForEachSupplier();
 
-        mapContractingAuthoritiesToEssentials();
-        mapSuppliersToEssentials();
-        mapDirectAcquisitionContractsToEssentials();
-
         computeItemMeasurementClass();
         computeContractsTotalSpendingByType();
         computeContractingAuthoritiesTotalSpendingByType();
@@ -100,6 +97,10 @@ public class ProcessingPipelineService {
         computeContractingAuthorityWith5kMarginContracts();
 
         computeExtraInformationFromOpenApiData();
+
+        mapContractingAuthoritiesToEssentials();
+        mapSuppliersToEssentials();
+        mapDirectAcquisitionContractsToEssentials();
 
         System.out.println("EXECUTION PIPELINE COMPLETE");
     }
@@ -257,7 +258,7 @@ public class ProcessingPipelineService {
     private void computeNationalCpvData(CpvSimpleTreeNode root) {
         if (COMPUTE_NATIONAL_CPV_DATA) {
             System.out.println("--- COMPUTING NATIONAL CPV DATA TREE ---");
-            cpvDataService.computeNationalWideCpvData(root);
+            cpvDataService.computeNationalCpvData(root);
             System.out.println("--- DONE COMPUTING NATIONAL CPV DATA TREE ---");
         }
     }

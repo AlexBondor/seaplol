@@ -105,6 +105,9 @@ public class DirectContractServiceImpl implements DirectContractService {
         itemDto.setItemAverageCost(itemAverageCost);
         itemDto.setNationalAverageCost(nationalAverageCost);
         itemDto.setPriceDeviationPercentage(itemAverageCost * 100 / nationalAverageCost);
+        itemDto.setNumberOfItems(item.getQuantity());
+        itemDto.setPricePerItem(item.getClosingPrice());
+        itemDto.setDescription(item.getDescription());
 
         return itemDto;
     }

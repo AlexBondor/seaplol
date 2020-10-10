@@ -50,7 +50,7 @@ public class CpvDataService {
         this.nationalCpvDataSimplifiedRepository = nationalCpvDataSimplifiedRepository;
     }
 
-    public CpvDataNode computeNationalWideCpvData(CpvSimpleTreeNode rootSimple) {
+    public CpvDataNode computeNationalCpvData(CpvSimpleTreeNode rootSimple) {
 
         CpvDataNode root = CpvDataNode.fromSimpleNode(rootSimple);
         NationalCpvDataSimplified simplifiedRoot = NationalCpvDataSimplified.fromSimpleNode(rootSimple);
