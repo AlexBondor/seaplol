@@ -24,7 +24,6 @@ export default {
   },
   methods: {
     icon() {
-      console.log(this.bucket);
       switch (this.bucket) {
         case "BUCATI":
           return "extension";

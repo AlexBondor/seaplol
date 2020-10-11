@@ -48,7 +48,7 @@ import TextTruncator from "@/components/shared/TextTruncator";
 import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
 export default {
   name: "ContractItemDetails",
-  components: {CurrencyTooltip, TextTruncator, MeasurementsUnitTooltip },
+  components: { CurrencyTooltip, TextTruncator, MeasurementsUnitTooltip },
   props: {
     details: Array
   }
