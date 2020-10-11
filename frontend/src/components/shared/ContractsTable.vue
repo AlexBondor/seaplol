@@ -94,7 +94,7 @@ export default {
       loading: true,
       pagination: {
         searchTerm: "",
-        page: 0,
+        page: 1,
         itemsPerPage: 10,
         sort: ["asc"],
         sortBy: ["name"]
