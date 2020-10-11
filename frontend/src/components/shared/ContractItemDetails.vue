@@ -1,46 +1,54 @@
 <template>
-  <v-layout class="row" xs12 align-center>
-    <span v-for="item in details" :key="item.description">
-      <span class="description">
-        {{ item.description }}
-      </span>
-      &nbsp; &nbsp; |
-      <span class="description"> Cost mediu: {{ item.itemAverageCost }} </span>
-      &nbsp; &nbsp; |
-      <span class="description">
+  <v-container class="row">
+    <v-row
+      v-for="item in details"
+      :key="item.description"
+      no-gutters
+      style="width: max-content"
+    >
+      <v-col cols="4">
+        <TextTruncator :text="item.description" :size="75" :font-size="11">
+        </TextTruncator>
+      </v-col>
+      <v-col class="small-text" cols="1">
+        Cost mediu:
+        <CurrencyTooltip :ron="item.itemAverageCost"></CurrencyTooltip>
+      </v-col>
+      <v-col class="small-text" cols="2">
+        Cost mediu national:
+        <CurrencyTooltip :ron="item.nationalAverageCost"></CurrencyTooltip>
+      </v-col>
+      <v-col class="small-text" cols="1">
         UM: {{ item.measurementUnit }}
         <MeasurementsUnitTooltip
           :items="item.measurementBucketExamples"
           :bucket="item.measurementBucket"
         ></MeasurementsUnitTooltip>
-      </span>
-      &nbsp; &nbsp; |
-      <span class="description">
-        Cost mediu national: {{ item.nationalAverageCost }}
-      </span>
-      &nbsp; &nbsp; |
-      <span class="description">
+      </v-col>
+      <v-col class="small-text" cols="1">
         Număr de bucăți: {{ item.numberOfItems }}
-      </span>
-      &nbsp; &nbsp; |
-      <span class="description">
-        Deviație față de medie: {{ item.priceDeviationPercentage }} %
-      </span>
-      <v-icon v-if="item.priceDeviationPercentage > 100" color="red">
-        trending_up
-      </v-icon>
-      <v-icon v-else color="green">
-        trending_down
-      </v-icon>
-    </span>
-  </v-layout>
+      </v-col>
+      <v-col class="small-text" cols="2">
+        Deviație față de medie:
+        {{ item.priceDeviationPercentage | formatPercentage }}
+        <v-icon v-if="item.priceDeviationPercentage > 100" color="red">
+          trending_up
+        </v-icon>
+        <v-icon v-else color="green">
+          trending_down
+        </v-icon>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import MeasurementsUnitTooltip from "@/components/shared/MeasurementsUnitTooltip";
+import TextTruncator from "@/components/shared/TextTruncator";
+import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
 export default {
   name: "ContractItemDetails",
-  components: { MeasurementsUnitTooltip },
+  components: {CurrencyTooltip, TextTruncator, MeasurementsUnitTooltip },
   props: {
     details: Array
   }
@@ -49,11 +57,9 @@ export default {
 
 <style scoped>
 .row {
-  padding-left: 25px;
-  width: max-content;
-  height: 100%;
+  width: auto;
 }
-.description {
+.small-text {
   font-size: 11px;
 }
 </style>

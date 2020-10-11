@@ -55,8 +55,10 @@
         {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
       </template>
 
-      <template v-slot:expanded-item="{ item }">
-        <ContractItemDetails :details="item.details"></ContractItemDetails>
+      <template v-slot:expanded-item="{ headers, item }">
+        <td :colspan="headers.length">
+          <ContractItemDetails :details="item.details"></ContractItemDetails>
+        </td>
       </template>
     </v-data-table>
   </v-card>

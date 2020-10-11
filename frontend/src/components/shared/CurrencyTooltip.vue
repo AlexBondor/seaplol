@@ -3,7 +3,8 @@
     <template v-slot:activator="{ on, attrs }">
       <span v-bind="attrs" v-on="on">{{ ron | formatCurrency }} </span>
     </template>
-    <span>{{ eur | formatCurrencyEur }}</span>
+    <span v-if="eur">{{ eur | formatCurrencyEur }}</span>
+    <span v-else> Valoare în EUR nu e disponibilă</span>
   </v-tooltip>
 </template>
 

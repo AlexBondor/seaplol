@@ -6,7 +6,7 @@
       </v-icon>
     </template>
     <span>
-      Alte exemple includ:
+      <div v-if="bucket !== 'UM'">Alte exemple includ:</div>
       <div v-for="item in items" :key="item">
         {{ item }}
       </div>
@@ -39,7 +39,7 @@ export default {
         case "SERVICIU":
           return "accessibility";
         default:
-          return "multiline-chart";
+          return "multiline_chart";
       }
     }
   }

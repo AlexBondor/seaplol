@@ -21,3 +21,14 @@ Vue.filter("formatDate", function(value) {
   if (value === null || value === undefined) return "";
   return moment(value, "DD/MM/yyyy").format("DD/MM/YYYY");
 });
+Vue.filter("formatPercentage", function(value) {
+  if (!value) {
+    value = 0;
+  }
+  const decimals = 2;
+
+  value = value * 100;
+  value = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
+  value = value + "%";
+  return value;
+});

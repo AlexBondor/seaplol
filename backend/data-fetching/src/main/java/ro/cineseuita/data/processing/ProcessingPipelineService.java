@@ -30,7 +30,7 @@ public class ProcessingPipelineService {
     private static final Boolean NORMALIZE_SUPPLIER_CUI = false;
 
 
-    private static final Boolean COMPUTE_ITEM_MEASUREMENT_CLASS = true;
+    private static final Boolean COMPUTE_ITEM_MEASUREMENT_CLASS = false;
     private static final Boolean COMPUTE_TOTAL_CONTRACTS_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_CONTRACTING_AUTHORITIES_TOTAL_SPENDING_BY_TYPE = false;
     private static final Boolean COMPUTE_SUPPLIERS_TOTAL_SPENDING_BY_TYPE = false;
@@ -43,7 +43,7 @@ public class ProcessingPipelineService {
 
     private static final Boolean MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS = false;
     private static final Boolean MAP_SUPPLIERS_TO_ESSENTIALS = false;
-    private static final Boolean MAP_DIRECT_ACQUISITION_CONTRACTS_TO_ESSENTIALS = true;
+    private static final Boolean MAP_DIRECT_ACQUISITION_CONTRACTS_TO_ESSENTIALS = false;
 
     private final DirectAcquisitionContractService directAcquisitionContractService;
 
