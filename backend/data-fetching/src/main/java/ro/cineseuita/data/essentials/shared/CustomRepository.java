@@ -18,19 +18,36 @@ public abstract class CustomRepository {
         SearchHelper.setPageFilter(filter, query);
         setSort(filter, query);
 
-        final Criteria criteria = new Criteria();
-        addSearchTermFilter(filter, criteria);
+        addSearchTermFilter(filter, query);
 
-        query.addCriteria(criteria);
         return query;
     }
 
-    protected void addSearchTermFilter(final Filter filter, final Criteria criteria) {
+    protected void addSearchTermFilter(final Filter filter, final Query query) {
         if (filter.getSearchTerm() != null) {
-            final String searchTerm = filter.getSearchTerm();
-            // todo: maybe extract field name as parameter...
-            criteria.and("name").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE));
+            String searchTerm = filter.getRegexReadySearchTerm();
+            String[] searchTerms = searchTerm.split(" ");
+            Criteria criteria =
+                    new Criteria().orOperator(
+                            searchTerms.length > 1 ? getMultiCriteriaForSearchTerms(searchTerms) :
+                                    Criteria.where("name").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)),
+                            Criteria.where("legalRepresentative").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE))
+                    );
+            query.addCriteria(criteria);
         }
+    }
+
+    private Criteria getMultiCriteriaForSearchTerms(String[] searchTerms) {
+        Criteria[] criterias = new Criteria[searchTerms.length];
+        for (int i = 0; i < searchTerms.length; i++) {
+            String searchTerm = searchTerms[i];
+            criterias[i] =
+                    new Criteria().orOperator(
+                            Criteria.where("name").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)),
+                            Criteria.where("legalRepresentative").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE))
+                    );
+        }
+        return new Criteria().andOperator(criterias);
     }
 
     protected void addConstraint(String fieldName, Object fieldValue, Query query) {

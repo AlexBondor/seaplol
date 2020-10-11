@@ -84,11 +84,11 @@ export default {
         sortBy: ["name"]
       },
       headers: [
-        { text: "Denumire", value: "name", width: "45%" },
+        { text: "Denumire", value: "name", width: "40%" },
         {
           text: "Valoare contracte (RON)",
           value: "totalContractsValue",
-          width: "15%"
+          width: "10%"
         },
         { text: "Număr contracte", value: "totalContractsCount", width: "10%" },
         {
@@ -101,6 +101,7 @@ export default {
           value: "averageRevenueFromPublicInstitutionsPerEmployeeLastYear",
           width: "15%"
         },
+        { text: "Reprezentant", value: "legalRepresentative", width: "10%" },
         { text: "", value: "id", sortable: false, width: "5%" }
       ],
       search: ""

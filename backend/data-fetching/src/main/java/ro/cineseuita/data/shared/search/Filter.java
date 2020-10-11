@@ -49,4 +49,9 @@ public class Filter {
     public void setSortBy(final String sortBy) {
         this.sortBy = sortBy;
     }
+
+    public String getRegexReadySearchTerm() {
+        return searchTerm = ".*" + searchTerm + ".*";
+
+    }
 }

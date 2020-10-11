@@ -6,6 +6,7 @@ public abstract class ParticipantListDto {
     private Double totalContractsValue;
     private Double totalContractsValueSecondCurrency;
     private Long totalContractsCount;
+    private String legalRepresentative;
 
     public Long getId() {
         return id;
@@ -45,5 +46,13 @@ public abstract class ParticipantListDto {
 
     public void setTotalContractsCount(Long totalContractsCount) {
         this.totalContractsCount = totalContractsCount;
+    }
+
+    public String getLegalRepresentative() {
+        return legalRepresentative;
+    }
+
+    public void setLegalRepresentative(String legalRepresentative) {
+        this.legalRepresentative = legalRepresentative;
     }
 }

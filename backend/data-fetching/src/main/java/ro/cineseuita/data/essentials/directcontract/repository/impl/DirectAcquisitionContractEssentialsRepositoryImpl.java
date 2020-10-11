@@ -53,14 +53,14 @@ public class DirectAcquisitionContractEssentialsRepositoryImpl extends CustomRep
     }
 
     @Override
-    protected void addSearchTermFilter(final Filter filter, final Criteria criteria) {
+    protected void addSearchTermFilter(final Filter filter, final Query query) {
         if (filter.getSearchTerm() != null) {
-            final String searchTerm = filter.getSearchTerm();
-            criteria.orOperator(
+            final String searchTerm = filter.getRegexReadySearchTerm();
+            query.addCriteria(new Criteria().orOperator(
                     where("name").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)),
                     where("supplier.name").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE)),
                     where("contractingAuthority.name").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE))
-            );
+            ));
         }
     }
 
