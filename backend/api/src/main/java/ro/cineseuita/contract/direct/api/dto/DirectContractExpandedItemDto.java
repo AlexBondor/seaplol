@@ -15,75 +15,75 @@ public class DirectContractExpandedItemDto {
     private Double pricePerItem;
     private String description;
 
-    public void setMeasurementUnit(String measurementUnit) {
-        this.measurementUnit = measurementUnit;
-    }
-
     public String getMeasurementUnit() {
         return measurementUnit;
     }
 
-    public void setMeasurementBucket(ItemMeasurement measurementBucket) {
-        this.measurementBucket = measurementBucket;
+    public void setMeasurementUnit(String measurementUnit) {
+        this.measurementUnit = measurementUnit;
     }
 
     public ItemMeasurement getMeasurementBucket() {
         return measurementBucket;
     }
 
-    public void setMeasurementBucketExamples(List<String> measurementBucketExamples) {
-        this.measurementBucketExamples = measurementBucketExamples;
+    public void setMeasurementBucket(ItemMeasurement measurementBucket) {
+        this.measurementBucket = measurementBucket;
     }
 
     public List<String> getMeasurementBucketExamples() {
         return measurementBucketExamples;
     }
 
-    public void setItemAverageCost(Double itemAverageCost) {
-        this.itemAverageCost = itemAverageCost;
+    public void setMeasurementBucketExamples(List<String> measurementBucketExamples) {
+        this.measurementBucketExamples = measurementBucketExamples;
     }
 
     public Double getItemAverageCost() {
         return itemAverageCost;
     }
 
-    public void setNationalAverageCost(Double nationalAverageCost) {
-        this.nationalAverageCost = nationalAverageCost;
+    public void setItemAverageCost(Double itemAverageCost) {
+        this.itemAverageCost = itemAverageCost;
     }
 
     public Double getNationalAverageCost() {
         return nationalAverageCost;
     }
 
-    public void setPriceDeviationPercentage(Double priceDeviation) {
-        this.priceDeviationPercentage = priceDeviation;
+    public void setNationalAverageCost(Double nationalAverageCost) {
+        this.nationalAverageCost = nationalAverageCost;
     }
 
     public double getPriceDeviationPercentage() {
         return priceDeviationPercentage;
     }
 
-    public void setNumberOfItems(Double numberOfItems) {
-        this.numberOfItems = numberOfItems;
+    public void setPriceDeviationPercentage(Double priceDeviation) {
+        this.priceDeviationPercentage = priceDeviation;
     }
 
     public Double getNumberOfItems() {
         return numberOfItems;
     }
 
-    public void setPricePerItem(Double pricePerItem) {
-        this.pricePerItem = pricePerItem;
+    public void setNumberOfItems(Double numberOfItems) {
+        this.numberOfItems = numberOfItems;
     }
 
     public Double getPricePerItem() {
         return pricePerItem;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setPricePerItem(Double pricePerItem) {
+        this.pricePerItem = pricePerItem;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

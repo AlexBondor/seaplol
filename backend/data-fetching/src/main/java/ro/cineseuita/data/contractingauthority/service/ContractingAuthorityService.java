@@ -4,13 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDetailsRepository;
-import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
-import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityWith5kMarginContracts;
 import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuthorities;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
-import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityWith5kMarginContractsRepository;
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityEssentialsRepository;
 import ro.cineseuita.data.essentials.mappers.ContractingAuthorityEssentialsMapperService;
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static java.util.stream.Collectors.toList;
 import static ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionState.OFERTA_ACCEPTATA;
 
 @Service
@@ -42,13 +39,12 @@ public class ContractingAuthorityService {
     private final ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository;
     private final ContractingAuthorityEssentialsRepository contractingAuthorityEssentialsRepository;
     private final DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository;
-    private final ContractingAuthorityWith5kMarginContractsRepository contractingAuthorityWith5kMarginContractsRepository;
-    private final DirectAcquisitionContractService directAcquisitionContractService;
+    private final DirectAcquisitionContractFetchService directAcquisitionContractFetchService;
 
     @Autowired
     public ContractingAuthorityService(ObjectMapperService objectMapperService,
                                        HttpService httpService,
-                                       ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository, ContractingAuthorityEssentialsRepository contractingAuthorityEssentialsRepository, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, ContractingAuthorityWith5kMarginContractsRepository contractingAuthorityWith5kMarginContractsRepository, DirectAcquisitionContractService directAcquisitionContractService) {
+                                       ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository, ContractingAuthorityEssentialsRepository contractingAuthorityEssentialsRepository, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, DirectAcquisitionContractFetchService directAcquisitionContractFetchService) {
         this.objectMapperService = objectMapperService;
         this.httpService = httpService;
         this.contractingAuthorityEssentialsMapperService = contractingAuthorityEssentialsMapperService;
@@ -57,8 +53,7 @@ public class ContractingAuthorityService {
         this.contractingAuthorityDetailsRepository = contractingAuthorityDetailsRepository;
         this.contractingAuthorityEssentialsRepository = contractingAuthorityEssentialsRepository;
         this.directAcquisitionContractDetailsRepository = directAcquisitionContractDetailsRepository;
-        this.contractingAuthorityWith5kMarginContractsRepository = contractingAuthorityWith5kMarginContractsRepository;
-        this.directAcquisitionContractService = directAcquisitionContractService;
+        this.directAcquisitionContractFetchService = directAcquisitionContractFetchService;
     }
 
     public void fetchAllContractingAuthoritiesLite() throws IOException {
@@ -104,27 +99,6 @@ public class ContractingAuthorityService {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void computeAllContractsWithin5kEurMarginForAllContractingAuthorities() {
-        List<ContractingAuthorityDetails> contractingAuthorityDetailsList = contractingAuthorityDetailsRepository.findAll();
-
-        for (int i = 0; i < contractingAuthorityDetailsList.size(); i++) {
-            ContractingAuthorityDetails contractingAuthorityDetails = contractingAuthorityDetailsList.get(i);
-            List<DirectAcquisitionContractDetails> contracts = directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsForContractingAuthority(contractingAuthorityDetails.getId());
-
-            List<DirectAcquisitionContractDetails> contractsOfInterest = contracts.stream().filter(contract -> isWithin5kBounds(contract.getSecondCurrencyClosingValue())).collect(toList());
-
-            if (!contractsOfInterest.isEmpty()) {
-                ContractingAuthorityWith5kMarginContracts contractingAuthorityWith5kMarginContracts = new ContractingAuthorityWith5kMarginContracts();
-                contractingAuthorityWith5kMarginContracts.setContractingAuthorityId(contractingAuthorityDetails.getId());
-                contractingAuthorityWith5kMarginContracts.addAllToContracts(contractsOfInterest);
-                contractingAuthorityWith5kMarginContractsRepository.save(contractingAuthorityWith5kMarginContracts);
-            }
-            System.out.println("Done 5k margin computation for CA " + i + "/" + contractingAuthorityDetailsList.size());
-
-        }
-
     }
 
     private boolean isWithin5kBounds(Double closingValueInEur) {

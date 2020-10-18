@@ -36,7 +36,7 @@ import static ro.cineseuita.data.contract.direct.entity.components.DirectAcquisi
 import static ro.cineseuita.data.shared.ListManipulator.chunks;
 
 @Service
-public class DirectAcquisitionContractService {
+public class DirectAcquisitionContractFetchService {
 
     public static final int LIMIT = 50000;
     private static final int MAX_PAGE_SIZE = 2000;
@@ -53,9 +53,9 @@ public class DirectAcquisitionContractService {
     private Integer yearForSearch;
 
     @Autowired
-    public DirectAcquisitionContractService(HttpService httpService, ObjectMapperService objectMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService,
-                                            ContractingAuthorityDataRepository contractingAuthorityRepository, DirectAcquisitionContractEssentialsRepository directAcquisitionContractEssentialsRepository,
-                                            DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, DirectAcquisitionContractRepository directAcquisitionContractRepository) {
+    public DirectAcquisitionContractFetchService(HttpService httpService, ObjectMapperService objectMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService,
+                                                 ContractingAuthorityDataRepository contractingAuthorityRepository, DirectAcquisitionContractEssentialsRepository directAcquisitionContractEssentialsRepository,
+                                                 DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, DirectAcquisitionContractRepository directAcquisitionContractRepository) {
         this.httpService = httpService;
         this.objectMapperService = objectMapperService;
         this.directAcquisitionEssentialsMapperService = directAcquisitionEssentialsMapperService;
@@ -144,18 +144,6 @@ public class DirectAcquisitionContractService {
     }
 
 
-    public void mapDirectAcquisitionsToEssentials() {
-        AtomicInteger i = new AtomicInteger();
-        long count = directAcquisitionContractDetailsRepository.countBySysDirectAcquisitionStateID(OFERTA_ACCEPTATA.getNumVal());
-        getAllAcceptedDirectAcquisitionContractsDetailsStreamed()
-                .parallel()
-                .map(directAcquisitionEssentialsMapperService::mapToDirectAcquisitionContractEssentials)
-                .forEach(s -> {
-                    directAcquisitionContractEssentialsRepository.save(s);
-                    System.out.printf("Done contract %d/%d\n", i.getAndIncrement(), count);
-                });
-    }
-
     private void executeFullFetch(List<ContractingAuthority> contractingAuthorityIds, int i, Interval interval) throws IOException, InterruptedException {
         ContractingAuthority contractingAuthority = contractingAuthorityIds.get(i);
         Long contractingAuthorityId = contractingAuthority.getId();
@@ -189,6 +177,18 @@ public class DirectAcquisitionContractService {
 
 
         countDownLatch.await();
+    }
+
+    public void mapDirectAcquisitionsToEssentials() {
+        AtomicInteger i = new AtomicInteger();
+        long count = directAcquisitionContractDetailsRepository.countBySysDirectAcquisitionStateID(OFERTA_ACCEPTATA.getNumVal());
+        getAllAcceptedDirectAcquisitionContractsDetailsStreamed()
+                .parallel()
+                .map(directAcquisitionEssentialsMapperService::mapToDirectAcquisitionContractEssentials)
+                .forEach(s -> {
+                    directAcquisitionContractEssentialsRepository.save(s);
+                    System.out.printf("Done contract %d/%d\n", i.getAndIncrement(), count);
+                });
     }
 
     private DirectAcquisitionContracts getAndSaveAllDirectAcquisitionContractsForContractingAuthority(Long contractingAuthorityId, Interval interval) throws IOException {

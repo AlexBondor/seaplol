@@ -3,7 +3,7 @@ package ro.cineseuita.data.processing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDetailsRepository;
-import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
 import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurement;
 import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurementClassifier;
 
@@ -12,19 +12,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class ItemMeasurementService {
 
-    private final DirectAcquisitionContractService directAcquisitionContractService;
+    private final DirectAcquisitionContractFetchService directAcquisitionContractFetchService;
     private final DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository;
 
     @Autowired
-    public ItemMeasurementService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository) {
-        this.directAcquisitionContractService = directAcquisitionContractService;
+    public ItemMeasurementService(DirectAcquisitionContractFetchService directAcquisitionContractFetchService, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository) {
+        this.directAcquisitionContractFetchService = directAcquisitionContractFetchService;
         this.directAcquisitionContractDetailsRepository = directAcquisitionContractDetailsRepository;
     }
 
     void addItemMeasurementClassToAllContractItems() {
         final long[] i = {0, 0};
         AtomicInteger c = new AtomicInteger();
-        directAcquisitionContractService.getAllDirectAcquisitionContractsDetailsStreamed()
+        directAcquisitionContractFetchService.getAllDirectAcquisitionContractsDetailsStreamed()
                 .parallel()
                 .forEach(directAcquisitionContractDetails ->
                         {

@@ -9,6 +9,14 @@ public class ParticipantMinimal {
     private String name;
     private ParticipantType type;
 
+    public static ParticipantMinimal fromParticipant(Participant participant) {
+        ParticipantMinimal participantMinimal = new ParticipantMinimal();
+        participantMinimal.setId(participant.getId());
+        participantMinimal.setName(participant.getName());
+        participantMinimal.setType(participant.getType());
+        return participantMinimal;
+    }
+
     public Long getId() {
         return id;
     }
@@ -31,13 +39,5 @@ public class ParticipantMinimal {
 
     public void setType(ParticipantType type) {
         this.type = type;
-    }
-
-    public static ParticipantMinimal fromParticipant(Participant participant) {
-        ParticipantMinimal participantMinimal = new ParticipantMinimal();
-        participantMinimal.setId(participant.getId());
-        participantMinimal.setName(participant.getName());
-        participantMinimal.setType(participant.getType());
-        return participantMinimal;
     }
 }

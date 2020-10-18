@@ -8,6 +8,15 @@ public class CpvCodeEssentials {
     private String code;
     private String description;
 
+    public static CpvCodeEssentials fromGenericSeapData(GenericSeapData cpvCode) {
+        CpvCodeEssentials cpvCodeEssentials = new CpvCodeEssentials();
+        cpvCodeEssentials.set_id(cpvCode.getId());
+        cpvCodeEssentials.setCode(cpvCode.getLocaleKey());
+        cpvCodeEssentials.setDescription(cpvCode.getText());
+
+        return cpvCodeEssentials;
+    }
+
     public Long get_id() {
         return _id;
     }
@@ -30,14 +39,5 @@ public class CpvCodeEssentials {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public static CpvCodeEssentials fromGenericSeapData(GenericSeapData cpvCode) {
-        CpvCodeEssentials cpvCodeEssentials = new CpvCodeEssentials();
-        cpvCodeEssentials.set_id(cpvCode.getId());
-        cpvCodeEssentials.setCode(cpvCode.getLocaleKey());
-        cpvCodeEssentials.setDescription(cpvCode.getText());
-
-        return cpvCodeEssentials;
     }
 }

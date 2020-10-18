@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionItem;
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractRepository;
-import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.cpv.entity.ContractingAuthorityCpvData;
 import ro.cineseuita.data.cpv.entity.NationalCpvData;
@@ -29,7 +29,7 @@ import static ro.cineseuita.data.cpv.entity.ContractingAuthorityCpvData.formCont
 @Service
 public class CpvDataService {
 
-    private final DirectAcquisitionContractService directAcquisitionContractService;
+    private final DirectAcquisitionContractFetchService directAcquisitionContractFetchService;
     private final DirectAcquisitionContractRepository directAcquisitionContractRepository;
     private final NationalCpvDataRepository nationalCpvDataRepository;
     private final ContractingAuthorityDataRepository contractingAuthorityRepository;
@@ -39,8 +39,8 @@ public class CpvDataService {
     private final NationalCpvDataSimplifiedRepository nationalCpvDataSimplifiedRepository;
 
     @Autowired
-    public CpvDataService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractRepository directAcquisitionContractRepository, NationalCpvDataRepository nationalCpvDataRepository, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository, SupplierDataRepository supplierDataRepository, SupplierCpvDataRepository supplierCpvDataRepository, NationalCpvDataSimplifiedRepository nationalCpvDataSimplifiedRepository) {
-        this.directAcquisitionContractService = directAcquisitionContractService;
+    public CpvDataService(DirectAcquisitionContractFetchService directAcquisitionContractFetchService, DirectAcquisitionContractRepository directAcquisitionContractRepository, NationalCpvDataRepository nationalCpvDataRepository, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityCpvDataRepository contractingAuthorityCpvDataRepository, SupplierDataRepository supplierDataRepository, SupplierCpvDataRepository supplierCpvDataRepository, NationalCpvDataSimplifiedRepository nationalCpvDataSimplifiedRepository) {
+        this.directAcquisitionContractFetchService = directAcquisitionContractFetchService;
         this.directAcquisitionContractRepository = directAcquisitionContractRepository;
         this.nationalCpvDataRepository = nationalCpvDataRepository;
         this.contractingAuthorityRepository = contractingAuthorityRepository;
@@ -62,7 +62,7 @@ public class CpvDataService {
         // after the map is filled, we just feed it to the tree and in one traversal, we extract all the relevant info from the map and then compute whatever is left
 
         AtomicInteger i = new AtomicInteger();
-        directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsStreamed()
+        directAcquisitionContractFetchService.getAllAcceptedDirectAcquisitionContractDetailsStreamed()
                 .forEach(directAcquisitionContractDetails -> {
                             System.out.printf("Processing %d/%d\n", i.getAndIncrement(), numberOfContracts);
                             fillDataNodeMapForContract(directAcquisitionContractDetails, cpvDataNodeMap);
@@ -93,7 +93,7 @@ public class CpvDataService {
                             CpvDataNode root = CpvDataNode.fromSimpleNode(rootSimple);
                             Map<String, CpvDataNode> cpvDataNodeMap = new HashMap<>();
                             System.out.printf("Computing cpv for contracting authority %d/%d\n", i.getAndIncrement(), count);
-                            directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsForContractingAuthorityStreamed(contractingAuthority.getId())
+                            directAcquisitionContractFetchService.getAllAcceptedDirectAcquisitionContractDetailsForContractingAuthorityStreamed(contractingAuthority.getId())
                                     .forEach(directAcquisitionContractDetails ->
                                     {
                                         fillDataNodeMapForContract(directAcquisitionContractDetails, cpvDataNodeMap);
@@ -122,7 +122,7 @@ public class CpvDataService {
                             CpvDataNode root = CpvDataNode.fromSimpleNode(rootSimple);
                             Map<String, CpvDataNode> cpvDataNodeMap = new HashMap<>();
                             System.out.printf("Computing cpv for supplier %d/%d\n", i.getAndIncrement(), count);
-                            directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsForSupplier(supplier.getId())
+                            directAcquisitionContractFetchService.getAllAcceptedDirectAcquisitionContractDetailsForSupplier(supplier.getId())
                                     .forEach(directAcquisitionContractDetails ->
                                     {
                                         fillDataNodeMapForContract(directAcquisitionContractDetails, cpvDataNodeMap);

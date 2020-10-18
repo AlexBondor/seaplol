@@ -2,8 +2,6 @@ package ro.cineseuita.data.essentials.directcontract.entity;
 
 import org.joda.time.DateTime;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;

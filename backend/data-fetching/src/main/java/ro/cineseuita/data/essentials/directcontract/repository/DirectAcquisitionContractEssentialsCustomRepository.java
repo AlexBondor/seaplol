@@ -1,6 +1,5 @@
 package ro.cineseuita.data.essentials.directcontract.repository;
 
-import org.springframework.data.mongodb.repository.Query;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
 
 import java.util.List;

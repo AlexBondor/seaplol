@@ -8,7 +8,6 @@ import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionTyp
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthority;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.essentials.directcontract.entity.DirectAcquisitionContractEssentials;
-import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.components.DirectAcquisitionContractMinimal;
 import ro.cineseuita.data.supplier.entity.Supplier;
 import ro.cineseuita.data.supplier.repository.SupplierDataRepository;

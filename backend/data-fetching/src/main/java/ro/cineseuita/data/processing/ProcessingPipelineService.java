@@ -2,7 +2,7 @@ package ro.cineseuita.data.processing;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
 import ro.cineseuita.data.contract.shared.service.ContractsTotalSpendingByTypeService;
 import ro.cineseuita.data.contractingauthority.service.ContractingAuthorityService;
 import ro.cineseuita.data.cpv.entity.components.CpvSimpleTreeNode;
@@ -38,14 +38,13 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA = false;
     private static final Boolean COMPUTE_SUPPLIER_CPV_DATA = false;
     private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || COMPUTE_SUPPLIER_CPV_DATA || false;
-    private static final Boolean COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN = false;
     private static final Boolean COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT = false;
 
     private static final Boolean MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS = false;
     private static final Boolean MAP_SUPPLIERS_TO_ESSENTIALS = false;
     private static final Boolean MAP_DIRECT_ACQUISITION_CONTRACTS_TO_ESSENTIALS = false;
 
-    private final DirectAcquisitionContractService directAcquisitionContractService;
+    private final DirectAcquisitionContractFetchService directAcquisitionContractFetchService;
 
     private final SupplierService supplierService;
     private final ContractingAuthorityService contractingAuthorityService;
@@ -57,11 +56,11 @@ public class ProcessingPipelineService {
     private final CpvDataService cpvDataService;
 
     @Autowired
-    public ProcessingPipelineService(DirectAcquisitionContractService directAcquisitionContractService, SupplierService supplierService,
+    public ProcessingPipelineService(DirectAcquisitionContractFetchService directAcquisitionContractFetchService, SupplierService supplierService,
                                      ContractingAuthorityService contractingAuthorityService, ContractsTotalSpendingByTypeService contractsTotalSpendingByTypeService,
                                      CpvCodesService cpvCodesService, MissingEntitiesResolutionService missingEntitiesResolutionService,
                                      ItemMeasurementService itemMeasurementService, CpvTreeConstructorService cpvTreeConstructorService, CpvDataService cpvDataService) {
-        this.directAcquisitionContractService = directAcquisitionContractService;
+        this.directAcquisitionContractFetchService = directAcquisitionContractFetchService;
 
         this.supplierService = supplierService;
         this.contractingAuthorityService = contractingAuthorityService;
@@ -94,7 +93,6 @@ public class ProcessingPipelineService {
         computeNationalCpvData(root);
         computeContractingAuthorityCpvData(root);
         computeSupplierCpvData(root);
-        computeContractingAuthorityWith5kMarginContracts();
 
         computeExtraInformationFromOpenApiData();
 
@@ -134,7 +132,7 @@ public class ProcessingPipelineService {
             for (Period period : Period.getYears()) {
                 int year = period.getNumVal();
                 System.out.println("--- FETCHING CONTRACTS FOR " + year + "  ---");
-                directAcquisitionContractService.fullFetch(year);
+                directAcquisitionContractFetchService.fullFetch(year);
                 System.out.println("--- DONE FETCHING CONTRACTS FOR " + year + "  ---");
             }
         }
@@ -208,7 +206,7 @@ public class ProcessingPipelineService {
     private void mapDirectAcquisitionContractsToEssentials() {
         if (MAP_DIRECT_ACQUISITION_CONTRACTS_TO_ESSENTIALS) {
             System.out.println("--- MAPPING DIRECT ACQUISITION CONTRACTS TO ESSENTIALS ---");
-            directAcquisitionContractService.mapDirectAcquisitionsToEssentials();
+            directAcquisitionContractFetchService.mapDirectAcquisitionsToEssentials();
             System.out.println("--- DONE MAPPING DIRECT ACQUISITION CONTRACTS TO ESSENTIALS ---");
         }
     }
@@ -276,14 +274,6 @@ public class ProcessingPipelineService {
             System.out.println("--- COMPUTING SUPPLIER CPV DATA TREE ---");
             cpvDataService.computeSupplierCpvData(root);
             System.out.println("--- DONE COMPUTING SUPPLIER CPV DATA TREE ---");
-        }
-    }
-
-    private void computeContractingAuthorityWith5kMarginContracts() {
-        if (COMPUTE_COMPANY_AUTHORITY_CONTRACTS_WITHIN_5k_MARGIN) {
-            System.out.println("--- COMPUTING COMPANY AUTHORITY CONTRACTS WITHIN 5k MARGIN ---");
-            contractingAuthorityService.computeAllContractsWithin5kEurMarginForAllContractingAuthorities();
-            System.out.println("--- DONE COMPUTING COMPANY AUTHORITY CONTRACTS WITHIN 5k MARGIN ---");
         }
     }
 

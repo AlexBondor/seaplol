@@ -7,7 +7,7 @@ import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContract;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDetailsRepository;
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractRepository;
-import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthority;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Service
 public class MissingEntitiesResolutionService {
 
-    private final DirectAcquisitionContractService directAcquisitionContractService;
+    private final DirectAcquisitionContractFetchService directAcquisitionContractFetchService;
     private final DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository;
     private final DirectAcquisitionContractRepository directAcquisitionContractRepository;
     private final SupplierDataRepository supplierDataRepository;
@@ -42,8 +42,8 @@ public class MissingEntitiesResolutionService {
     private final ContractingAuthorityMapper contractingAuthorityMapper;
 
     @Autowired
-    public MissingEntitiesResolutionService(DirectAcquisitionContractService directAcquisitionContractService, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, DirectAcquisitionContractRepository directAcquisitionContractRepository, SupplierDataRepository supplierDataRepository, SupplierService supplierService, SupplierDetailsRepository supplierDetailsRepository, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityService contractingAuthorityService, ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository) {
-        this.directAcquisitionContractService = directAcquisitionContractService;
+    public MissingEntitiesResolutionService(DirectAcquisitionContractFetchService directAcquisitionContractFetchService, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, DirectAcquisitionContractRepository directAcquisitionContractRepository, SupplierDataRepository supplierDataRepository, SupplierService supplierService, SupplierDetailsRepository supplierDetailsRepository, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityService contractingAuthorityService, ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository) {
+        this.directAcquisitionContractFetchService = directAcquisitionContractFetchService;
         this.directAcquisitionContractDetailsRepository = directAcquisitionContractDetailsRepository;
         this.directAcquisitionContractRepository = directAcquisitionContractRepository;
         this.supplierDataRepository = supplierDataRepository;
@@ -87,15 +87,15 @@ public class MissingEntitiesResolutionService {
 
     public void resolveMissingContractDetails() {
         long numberOfContracts = directAcquisitionContractRepository.count();
-        int range = (int) (numberOfContracts / DirectAcquisitionContractService.LIMIT) + 1;
+        int range = (int) (numberOfContracts / DirectAcquisitionContractFetchService.LIMIT) + 1;
         AtomicInteger c = new AtomicInteger(0);
-        directAcquisitionContractService.getAllDirectAcquisitionContractsStreamed()
+        directAcquisitionContractFetchService.getAllDirectAcquisitionContractsStreamed()
                 .mapToLong(DirectAcquisitionContract::get_id).boxed().forEach(id -> {
             System.out.println("Checking " + c.incrementAndGet() + "/" + numberOfContracts);
             if (!directAcquisitionContractDetailsRepository.existsById(id)) {
                 System.out.println("CONTRACT " + id + " NOT FOUND, FETCHING...");
                 try {
-                    directAcquisitionContractService.executeDetailsFetchingForContracts(Collections.singletonList(id));
+                    directAcquisitionContractFetchService.executeDetailsFetchingForContracts(Collections.singletonList(id));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

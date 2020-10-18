@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionType;
-import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
 import ro.cineseuita.data.contract.shared.entity.ContractsTotalSpendingByType;
 import ro.cineseuita.data.contract.shared.repository.ContractsTotalSpendingByTypeRepository;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityTotalSpendingByType;
@@ -26,16 +26,16 @@ import static ro.cineseuita.data.contract.direct.entity.components.DirectAcquisi
 public class ContractsTotalSpendingByTypeService {
 
     private final ContractsTotalSpendingByTypeRepository contractsTotalSpendingByTypeRepository;
-    private final DirectAcquisitionContractService directAcquisitionContractService;
+    private final DirectAcquisitionContractFetchService directAcquisitionContractFetchService;
     private final ContractingAuthorityDataRepository contractingAuthorityRepository;
     private final SupplierDataRepository supplierDataRepository;
     private final ContractingAuthorityTotalSpendingByTypeRepository contractingAuthorityTotalSpendingByTypeRepository;
     private final SupplierTotalSpendingByTypeRepository supplierTotalSpendingByTypeRepository;
 
     @Autowired
-    public ContractsTotalSpendingByTypeService(ContractsTotalSpendingByTypeRepository contractsTotalSpendingByTypeRepository, DirectAcquisitionContractService directAcquisitionContractService, ContractingAuthorityDataRepository contractingAuthorityRepository, SupplierDataRepository supplierDataRepository, ContractingAuthorityTotalSpendingByTypeRepository contractingAuthorityTotalSpendingByTypeRepository, SupplierTotalSpendingByTypeRepository supplierTotalSpendingByTypeRepository) {
+    public ContractsTotalSpendingByTypeService(ContractsTotalSpendingByTypeRepository contractsTotalSpendingByTypeRepository, DirectAcquisitionContractFetchService directAcquisitionContractFetchService, ContractingAuthorityDataRepository contractingAuthorityRepository, SupplierDataRepository supplierDataRepository, ContractingAuthorityTotalSpendingByTypeRepository contractingAuthorityTotalSpendingByTypeRepository, SupplierTotalSpendingByTypeRepository supplierTotalSpendingByTypeRepository) {
         this.contractsTotalSpendingByTypeRepository = contractsTotalSpendingByTypeRepository;
-        this.directAcquisitionContractService = directAcquisitionContractService;
+        this.directAcquisitionContractFetchService = directAcquisitionContractFetchService;
         this.contractingAuthorityRepository = contractingAuthorityRepository;
         this.supplierDataRepository = supplierDataRepository;
         this.contractingAuthorityTotalSpendingByTypeRepository = contractingAuthorityTotalSpendingByTypeRepository;
@@ -46,7 +46,7 @@ public class ContractsTotalSpendingByTypeService {
         Map<DirectAcquisitionType, ContractsTotalSpendingByType> m = stream(DirectAcquisitionType.values())
                 .collect(toMap((DirectAcquisitionType directAcquisitionType) -> directAcquisitionType, ContractsTotalSpendingByType::new, (a, b) -> b));
         AtomicInteger i = new AtomicInteger();
-        directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsStreamed()
+        directAcquisitionContractFetchService.getAllAcceptedDirectAcquisitionContractDetailsStreamed()
                 .forEach(directAcquisitionContractDetail -> {
                             System.out.printf("Computing contract %d\n", i.getAndIncrement());
                             addContractToProperBucket(m, directAcquisitionContractDetail);
@@ -65,7 +65,7 @@ public class ContractsTotalSpendingByTypeService {
                             Map<DirectAcquisitionType, ContractingAuthorityTotalSpendingByType> m = stream(DirectAcquisitionType.values())
                                     .collect(toMap(identity(), directAcquisitionType -> new ContractingAuthorityTotalSpendingByType(directAcquisitionType, contractingAuthority.getId())));
 
-                            directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsForContractingAuthorityStreamed(contractingAuthority.getId())
+                            directAcquisitionContractFetchService.getAllAcceptedDirectAcquisitionContractDetailsForContractingAuthorityStreamed(contractingAuthority.getId())
                                     .forEach(directAcquisitionContractDetails ->
                                             addContractToProperBucket(m, directAcquisitionContractDetails)
                                     );
@@ -85,7 +85,7 @@ public class ContractsTotalSpendingByTypeService {
                             Map<DirectAcquisitionType, SupplierTotalSpendingByType> m = stream(DirectAcquisitionType.values())
                                     .collect(toMap(identity(), directAcquisitionType -> new SupplierTotalSpendingByType(directAcquisitionType, supplier.getId())));
 
-                            directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsForSupplier(supplier.getId())
+                            directAcquisitionContractFetchService.getAllAcceptedDirectAcquisitionContractDetailsForSupplier(supplier.getId())
                                     .forEach(directAcquisitionContractDetails ->
                                             addContractToProperBucket(m, directAcquisitionContractDetails)
                                     );

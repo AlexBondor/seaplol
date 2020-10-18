@@ -8,7 +8,7 @@ import org.mockito.Mock;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionItem;
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractRepository;
-import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractService;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
 import ro.cineseuita.data.cpv.entity.components.CpvDataNode;
 import ro.cineseuita.data.cpv.entity.components.CpvSimpleTreeNode;
@@ -36,7 +36,7 @@ public class CpvDataServiceTest {
     private static final double NEGLIGENT_ERROR = 0.01;
     private final ObjectMapper mapper = new ObjectMapper();
     @Mock
-    private DirectAcquisitionContractService directAcquisitionContractService;
+    private DirectAcquisitionContractFetchService directAcquisitionContractFetchService;
     @Mock
     private DirectAcquisitionContractRepository directAcquisitionContractRepository;
     @Mock
@@ -59,8 +59,8 @@ public class CpvDataServiceTest {
         setupCpvSimpleTree();
         setupContractList();
 
-        directAcquisitionContractService = mock(DirectAcquisitionContractService.class);
-        when(directAcquisitionContractService.getAllAcceptedDirectAcquisitionContractDetailsStreamed()).thenReturn(contractList.stream());
+        directAcquisitionContractFetchService = mock(DirectAcquisitionContractFetchService.class);
+        when(directAcquisitionContractFetchService.getAllAcceptedDirectAcquisitionContractDetailsStreamed()).thenReturn(contractList.stream());
 
         directAcquisitionContractRepository = mock(DirectAcquisitionContractRepository.class);
         when(directAcquisitionContractRepository.count()).thenReturn(Long.valueOf(contractList.size()));
@@ -75,7 +75,7 @@ public class CpvDataServiceTest {
         nationalCpvDataSimplifiedRepository = mock(NationalCpvDataSimplifiedRepository.class);
 
 
-        cpvDataService = new CpvDataService(directAcquisitionContractService, directAcquisitionContractRepository, nationalCpvDataRepository, contractingAuthorityRepository, contractingAuthorityCpvDataRepository, supplierDataRepository, supplierCpvDataRepository, nationalCpvDataSimplifiedRepository);
+        cpvDataService = new CpvDataService(directAcquisitionContractFetchService, directAcquisitionContractRepository, nationalCpvDataRepository, contractingAuthorityRepository, contractingAuthorityCpvDataRepository, supplierDataRepository, supplierCpvDataRepository, nationalCpvDataSimplifiedRepository);
     }
 
     @After
