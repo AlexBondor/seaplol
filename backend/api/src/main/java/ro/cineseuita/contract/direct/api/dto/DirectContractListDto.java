@@ -1,6 +1,9 @@
 package ro.cineseuita.contract.direct.api.dto;
 
+import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionProblem;
 import ro.cineseuita.data.essentials.directcontract.entity.components.ParticipantMinimal;
+
+import java.util.Set;
 
 public class DirectContractListDto {
     private Long id;
@@ -10,6 +13,8 @@ public class DirectContractListDto {
     private String finalizationDate;
     private ParticipantMinimal contractingAuthority;
     private ParticipantMinimal supplier;
+    private Set<DirectAcquisitionProblem> problems;
+    private Long problemsCount;
 
     public Long getId() {
         return id;
@@ -67,4 +72,19 @@ public class DirectContractListDto {
         this.supplier = supplier;
     }
 
+    public Set<DirectAcquisitionProblem> getProblems() {
+        return problems;
+    }
+
+    public void setProblems(Set<DirectAcquisitionProblem> problems) {
+        this.problems = problems;
+    }
+
+    public Long getProblemsCount() {
+        return problemsCount;
+    }
+
+    public void setProblemsCount(Long problemsCount) {
+        this.problemsCount = problemsCount;
+    }
 }
