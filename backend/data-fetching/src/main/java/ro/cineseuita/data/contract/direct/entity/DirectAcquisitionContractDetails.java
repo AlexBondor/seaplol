@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionItem;
+import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionProblems;
 import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionState;
 import ro.cineseuita.data.shared.entityComponents.GenericSeapData;
 
@@ -156,6 +157,8 @@ public class DirectAcquisitionContractDetails {
 
     @JsonIgnore
     private Integer year;
+
+    private DirectAcquisitionProblems problems = new DirectAcquisitionProblems();
 
     @JsonProperty("isExpired")
     private Object isExpired;
@@ -625,5 +628,9 @@ public class DirectAcquisitionContractDetails {
 
     public boolean validForStats() {
         return this.sysDirectAcquisitionStateID == DirectAcquisitionState.OFERTA_ACCEPTATA.getNumVal();
+    }
+
+    public DirectAcquisitionProblems getProblems() {
+        return problems;
     }
 }

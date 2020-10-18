@@ -3,6 +3,7 @@ package ro.cineseuita.data.processing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
+import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractProblemsService;
 import ro.cineseuita.data.contract.shared.service.ContractsTotalSpendingByTypeService;
 import ro.cineseuita.data.contractingauthority.service.ContractingAuthorityService;
 import ro.cineseuita.data.cpv.entity.components.CpvSimpleTreeNode;
@@ -40,6 +41,8 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || COMPUTE_SUPPLIER_CPV_DATA || false;
     private static final Boolean COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT = false;
 
+    private static final Boolean COMPUTE_DIRECT_ACQUISITION_CONTRACT_PROBLEMS = true;
+
     private static final Boolean MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS = false;
     private static final Boolean MAP_SUPPLIERS_TO_ESSENTIALS = false;
     private static final Boolean MAP_DIRECT_ACQUISITION_CONTRACTS_TO_ESSENTIALS = false;
@@ -54,12 +57,14 @@ public class ProcessingPipelineService {
     private final ItemMeasurementService itemMeasurementService;
     private final CpvTreeConstructorService cpvTreeConstructorService;
     private final CpvDataService cpvDataService;
+    private final DirectAcquisitionContractProblemsService directAcquisitionContractProblemsService;
 
     @Autowired
     public ProcessingPipelineService(DirectAcquisitionContractFetchService directAcquisitionContractFetchService, SupplierService supplierService,
                                      ContractingAuthorityService contractingAuthorityService, ContractsTotalSpendingByTypeService contractsTotalSpendingByTypeService,
                                      CpvCodesService cpvCodesService, MissingEntitiesResolutionService missingEntitiesResolutionService,
-                                     ItemMeasurementService itemMeasurementService, CpvTreeConstructorService cpvTreeConstructorService, CpvDataService cpvDataService) {
+                                     ItemMeasurementService itemMeasurementService, CpvTreeConstructorService cpvTreeConstructorService, CpvDataService cpvDataService,
+                                     DirectAcquisitionContractProblemsService directAcquisitionContractProblemsService) {
         this.directAcquisitionContractFetchService = directAcquisitionContractFetchService;
 
         this.supplierService = supplierService;
@@ -70,6 +75,7 @@ public class ProcessingPipelineService {
         this.itemMeasurementService = itemMeasurementService;
         this.cpvTreeConstructorService = cpvTreeConstructorService;
         this.cpvDataService = cpvDataService;
+        this.directAcquisitionContractProblemsService = directAcquisitionContractProblemsService;
     }
 
     public void execute() throws IOException, InterruptedException {
@@ -95,6 +101,8 @@ public class ProcessingPipelineService {
         computeSupplierCpvData(root);
 
         computeExtraInformationFromOpenApiData();
+
+        computeDirectAcquisitionContractProblems();
 
         mapContractingAuthoritiesToEssentials();
         mapSuppliersToEssentials();
@@ -282,6 +290,14 @@ public class ProcessingPipelineService {
             System.out.println("--- COMPUTING SUPPLIER AVERAGE FROM PUBLIC INSTITUTION PER YEAR AND EMPLOYEE COUNT ---");
             supplierService.computeExtraInformationFromOpenApiData();
             System.out.println("--- DONE COMPUTING SUPPLIER AVERAGE FROM PUBLIC INSTITUTION PER YEAR AND EMPLOYEE COUNT ---");
+        }
+    }
+
+    private void computeDirectAcquisitionContractProblems() {
+        if (COMPUTE_DIRECT_ACQUISITION_CONTRACT_PROBLEMS) {
+            System.out.println("--- COMPUTING DIRECT ACQUISITION cONTRACT PROBLEMS ---");
+            directAcquisitionContractProblemsService.computeProblems();
+            System.out.println("--- DONE COMPUTING DIRECT ACQUISITION cONTRACT PROBLEMS ---");
         }
     }
 }

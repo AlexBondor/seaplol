@@ -82,9 +82,6 @@ public class DirectAcquisitionItem {
     @JsonProperty("itemHistory")
     private Object itemHistory;
 
-    private Double averageItemPrice;
-    private Double averageDeviation;
-
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -331,23 +328,7 @@ public class DirectAcquisitionItem {
     }
 
     public Double getAverageItemPrice() {
-        return averageItemPrice;
-    }
-
-    public void setAverageItemPrice(Double averageItemPrice) {
-        this.averageItemPrice = averageItemPrice;
-    }
-
-    public Double getAverageDeviation() {
-        return averageDeviation;
-    }
-
-    public void setAverageDeviation(Double averageDeviation) {
-        this.averageDeviation = averageDeviation;
-    }
-
-    public void computeAverageDeviation() {
-        this.averageDeviation = this.itemClosingPrice / this.averageItemPrice;
+        return itemClosingPrice / itemQuantity;
     }
 
     public ItemMeasurement getItemMeasureClass() {

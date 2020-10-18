@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.entity.DirectAcquisitionContractDetails;
 import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDetailsRepository;
-import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
 import ro.cineseuita.data.contractingauthority.entity.ContractingAuthorityDetails;
 import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuthorities;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDataRepository;
@@ -12,7 +11,6 @@ import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDe
 import ro.cineseuita.data.essentials.contractingauthority.entity.ContractingAuthorityEssentials;
 import ro.cineseuita.data.essentials.contractingauthority.repository.ContractingAuthorityEssentialsRepository;
 import ro.cineseuita.data.essentials.mappers.ContractingAuthorityEssentialsMapperService;
-import ro.cineseuita.data.essentials.mappers.DirectAcquisitionEssentialsMapperService;
 import ro.cineseuita.data.shared.HttpService;
 import ro.cineseuita.data.shared.ObjectMapperService;
 import ro.cineseuita.data.shared.requests.seap.FetchContractingAuthorities;
@@ -28,32 +26,27 @@ import static ro.cineseuita.data.contract.direct.entity.components.DirectAcquisi
 @Service
 public class ContractingAuthorityService {
 
-    private static final double closenessFactorPercentage = 2;
-    private static final double max = 5000;
-    private static final double min = max - closenessFactorPercentage / 100 * max;
     private final HttpService httpService;
     private final ObjectMapperService objectMapperService;
     private final ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService;
-    private final DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService;
     private final ContractingAuthorityDataRepository contractingAuthorityRepository;
     private final ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository;
     private final ContractingAuthorityEssentialsRepository contractingAuthorityEssentialsRepository;
     private final DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository;
-    private final DirectAcquisitionContractFetchService directAcquisitionContractFetchService;
 
     @Autowired
     public ContractingAuthorityService(ObjectMapperService objectMapperService,
                                        HttpService httpService,
-                                       ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService, DirectAcquisitionEssentialsMapperService directAcquisitionEssentialsMapperService, ContractingAuthorityDataRepository contractingAuthorityRepository, ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository, ContractingAuthorityEssentialsRepository contractingAuthorityEssentialsRepository, DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository, DirectAcquisitionContractFetchService directAcquisitionContractFetchService) {
+                                       ContractingAuthorityEssentialsMapperService contractingAuthorityEssentialsMapperService, ContractingAuthorityDataRepository contractingAuthorityRepository,
+                                       ContractingAuthorityDetailsRepository contractingAuthorityDetailsRepository, ContractingAuthorityEssentialsRepository contractingAuthorityEssentialsRepository,
+                                       DirectAcquisitionContractDetailsRepository directAcquisitionContractDetailsRepository) {
         this.objectMapperService = objectMapperService;
         this.httpService = httpService;
         this.contractingAuthorityEssentialsMapperService = contractingAuthorityEssentialsMapperService;
-        this.directAcquisitionEssentialsMapperService = directAcquisitionEssentialsMapperService;
         this.contractingAuthorityRepository = contractingAuthorityRepository;
         this.contractingAuthorityDetailsRepository = contractingAuthorityDetailsRepository;
         this.contractingAuthorityEssentialsRepository = contractingAuthorityEssentialsRepository;
         this.directAcquisitionContractDetailsRepository = directAcquisitionContractDetailsRepository;
-        this.directAcquisitionContractFetchService = directAcquisitionContractFetchService;
     }
 
     public void fetchAllContractingAuthoritiesLite() throws IOException {
@@ -99,10 +92,6 @@ public class ContractingAuthorityService {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private boolean isWithin5kBounds(Double closingValueInEur) {
-        return closingValueInEur >= min && closingValueInEur <= max;
     }
 
     public void mapContractingAuthoritiesToEssentials() {
