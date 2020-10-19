@@ -25,7 +25,7 @@ import java.util.Map;
         "caProceduresAwarded",
         "caProceduresCancelled"
 })
-public class ParticipantDetails {
+public class ParticipantDetails<T extends Enum<T>> extends ProblematicEntity<T> {
 
     @JsonProperty("id")
     private Long id;

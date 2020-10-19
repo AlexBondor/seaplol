@@ -53,7 +53,7 @@ public class DirectAcquisitionEssentialsMapperServiceTest {
         assertEquals(contractDetails.getDeliveryCondition(), contractEssentials.getDeliveryCondition());
         assertEquals(contractDetails.getPaymentCondition(), contractEssentials.getPaymentCondition());
         assertEquals(contractDetails.getCpvCode().getId(), contractEssentials.getCpvCode().get_id());
-        assertEquals(contractDetails.getCpvCode().getText(), contractEssentials.getCpvCode().getCode());
+        assertEquals(contractDetails.getCpvCode().getText(), contractEssentials.getCpvCode().getDescription());
     }
 
     @Test
@@ -63,7 +63,7 @@ public class DirectAcquisitionEssentialsMapperServiceTest {
         assertEquals(contractDetails.getDirectAcquisitionName(), minimalContract.getName());
         assertEquals(contractDetails.getClosingValue(), minimalContract.getClosingValue());
         assertEquals(contractDetails.getCpvCode().getId(), minimalContract.getCpvCode().get_id());
-        assertEquals(contractDetails.getCpvCode().getText(), minimalContract.getCpvCode().getCode());
+        assertEquals(contractDetails.getCpvCode().getText(), minimalContract.getCpvCode().getDescription());
         assertEquals(contractDetails.getSysAcquisitionContractTypeID().intValue(), minimalContract.getType().getNumVal());
         assertEquals(new DateTime(contractDetails.getFinalizationDate()).withTimeAtStartOfDay(), minimalContract.getFinalizationDate().withTimeAtStartOfDay());
 

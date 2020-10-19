@@ -29,7 +29,7 @@ public class Participant {
     @JsonProperty("cui")
     private String cui;
     @JsonProperty("participantType")
-    private String participantType;
+    private String participantType = "";
     @JsonProperty("participantTypeId")
     private Integer participantTypeId;
     @JsonProperty("participantStatus")

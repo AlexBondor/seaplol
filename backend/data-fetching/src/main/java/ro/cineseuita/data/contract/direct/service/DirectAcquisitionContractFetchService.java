@@ -82,6 +82,12 @@ public class DirectAcquisitionContractFetchService {
         );
     }
 
+    public Long countAllBySysDirectAcquisitionStateIDAndSupplierId(Long supplierId) {
+        return directAcquisitionContractDetailsRepository.countAllBySysDirectAcquisitionStateIDAndSupplierId(
+                OFERTA_ACCEPTATA.getNumVal(), supplierId
+        );
+    }
+
     public Stream<DirectAcquisitionContractDetails> getAllAcceptedDirectAcquisitionContractDetailsForSupplier(Long supplierId) {
         int range = (int) (directAcquisitionContractDetailsRepository.count() / LIMIT) + 1;
         return IntStream.rangeClosed(0, range)

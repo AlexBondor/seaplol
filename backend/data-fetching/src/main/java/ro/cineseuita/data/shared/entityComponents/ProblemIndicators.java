@@ -1,18 +1,18 @@
-package ro.cineseuita.data.contract.direct.entity.components;
+package ro.cineseuita.data.shared.entityComponents;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class DirectAcquisitionProblems {
+public class ProblemIndicators<T extends Enum<T>> {
 
-    private Set<DirectAcquisitionProblem> problems = new HashSet<>();
+    private Set<T> problems = new HashSet<>();
     private Long count = 0L;
 
-    public Set<DirectAcquisitionProblem> getProblems() {
+    public Set<T> getProblems() {
         return problems;
     }
 
-    public void setProblems(Set<DirectAcquisitionProblem> problems) {
+    public void setProblems(Set<T> problems) {
         this.problems = problems;
     }
 
@@ -24,7 +24,7 @@ public class DirectAcquisitionProblems {
         this.count = count;
     }
 
-    public void addProblem(DirectAcquisitionProblem problem) {
+    public void addProblem(T problem) {
         if (!problems.contains(problem)) {
             problems.add(problem);
             count++;
