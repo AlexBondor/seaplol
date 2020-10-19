@@ -41,7 +41,7 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_CPV_TREE = COMPUTE_NATIONAL_CPV_DATA || COMPUTE_CONTRACTING_AUTHORITY_CPV_DATA || COMPUTE_SUPPLIER_CPV_DATA || false;
     private static final Boolean COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT = false;
 
-    private static final Boolean COMPUTE_DIRECT_ACQUISITION_CONTRACT_PROBLEMS = true;
+    private static final Boolean COMPUTE_DIRECT_ACQUISITION_CONTRACT_PROBLEMS = false;
 
     private static final Boolean MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS = false;
     private static final Boolean MAP_SUPPLIERS_TO_ESSENTIALS = false;
@@ -295,7 +295,7 @@ public class ProcessingPipelineService {
 
     private void computeDirectAcquisitionContractProblems() {
         if (COMPUTE_DIRECT_ACQUISITION_CONTRACT_PROBLEMS) {
-            System.out.println("--- COMPUTING DIRECT ACQUISITION cONTRACT PROBLEMS ---");
+            System.out.println("--- COMPUTING DIRECT ACQUISITION CONTRACT PROBLEMS ---");
             directAcquisitionContractProblemsService.computeProblems();
             System.out.println("--- DONE COMPUTING DIRECT ACQUISITION cONTRACT PROBLEMS ---");
         }

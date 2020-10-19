@@ -11,8 +11,11 @@ import ro.cineseuita.data.shared.itemMeasurement.CostCountAverage;
 import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurement;
 import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurementClassifier;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionProblem.PRICE_ABOVE_AVERAGE;
 import static ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionProblem.VALUE_5k_MARGIN;
+import static ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionState.OFERTA_ACCEPTATA;
 
 @Service
 public class DirectAcquisitionContractProblemsService {
@@ -34,10 +37,13 @@ public class DirectAcquisitionContractProblemsService {
     }
 
     public void computeProblems() {
-        directAcquisitionContractFetchService.getAllAcceptedDirectAcquisitionContractDetailsStreamed().forEach(contract -> {
+        AtomicInteger i = new AtomicInteger();
+        final long count = directAcquisitionContractDetailsRepository.countBySysDirectAcquisitionStateID(OFERTA_ACCEPTATA.getNumVal());
+        directAcquisitionContractFetchService.getAllAcceptedDirectAcquisitionContractDetailsStreamed().parallel().forEach(contract -> {
             compute5kMarginLimitProblem(contract);
             computePriceAboveAverageProblem(contract);
             directAcquisitionContractDetailsRepository.save(contract);
+            System.out.printf("Done computing problems for contract %d/%d \n", i.getAndIncrement(), count);
         });
     }
 
@@ -57,14 +63,17 @@ public class DirectAcquisitionContractProblemsService {
         String cpvCode = item.getCpvCode().getLocaleKey();
         String measurementUnit = item.getItemMeasureUnit();
         ItemMeasurement measurementBucket = ItemMeasurementClassifier.getBucket(measurementUnit);
-        NationalCpvData nationalCpvData = nationalCpvDataRepository.findById(cpvCode).get();
-        CostCountAverage costCountAverageForBucket = nationalCpvData.getItemMeasurementStats().getByItemMeasurement(measurementBucket);
-        Double itemAverageCost = item.getAverageItemPrice();
-        Double nationalAverageCost = costCountAverageForBucket.getAverage();
+        if (nationalCpvDataRepository.existsById(cpvCode)) {
+            NationalCpvData nationalCpvData = nationalCpvDataRepository.findById(cpvCode).get();
+            CostCountAverage costCountAverageForBucket = nationalCpvData.getItemMeasurementStats().getByItemMeasurement(measurementBucket);
+            Double itemAverageCost = item.getAverageItemPrice();
+            Double nationalAverageCost = costCountAverageForBucket.getAverage();
 
-        double deviationPercentage = itemAverageCost * 100 / nationalAverageCost;
+            double deviationPercentage = itemAverageCost * 100 / nationalAverageCost;
 
-        return deviationPercentage > DEVIATION_PERCENTAGE_PROBLEM_THRESHOLD;
+            return deviationPercentage > DEVIATION_PERCENTAGE_PROBLEM_THRESHOLD;
+        }
+        return false;
     }
 
 

@@ -1,11 +1,12 @@
 package ro.cineseuita.data.contract.direct.entity.components;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class DirectAcquisitionProblems {
 
-    private Set<DirectAcquisitionProblem> problems;
-    private Long count;
+    private Set<DirectAcquisitionProblem> problems = new HashSet<>();
+    private Long count = 0L;
 
     public Set<DirectAcquisitionProblem> getProblems() {
         return problems;
