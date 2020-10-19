@@ -40,6 +40,9 @@
       <template v-slot:item.finalizationDate="{ item }">
         {{ item.finalizationDate | formatDate }}
       </template>
+      <template v-slot:item.problemsCount="{ item }">
+        <ContractProblems :problems="item.problems"></ContractProblems>
+      </template>
       <template v-slot:item.contractingAuthority="{ item }">
         <ParticipantLink
           :participant="item.contractingAuthority"
@@ -51,6 +54,7 @@
       <template v-slot:item.id="{ item }">
         <LinkToSeap :id="item.id" type="CONTRACT"></LinkToSeap>
       </template>
+
       <template #footer.page-text="props">
         {{ props.pageStart }}-{{ props.pageStop }} din {{ props.itemsLength }}
       </template>
@@ -71,10 +75,12 @@ import api from "@/api";
 import ParticipantLink from "@/components/shared/ParticipantLink";
 import LinkToSeap from "@/components/shared/LinkToSeap";
 import ContractItemDetails from "@/components/shared/ContractItemDetails";
+import ContractProblems from "@/components/shared/ContractProblems";
 
 export default {
   name: "ContractsTable",
   components: {
+    ContractProblems,
     ContractItemDetails,
     LinkToSeap,
     ParticipantLink,
@@ -100,7 +106,7 @@ export default {
         sortBy: ["name"]
       },
       headers: [
-        { text: "Denumire", value: "name", width: "45%", show: true },
+        { text: "Denumire", value: "name", width: "40%", show: true },
         {
           text: "Valoare închidere",
           value: "closingValue",
@@ -110,7 +116,13 @@ export default {
         {
           text: "Dată finalizare",
           value: "finalizationDate",
-          width: "10%",
+          width: "5%",
+          show: true
+        },
+        {
+          text: "Probleme",
+          value: "problemsCount",
+          width: "5%",
           show: true
         },
         {
@@ -164,16 +176,13 @@ export default {
       }
     }
   },
-  mounted() {
-    this.loadData();
-  },
   watch: {
     pagination: {
       handler: function() {
         this.loadData();
+        //TODO: known issue, triggers twice when pagination.searchTerm changes. Fix would be to take searchTerm out of pagination object. Woudl do so in tandem with backend as well not artificially
       },
-      deep: true,
-      immediate: true
+      deep: true
     },
     search: debounce(async function(field) {
       this.pagination.searchTerm = field ? field : "";

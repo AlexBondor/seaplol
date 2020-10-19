@@ -19,7 +19,7 @@ public class Filter {
     }
 
     public Integer getPage() {
-        return page;
+        return page - 1; // because vuetify starts from 1 and mongo starts from 0 ... //TODO: find proper solution maybe?
     }
 
     public void setPage(final Integer page) {
