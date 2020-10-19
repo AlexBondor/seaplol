@@ -5,30 +5,19 @@
         v-bind="attrs"
         v-on="on"
         v-bind:style="{ fontSize: fontSize + 'px' }"
-      >
-        {{ truncatedText }}
+        >CPV: {{ cpvData.code }}
       </span>
     </template>
-    <span>
-      {{ text }}
-    </span>
+    <span>{{ cpvData.description }}</span>
   </v-tooltip>
 </template>
 
 <script>
 export default {
-  name: "TextTruncator",
+  name: "CpvCodeTooltip",
   props: {
-    text: String,
-    size: Number,
+    cpvData: Object,
     fontSize: Number
-  },
-  computed: {
-    truncatedText() {
-      return this.text.length > this.size
-        ? this.text.substr(0, this.size) + " ... "
-        : this.text;
-    }
   }
 };
 </script>

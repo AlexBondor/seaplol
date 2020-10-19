@@ -1,5 +1,6 @@
 package ro.cineseuita.contract.direct.api.dto;
 
+import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;
 import ro.cineseuita.data.shared.itemMeasurement.ItemMeasurement;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class DirectContractExpandedItemDto {
     private Double numberOfItems;
     private Double pricePerItem;
     private String description;
+    private CpvCodeEssentials cpvData;
 
     public String getMeasurementUnit() {
         return measurementUnit;
@@ -85,5 +87,13 @@ public class DirectContractExpandedItemDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setCpvData(CpvCodeEssentials cpvData) {
+        this.cpvData = cpvData;
+    }
+
+    public CpvCodeEssentials getCpvData() {
+        return cpvData;
     }
 }

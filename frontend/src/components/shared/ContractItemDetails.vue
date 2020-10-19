@@ -6,9 +6,12 @@
       no-gutters
       style="width: max-content"
     >
-      <v-col cols="4">
+      <v-col cols="3">
         <TextTruncator :text="item.description" :size="75" :font-size="11">
         </TextTruncator>
+      </v-col>
+      <v-col cols="1">
+        <CpvCodeTooltip :cpv-data="item.cpvData" :font-size="11"></CpvCodeTooltip>
       </v-col>
       <v-col class="small-text" cols="1">
         Cost mediu:
@@ -46,9 +49,10 @@
 import MeasurementsUnitTooltip from "@/components/shared/MeasurementsUnitTooltip";
 import TextTruncator from "@/components/shared/TextTruncator";
 import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
+import CpvCodeTooltip from "@/components/shared/CpvCodeTooltip";
 export default {
   name: "ContractItemDetails",
-  components: { CurrencyTooltip, TextTruncator, MeasurementsUnitTooltip },
+  components: {CpvCodeTooltip, CurrencyTooltip, TextTruncator, MeasurementsUnitTooltip },
   props: {
     details: Array
   }

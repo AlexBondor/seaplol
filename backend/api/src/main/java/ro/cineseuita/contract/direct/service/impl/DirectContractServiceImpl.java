@@ -99,6 +99,7 @@ public class DirectContractServiceImpl implements DirectContractService {
         Double itemAverageCost = item.getAverageCostPerItem();
         Double nationalAverageCost = costCountAverageForBucket.getAverage();
 
+        itemDto.setCpvData(item.getCpvCode());
         itemDto.setMeasurementUnit(measurementUnit);
         itemDto.setMeasurementBucket(measurementBucket);
         itemDto.setMeasurementBucketExamples(getSubsetOfExamplesForBucket(measurementBucket));

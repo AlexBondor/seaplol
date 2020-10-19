@@ -27,7 +27,6 @@ Vue.filter("formatPercentage", function(value) {
   }
   const decimals = 2;
 
-  value = value * 100;
   value = Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
   value = value + "%";
   return value;
