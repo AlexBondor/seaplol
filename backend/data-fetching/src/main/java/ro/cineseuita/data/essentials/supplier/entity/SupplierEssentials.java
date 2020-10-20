@@ -10,6 +10,9 @@ public class SupplierEssentials extends ParticipantEssentials {
     private Double averageRevenueFromPublicInstitutionsPerEmployeeLastYear;
     private Double averageRevenueFromPublicInstitutionsPerEmployeeLastYearSecondCurrency;
 
+    public SupplierEssentials(SupplierEssentials supplier) {
+        super(supplier);
+    }
 
     public Long getAverageNumberOfEmployeesLastYear() {
         return averageNumberOfEmployeesLastYear;

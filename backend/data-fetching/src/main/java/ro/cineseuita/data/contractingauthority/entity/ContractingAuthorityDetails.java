@@ -2,12 +2,24 @@ package ro.cineseuita.data.contractingauthority.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuthorityProblem;
+import ro.cineseuita.data.contractingauthority.entity.components.DedicatedSupplier;
 import ro.cineseuita.data.shared.entityComponents.ParticipantDetails;
-import ro.cineseuita.data.shared.entityComponents.ProblemIndicators;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Document(collection = "contractingAuthorityDetails")
 public class ContractingAuthorityDetails extends ParticipantDetails<ContractingAuthorityProblem> {
 
     // add any additional fields
+    private List<DedicatedSupplier> dedicatedSupplierList = new ArrayList<>();
 
+    public List<DedicatedSupplier> getDedicatedSupplierList() {
+        return dedicatedSupplierList;
+    }
+
+    public void addDedicatedSupplier(DedicatedSupplier dedicatedSupplier) {
+        this.dedicatedSupplierList.add(dedicatedSupplier);
+    }
 }
+
