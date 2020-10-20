@@ -1,8 +1,9 @@
 package ro.cineseuita.supplier.api.dto;
 
+import ro.cineseuita.data.supplier.entity.components.SupplierProblem;
 import ro.cineseuita.shared.ParticipantListDto;
 
-public class SupplierListDto extends ParticipantListDto {
+public class SupplierListDto extends ParticipantListDto<SupplierProblem> {
 
     private Long averageNumberOfEmployeesLastYear;
     private Double averageRevenueFromPublicInstitutionsPerEmployeeLastYear;

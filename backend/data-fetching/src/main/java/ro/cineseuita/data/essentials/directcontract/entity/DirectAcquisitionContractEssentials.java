@@ -8,12 +8,12 @@ import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionPro
 import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.components.DirectAcquisitionItemEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.components.ParticipantMinimal;
-import ro.cineseuita.data.essentials.shared.ProblematicEssentialEntity;
+import ro.cineseuita.data.essentials.shared.IndexedCountProblemIndicator;
 
 import java.util.List;
 
 @Document(collection = "directAcquisitionContractEssentials")
-public class DirectAcquisitionContractEssentials extends ProblematicEssentialEntity<DirectAcquisitionProblem> {
+public class DirectAcquisitionContractEssentials extends IndexedCountProblemIndicator<DirectAcquisitionProblem> {
 
     @Id
     private Long _id;

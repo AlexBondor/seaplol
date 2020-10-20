@@ -1,6 +1,8 @@
 package ro.cineseuita.shared;
 
-public abstract class ParticipantListDto {
+import ro.cineseuita.data.shared.entityComponents.ProblemIndicators;
+
+public abstract class ParticipantListDto<T extends Enum<T>> extends ProblemIndicators<T> {
     private Long id;
     private String name;
     private Double totalContractsValue;

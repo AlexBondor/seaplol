@@ -22,7 +22,7 @@ public class ContractingAuthorityEssentialsMapperService {
         contractingAuthorityEssentials.setAddress(contractingAuthorityDetails.getAddress());
 
         contractingAuthorityEssentials.setProblems(contractingAuthorityDetails.getProblems().getProblems());
-        contractingAuthorityEssentials.setProblemsCount(contractingAuthorityDetails.getProblems().getCount());
+        contractingAuthorityEssentials.setProblemsCount(contractingAuthorityDetails.getProblems().getProblemsCount());
         contractingAuthorityEssentials.setDedicatedSuppliers(contractingAuthorityDetails.getDedicatedSupplierList());
 
         return contractingAuthorityEssentials;

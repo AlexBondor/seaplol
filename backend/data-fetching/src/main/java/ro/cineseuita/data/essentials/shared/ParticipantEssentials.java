@@ -2,7 +2,7 @@ package ro.cineseuita.data.essentials.shared;
 
 import ro.cineseuita.data.shared.entityComponents.Address;
 
-public class ParticipantEssentials<T extends Enum<T>> extends ProblematicEssentialEntity<T> {
+public class ParticipantEssentials<T extends Enum<T>> extends IndexedCountProblemIndicator<T> {
 
     private Long _id;
     private String name;

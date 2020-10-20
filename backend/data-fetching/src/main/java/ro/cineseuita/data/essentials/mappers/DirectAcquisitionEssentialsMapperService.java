@@ -55,7 +55,7 @@ public class DirectAcquisitionEssentialsMapperService {
         contractEssentials.setSupplierId(supplier.getId());
 
         contractEssentials.setProblems(contractDetails.getProblems().getProblems());
-        contractEssentials.setProblemsCount(contractDetails.getProblems().getCount());
+        contractEssentials.setProblemsCount(contractDetails.getProblems().getProblemsCount());
 
         contractEssentials.setDirectAcquisitionItems(
                 contractDetails

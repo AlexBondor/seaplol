@@ -6,7 +6,7 @@ import java.util.Set;
 public class ProblemIndicators<T extends Enum<T>> {
 
     private Set<T> problems = new HashSet<>();
-    private Long count = 0L;
+    private Long problemsCount = 0L;
 
     public Set<T> getProblems() {
         return problems;
@@ -16,18 +16,18 @@ public class ProblemIndicators<T extends Enum<T>> {
         this.problems = problems;
     }
 
-    public Long getCount() {
-        return count;
+    public Long getProblemsCount() {
+        return problemsCount;
     }
 
-    public void setCount(Long count) {
-        this.count = count;
+    public void setProblemsCount(Long problemsCount) {
+        this.problemsCount = problemsCount;
     }
 
     public void addProblem(T problem) {
         if (!problems.contains(problem)) {
             problems.add(problem);
-            count++;
+            problemsCount++;
         }
     }
 }
