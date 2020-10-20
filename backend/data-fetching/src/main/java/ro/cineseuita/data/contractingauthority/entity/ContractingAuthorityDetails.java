@@ -12,14 +12,5 @@ import java.util.List;
 public class ContractingAuthorityDetails extends ParticipantDetails<ContractingAuthorityProblem> {
 
     // add any additional fields
-    private List<DedicatedSupplier> dedicatedSupplierList = new ArrayList<>();
-
-    public List<DedicatedSupplier> getDedicatedSupplierList() {
-        return dedicatedSupplierList;
-    }
-
-    public void addDedicatedSupplier(DedicatedSupplier dedicatedSupplier) {
-        this.dedicatedSupplierList.add(dedicatedSupplier);
-    }
 }
 

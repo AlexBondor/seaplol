@@ -1,7 +1,9 @@
 package ro.cineseuita.data.shared.entityComponents;
 
 import com.fasterxml.jackson.annotation.*;
+import ro.cineseuita.data.contractingauthority.entity.components.DedicatedSupplier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +63,16 @@ public class ParticipantDetails<T extends Enum<T>> extends ProblematicEntity<T> 
     private Object caProceduresCancelled;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<>();
+
+    private List<DedicatedSupplier> dedicatedSupplierList = new ArrayList<>();
+
+    public List<DedicatedSupplier> getDedicatedSupplierList() {
+        return dedicatedSupplierList;
+    }
+
+    public void addDedicatedSupplier(DedicatedSupplier dedicatedSupplier) {
+        this.dedicatedSupplierList.add(dedicatedSupplier);
+    }
 
     @JsonProperty("id")
     public Long getId() {

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractFetchService;
 import ro.cineseuita.data.contract.direct.service.DirectAcquisitionContractProblemsService;
 import ro.cineseuita.data.contract.shared.service.ContractsTotalSpendingByTypeService;
+import ro.cineseuita.data.contractingauthority.service.ContractingAuthorityProblemsService;
 import ro.cineseuita.data.contractingauthority.service.ContractingAuthorityService;
 import ro.cineseuita.data.cpv.entity.components.CpvSimpleTreeNode;
 import ro.cineseuita.data.cpv.service.CpvCodesService;
@@ -42,6 +43,8 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT = false;
 
     private static final Boolean COMPUTE_DIRECT_ACQUISITION_CONTRACT_PROBLEMS = false;
+    private static final Boolean COMPUTE_DEDICATED_SUPPLIERS_PROBLEM = true;
+
 
     private static final Boolean MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS = false;
     private static final Boolean MAP_SUPPLIERS_TO_ESSENTIALS = false;
@@ -58,13 +61,14 @@ public class ProcessingPipelineService {
     private final CpvTreeConstructorService cpvTreeConstructorService;
     private final CpvDataService cpvDataService;
     private final DirectAcquisitionContractProblemsService directAcquisitionContractProblemsService;
+    private final ContractingAuthorityProblemsService contractingAuthorityProblemsService;
 
     @Autowired
     public ProcessingPipelineService(DirectAcquisitionContractFetchService directAcquisitionContractFetchService, SupplierService supplierService,
                                      ContractingAuthorityService contractingAuthorityService, ContractsTotalSpendingByTypeService contractsTotalSpendingByTypeService,
                                      CpvCodesService cpvCodesService, MissingEntitiesResolutionService missingEntitiesResolutionService,
                                      ItemMeasurementService itemMeasurementService, CpvTreeConstructorService cpvTreeConstructorService, CpvDataService cpvDataService,
-                                     DirectAcquisitionContractProblemsService directAcquisitionContractProblemsService) {
+                                     DirectAcquisitionContractProblemsService directAcquisitionContractProblemsService, ContractingAuthorityProblemsService contractingAuthorityProblemsService) {
         this.directAcquisitionContractFetchService = directAcquisitionContractFetchService;
 
         this.supplierService = supplierService;
@@ -76,6 +80,7 @@ public class ProcessingPipelineService {
         this.cpvTreeConstructorService = cpvTreeConstructorService;
         this.cpvDataService = cpvDataService;
         this.directAcquisitionContractProblemsService = directAcquisitionContractProblemsService;
+        this.contractingAuthorityProblemsService = contractingAuthorityProblemsService;
     }
 
     public void execute() throws IOException, InterruptedException {
@@ -103,6 +108,7 @@ public class ProcessingPipelineService {
         computeExtraInformationFromOpenApiData();
 
         computeDirectAcquisitionContractProblems();
+        computeDedicatedSuppliersProblem();
 
         mapContractingAuthoritiesToEssentials();
         mapSuppliersToEssentials();
@@ -297,7 +303,15 @@ public class ProcessingPipelineService {
         if (COMPUTE_DIRECT_ACQUISITION_CONTRACT_PROBLEMS) {
             System.out.println("--- COMPUTING DIRECT ACQUISITION CONTRACT PROBLEMS ---");
             directAcquisitionContractProblemsService.computeProblems();
-            System.out.println("--- DONE COMPUTING DIRECT ACQUISITION cONTRACT PROBLEMS ---");
+            System.out.println("--- DONE COMPUTING DIRECT ACQUISITION CONTRACT PROBLEMS ---");
+        }
+    }
+
+    private void computeDedicatedSuppliersProblem() {
+        if (COMPUTE_DEDICATED_SUPPLIERS_PROBLEM) {
+            System.out.println("--- COMPUTING CONTRACTING AUTHORITY PROBLEMS ---");
+            contractingAuthorityProblemsService.computeProblems();
+            System.out.println("--- DONE COMPUTING CONTRACTING AUTHORITY PROBLEMS ---");
         }
     }
 }
