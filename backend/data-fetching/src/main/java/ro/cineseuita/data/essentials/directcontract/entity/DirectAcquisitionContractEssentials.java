@@ -8,12 +8,12 @@ import ro.cineseuita.data.contract.direct.entity.components.DirectAcquisitionPro
 import ro.cineseuita.data.essentials.directcontract.entity.components.CpvCodeEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.components.DirectAcquisitionItemEssentials;
 import ro.cineseuita.data.essentials.directcontract.entity.components.ParticipantMinimal;
+import ro.cineseuita.data.essentials.shared.ProblematicEssentialEntity;
 
 import java.util.List;
-import java.util.Set;
 
 @Document(collection = "directAcquisitionContractEssentials")
-public class DirectAcquisitionContractEssentials {
+public class DirectAcquisitionContractEssentials extends ProblematicEssentialEntity<DirectAcquisitionProblem> {
 
     @Id
     private Long _id;
@@ -35,9 +35,6 @@ public class DirectAcquisitionContractEssentials {
     private Long supplierId;
     private List<DirectAcquisitionItemEssentials> directAcquisitionItems = null;
     private Integer year;
-    private Set<DirectAcquisitionProblem> problems;
-    @Indexed
-    private Long problemsCount;
 
     public Double getEstimatedValue() {
         return estimatedValue;
@@ -175,19 +172,4 @@ public class DirectAcquisitionContractEssentials {
         this.year = year;
     }
 
-    public void setProblems(Set<DirectAcquisitionProblem> problems) {
-        this.problems = problems;
-    }
-
-    public Set<DirectAcquisitionProblem> getProblems() {
-        return problems;
-    }
-
-    public void setProblemsCount(Long problemsCount) {
-        this.problemsCount = problemsCount;
-    }
-
-    public Long getProblemsCount() {
-        return problemsCount;
-    }
 }

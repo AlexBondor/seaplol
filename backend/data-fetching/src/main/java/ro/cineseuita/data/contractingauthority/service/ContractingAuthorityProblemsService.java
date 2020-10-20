@@ -7,12 +7,9 @@ import ro.cineseuita.data.contract.direct.repository.DirectAcquisitionContractDe
 import ro.cineseuita.data.contractingauthority.entity.components.ContractingAuthorityProblem;
 import ro.cineseuita.data.contractingauthority.entity.components.DedicatedSupplier;
 import ro.cineseuita.data.contractingauthority.repository.ContractingAuthorityDetailsRepository;
-import ro.cineseuita.data.shared.entityComponents.ParticipantDetails;
 import ro.cineseuita.data.supplier.entity.SupplierDetails;
-import ro.cineseuita.data.supplier.entity.components.SupplierProblem;
 import ro.cineseuita.data.supplier.repository.SupplierDetailsRepository;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,7 +36,6 @@ public class ContractingAuthorityProblemsService {
         computeDedicatedSupplierProblem();
     }
 
-    // actually shared between suppliers and CA
     private void computeDedicatedSupplierProblem() {
         long count = contractingAuthorityDetailsRepository.count();
         AtomicInteger i = new AtomicInteger(1);
@@ -72,11 +68,6 @@ public class ContractingAuthorityProblemsService {
                     contractingAuthority.addDedicatedSupplier(dedicatedSupplier);
                     contractingAuthority.getProblems().addProblem(ContractingAuthorityProblem.DEDICATED_SUPPLIERS);
                     contractingAuthorityDetailsRepository.save(contractingAuthority);
-
-                    SupplierDetails supplier = supplierDetailsRepository.findById(supplierId).get();
-                    supplier.getProblems().addProblem(SupplierProblem.DEDICATED_TO_ONE_CONTRACTING_AUTHORITY);
-                    supplier.addDedicatedSupplier(dedicatedSupplier);
-                    supplierDetailsRepository.save(supplier);
                 }
 
             });
@@ -97,8 +88,10 @@ public class ContractingAuthorityProblemsService {
         double countPercentage = contractsCountForCA * 100.0 / allContractsCount;
 
 
+        SupplierDetails supplierDetails = supplierDetailsRepository.findById(supplierId).get();
         DedicatedSupplier dedicatedSupplier = new DedicatedSupplier();
         dedicatedSupplier.setSupplierId(supplierId);
+        dedicatedSupplier.setSupplierName(supplierDetails.getName());
         dedicatedSupplier.setContractingAuthorityId(contractingAuthorityId);
         dedicatedSupplier.setTotalContractsValueSecondCurrencyDedicatedToCA(contractsValueSecondCurrencyForCA);
         dedicatedSupplier.setTotalContractsValueDedicatedToCA(contractsValueForCA);

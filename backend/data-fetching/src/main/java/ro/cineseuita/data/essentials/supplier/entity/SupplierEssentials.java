@@ -2,9 +2,10 @@ package ro.cineseuita.data.essentials.supplier.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 import ro.cineseuita.data.essentials.shared.ParticipantEssentials;
+import ro.cineseuita.data.supplier.entity.components.SupplierProblem;
 
 @Document(collection = "supplierEssentials")
-public class SupplierEssentials extends ParticipantEssentials {
+public class SupplierEssentials extends ParticipantEssentials<SupplierProblem> {
 
     private Long averageNumberOfEmployeesLastYear;
     private Double averageRevenueFromPublicInstitutionsPerEmployeeLastYear;

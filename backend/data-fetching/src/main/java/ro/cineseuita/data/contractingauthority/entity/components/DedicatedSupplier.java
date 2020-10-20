@@ -3,6 +3,7 @@ package ro.cineseuita.data.contractingauthority.entity.components;
 public class DedicatedSupplier {
 
     private Long supplierId;
+    private String supplierName;
     private Long contractingAuthorityId;
 
     private Double totalContractsValueDedicatedToCA;
@@ -18,6 +19,14 @@ public class DedicatedSupplier {
 
     public void setSupplierId(Long supplierId) {
         this.supplierId = supplierId;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 
     public Long getContractingAuthorityId() {

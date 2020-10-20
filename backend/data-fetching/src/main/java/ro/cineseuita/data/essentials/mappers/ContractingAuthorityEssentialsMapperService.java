@@ -21,6 +21,10 @@ public class ContractingAuthorityEssentialsMapperService {
         contractingAuthorityEssentials.setLegalRepresentative(contractingAuthorityDetails.getRegistration().getLegalRepresentative());
         contractingAuthorityEssentials.setAddress(contractingAuthorityDetails.getAddress());
 
+        contractingAuthorityEssentials.setProblems(contractingAuthorityDetails.getProblems().getProblems());
+        contractingAuthorityEssentials.setProblemsCount(contractingAuthorityDetails.getProblems().getCount());
+        contractingAuthorityEssentials.setDedicatedSuppliers(contractingAuthorityDetails.getDedicatedSupplierList());
+
         return contractingAuthorityEssentials;
     }
 
