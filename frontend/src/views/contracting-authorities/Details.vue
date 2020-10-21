@@ -32,6 +32,11 @@
       :entity-id="id"
       :show-supplier="true"
     ></ContractsTable>
+    <br />
+    <br />
+    <DedicatedSuppliersSection
+      :dedicated-suppliers="details.dedicatedSuppliers"
+    ></DedicatedSuppliersSection>
   </v-container>
 </template>
 
@@ -40,10 +45,11 @@ import api from "@/api";
 import { titleCase } from "@/utils/strings";
 import ContractsTable from "@/components/shared/ContractsTable";
 import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
+import DedicatedSuppliersSection from "@/components/contracting-authority/DedicatedSuppliersSection";
 
 export default {
   name: "contractingAuthorityDetails",
-  components: { ContractsTable, CurrencyTooltip },
+  components: { DedicatedSuppliersSection, ContractsTable, CurrencyTooltip },
   data: function() {
     return {
       id: parseInt(this.$route.params.id),
@@ -56,6 +62,7 @@ export default {
   methods: {
     async loadDetails() {
       this.details = await api.contractingAuthorities.details(this.id);
+      console.log(this.details);
     }
   },
   computed: {

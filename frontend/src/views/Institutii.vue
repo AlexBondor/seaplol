@@ -37,6 +37,12 @@
           ></CurrencyTooltip>
         </template>
 
+        <template v-slot:item.problemsCount="{ item }">
+          <ProblemListIndicator
+            :problems="item.problems"
+          ></ProblemListIndicator>
+        </template>
+
         <template v-slot:item.id="{ item }">
           <LinkToSeap :id="item.id" type="CONTRACTING_AUTHORITY"></LinkToSeap>
         </template>
@@ -55,10 +61,11 @@ import api from "@/api";
 import debounce from "lodash-es/debounce";
 import CurrencyTooltip from "@/components/shared/CurrencyTooltip";
 import LinkToSeap from "@/components/shared/LinkToSeap";
+import ProblemListIndicator from "@/components/shared/ProblemListIndicator";
 
 export default {
   name: "institutii",
-  components: { CurrencyTooltip, LinkToSeap },
+  components: { ProblemListIndicator, CurrencyTooltip, LinkToSeap },
   data() {
     return {
       totalCount: 0,
@@ -72,13 +79,14 @@ export default {
         sortBy: ["name"]
       },
       headers: [
-        { text: "Denumire", value: "name", width: "50%" },
+        { text: "Denumire", value: "name", width: "45%" },
         {
           text: "Valoare contracte (RON)",
           value: "totalContractsValue",
           width: "25%"
         },
         { text: "Număr contracte", value: "totalContractsCount", width: "10%" },
+        { text: "Probleme", value: "problemsCount", width: "5%" },
         { text: "Reprezentant", value: "legalRepresentative", width: "10%" },
         { text: "", value: "id", sortable: false, width: "5%" }
       ],

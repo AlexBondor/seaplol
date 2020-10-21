@@ -41,7 +41,7 @@
         {{ item.finalizationDate | formatDate }}
       </template>
       <template v-slot:item.problemsCount="{ item }">
-        <ContractProblems :problems="item.problems"></ContractProblems>
+        <ProblemListIndicator :problems="item.problems"></ProblemListIndicator>
       </template>
       <template v-slot:item.contractingAuthority="{ item }">
         <ParticipantLink
@@ -75,12 +75,12 @@ import api from "@/api";
 import ParticipantLink from "@/components/shared/ParticipantLink";
 import LinkToSeap from "@/components/shared/LinkToSeap";
 import ContractItemDetails from "@/components/shared/ContractItemDetails";
-import ContractProblems from "@/components/shared/ContractProblems";
+import ProblemListIndicator from "@/components/shared/ProblemListIndicator";
 
 export default {
   name: "ContractsTable",
   components: {
-    ContractProblems,
+    ProblemListIndicator,
     ContractItemDetails,
     LinkToSeap,
     ParticipantLink,

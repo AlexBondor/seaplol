@@ -3,7 +3,7 @@
     <v-flex v-for="problem in problems" :key="problem">
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-icon v-bind="attrs" v-on="on">
+          <v-icon color="error" v-bind="attrs" v-on="on">
             {{ icon(problem) }}
           </v-icon>
         </template>
@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: "ContractProblems",
+  name: "ProblemListIndicator",
   props: {
     problems: Array
   },
@@ -30,6 +30,8 @@ export default {
           return "extension";
         case "PRICE_ABOVE_AVERAGE":
           return "monetization_on";
+        case "DEDICATED_SUPPLIERS":
+          return "repeat";
       }
     },
     text(problem) {
@@ -38,6 +40,8 @@ export default {
           return "Valoarea este apropiată de 5k EUR";
         case "PRICE_ABOVE_AVERAGE":
           return "Prețul este mult (>500%) peste medie.";
+        case "DEDICATED_SUPPLIERS":
+          return "Conține furnizori dedicați";
       }
     }
   }
