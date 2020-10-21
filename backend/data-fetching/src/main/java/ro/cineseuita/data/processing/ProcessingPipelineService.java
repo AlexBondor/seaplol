@@ -43,7 +43,7 @@ public class ProcessingPipelineService {
     private static final Boolean COMPUTE_SUPPLIER_AVERAGE_REVENUE_FROM_PUBLIC_INSTITUTION_PER_YEAR_AND_EMPLOYEE_COUNT = false;
 
     private static final Boolean COMPUTE_DIRECT_ACQUISITION_CONTRACT_PROBLEMS = false;
-    private static final Boolean COMPUTE_DEDICATED_SUPPLIERS_PROBLEM = true;
+    private static final Boolean COMPUTE_DEDICATED_SUPPLIERS_PROBLEM = false;
 
 
     private static final Boolean MAP_CONTRACTING_AUTHORITIES_TO_ESSENTIALS = false;
