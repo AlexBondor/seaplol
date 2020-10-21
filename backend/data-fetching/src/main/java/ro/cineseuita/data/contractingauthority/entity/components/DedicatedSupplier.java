@@ -82,6 +82,6 @@ public class DedicatedSupplier {
     }
 
     public Double getTotalValueOfContractsBasedOnPercentage() {
-        return 100 * getTotalContractsValueDedicatedToCA() / getPercentageOfContractsCountDedicatedToCA();
+        return 100 * getTotalContractsValueDedicatedToCA() / getPercentageOfContractsValueDedicatedToCA();
     }
 }

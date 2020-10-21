@@ -28,14 +28,14 @@ public interface ContractingAuthorityMapper {
         dedicatedSupplierDto.setSupplierName(dedicatedSupplier.getSupplierName());
 
         DedicatedSupplierDto.DedicatedSupplierData caData = new DedicatedSupplierDto.DedicatedSupplierData();
-        caData.setLabel("Contracte cu instituția");
-        caData.setContractsCount(dedicatedSupplier.getTotalContractsCountDedicatedToCA());
-        caData.setContractsValue(dedicatedSupplier.getPercentageOfContractsValueDedicatedToCA());
+        caData.setLabel("Cu instituția");
+        caData.setValue(dedicatedSupplier.getTotalContractsValueDedicatedToCA());
+        caData.setCount(dedicatedSupplier.getTotalContractsCountDedicatedToCA());
 
         DedicatedSupplierDto.DedicatedSupplierData totalData = new DedicatedSupplierDto.DedicatedSupplierData();
-        totalData.setLabel("Total contracte");
-        totalData.setContractsCount(dedicatedSupplier.getTotalAmountOfContractsBasedOnPercentage());
-        totalData.setContractsValue(dedicatedSupplier.getTotalValueOfContractsBasedOnPercentage());
+        totalData.setLabel("În total");
+        totalData.setValue(dedicatedSupplier.getTotalValueOfContractsBasedOnPercentage());
+        totalData.setCount(dedicatedSupplier.getTotalAmountOfContractsBasedOnPercentage());
 
         dedicatedSupplierDto.setData(Arrays.asList(caData, totalData));
 

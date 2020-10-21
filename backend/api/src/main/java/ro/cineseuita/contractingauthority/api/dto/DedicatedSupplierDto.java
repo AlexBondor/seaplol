@@ -25,8 +25,8 @@ public class DedicatedSupplierDto {
 
     public static class DedicatedSupplierData {
         private String label;
-        private Double contractsValue;
-        private Long contractsCount;
+        private Double value;
+        private Long count;
 
         public String getLabel() {
             return label;
@@ -36,20 +36,20 @@ public class DedicatedSupplierDto {
             this.label = label;
         }
 
-        public Double getContractsValue() {
-            return contractsValue;
+        public Double getValue() {
+            return value;
         }
 
-        public void setContractsValue(Double contractsValue) {
-            this.contractsValue = contractsValue;
+        public void setValue(Double value) {
+            this.value = value;
         }
 
-        public Long getContractsCount() {
-            return contractsCount;
+        public Long getCount() {
+            return count;
         }
 
-        public void setContractsCount(Long contractsCount) {
-            this.contractsCount = contractsCount;
+        public void setCount(Long count) {
+            this.count = count;
         }
     }
 }
