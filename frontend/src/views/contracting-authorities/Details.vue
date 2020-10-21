@@ -35,6 +35,7 @@
     <br />
     <br />
     <DedicatedSuppliersSection
+      v-if="details.dedicatedSuppliers"
       :dedicated-suppliers="details.dedicatedSuppliers"
     ></DedicatedSuppliersSection>
   </v-container>

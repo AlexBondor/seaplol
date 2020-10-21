@@ -76,4 +76,12 @@ public class DedicatedSupplier {
     public void setPercentageOfContractsCountDedicatedToCA(Double percentageOfContractsCountDedicatedToCA) {
         this.percentageOfContractsCountDedicatedToCA = percentageOfContractsCountDedicatedToCA;
     }
+
+    public Long getTotalAmountOfContractsBasedOnPercentage() {
+        return Math.round(100 * getTotalContractsCountDedicatedToCA() / getPercentageOfContractsCountDedicatedToCA());
+    }
+
+    public Double getTotalValueOfContractsBasedOnPercentage() {
+        return 100 * getTotalContractsValueDedicatedToCA() / getPercentageOfContractsCountDedicatedToCA();
+    }
 }
