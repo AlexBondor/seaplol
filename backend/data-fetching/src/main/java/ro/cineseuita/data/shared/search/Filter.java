@@ -1,9 +1,13 @@
 package ro.cineseuita.data.shared.search;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Filter {
 
     private static final String DEFAULT_SORT_BY = "name";
 
+    private List<Long> entityIds = new ArrayList<>();
     private String searchTerm;
     private Integer page = 0;
     private Integer itemsPerPage = 10;
@@ -48,6 +52,18 @@ public class Filter {
 
     public void setSortBy(final String sortBy) {
         this.sortBy = sortBy;
+    }
+
+    public List<Long> getEntityIds() {
+        return entityIds;
+    }
+
+    public void setEntityIds(List<Long> entityIds) {
+        this.entityIds = entityIds;
+    }
+
+    public Boolean getSortDesc() {
+        return sortDesc;
     }
 
     public String getRegexReadySearchTerm() {

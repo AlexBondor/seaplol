@@ -19,4 +19,6 @@ public interface DirectContractService {
     Page<DirectContractListDto> getAllForContractingAuthority(Long contractingAuthorityId, DirectAcquisitionContractFilter directAcquisitionContractFilter);
 
     List<DirectContractExpandedItemDto> detailsForExpandedRow(Long contractId);
+
+    Page<DirectContractListDto> findAll(DirectAcquisitionContractFilter directAcquisitionContractFilter);
 }

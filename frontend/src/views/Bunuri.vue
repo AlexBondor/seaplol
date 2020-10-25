@@ -4,6 +4,15 @@
 
     <v-btn @click="zoomOut">Înapoi</v-btn>
     <div class="hello" ref="chartdiv"></div>
+    <br>
+    <br>
+    <ContractsTable
+      entity="directAcquisitionContract"
+      ref="contractsTable"
+      :contract-ids="currentCodeDetails.contracts"
+      :show-contracting-authority="true"
+      :show-supplier="true"
+    ></ContractsTable>
   </div>
 </template>
 
@@ -11,12 +20,13 @@
 import api from "@/api";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
+import ContractsTable from "@/components/shared/ContractsTable";
 
 const ROOT_PARENT_CPV = "SEAP";
 
 export default {
   name: "bunuri",
-  components: {},
+  components: { ContractsTable },
   data: function() {
     return {
       loadingIndicator: {},
@@ -84,7 +94,7 @@ export default {
         let level_bullet = level.bullets.push(new am4charts.LabelBullet());
         level_bullet.locationY = 0.5;
         level_bullet.locationX = 0.5;
-        level_bullet.label.text = "{name}";
+        level_bullet.label.text = "{name} - ({cpvCode})";
         level_bullet.label.fill = am4core.color("#fff");
       }
     },
@@ -141,6 +151,7 @@ export default {
           : await api.national.getChildrenOf(code);
       this.chart.data = result.children;
       this.currentCodeDetails = result.details;
+      this.$refs.contractsTable.loadData();
     },
     zoomOut() {
       console.log(this.currentCodeDetails);

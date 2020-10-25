@@ -53,6 +53,18 @@ public class DirectAcquisitionContractEssentialsRepositoryImpl extends CustomRep
     }
 
     @Override
+    public List<DirectAcquisitionContractEssentials> findAll(DirectAcquisitionContractFilter filter) {
+        final Query query = buildFilterQuery(filter);
+        return operations.find(query, DirectAcquisitionContractEssentials.class);
+    }
+
+    @Override
+    public long count(DirectAcquisitionContractFilter filter) {
+        final Query query = buildFilterQuery(filter);
+        return operations.count(query, DirectAcquisitionContractEssentials.class);
+    }
+
+    @Override
     protected void addSearchTermFilter(final Filter filter, final Query query) {
         if (filter.getSearchTerm() != null) {
             final String searchTerm = filter.getRegexReadySearchTerm();

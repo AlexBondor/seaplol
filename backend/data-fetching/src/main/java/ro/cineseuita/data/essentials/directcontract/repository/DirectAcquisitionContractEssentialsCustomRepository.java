@@ -14,4 +14,9 @@ public interface DirectAcquisitionContractEssentialsCustomRepository {
 
     long countByContractingAuthorityId(Long contractingAuthorityId, DirectAcquisitionContractFilter filter);
 
+    List<DirectAcquisitionContractEssentials> findAll(DirectAcquisitionContractFilter filter);
+
+    long count(DirectAcquisitionContractFilter filter);
+
+
 }

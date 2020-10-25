@@ -20,6 +20,8 @@ public abstract class CustomRepository {
 
         addSearchTermFilter(filter, query);
 
+        addEntityIdsFilter(filter, query);
+
         return query;
     }
 
@@ -34,6 +36,14 @@ public abstract class CustomRepository {
                             Criteria.where("legalRepresentative").regex(Pattern.compile(searchTerm, Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE))
                     );
             query.addCriteria(criteria);
+        }
+    }
+
+    private void addEntityIdsFilter(Filter filter, Query query) {
+        if (!filter.getEntityIds().isEmpty()) {
+            query.addCriteria(
+                    Criteria.where("_id").in(filter.getEntityIds())
+            );
         }
     }
 

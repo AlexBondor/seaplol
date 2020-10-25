@@ -2,10 +2,7 @@ package ro.cineseuita.contract.direct.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ro.cineseuita.contract.direct.api.dto.DirectContractDto;
 import ro.cineseuita.contract.direct.api.dto.DirectContractExpandedItemDto;
 import ro.cineseuita.contract.direct.api.dto.DirectContractListDto;
@@ -39,8 +36,15 @@ public class DirectContractController {
         return directContractService.getAllForContractingAuthority(contractingAuthorityId, directAcquisitionContractFilter);
     }
 
+    @PostMapping("/all")
+    public Page<DirectContractListDto> getAll(@RequestBody DirectAcquisitionContractFilter directAcquisitionContractFilter) {
+        return directContractService.findAll(directAcquisitionContractFilter);
+    }
+
     @GetMapping("/detailsForExpandedRow/{contractId}")
     public List<DirectContractExpandedItemDto> detailsForExpandedRow(@PathVariable Long contractId) {
         return directContractService.detailsForExpandedRow(contractId);
     }
+
+
 }

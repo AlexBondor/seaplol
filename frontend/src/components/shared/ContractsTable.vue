@@ -90,7 +90,8 @@ export default {
     entity: String,
     entityId: Number,
     showContractingAuthority: Boolean,
-    showSupplier: Boolean
+    showSupplier: Boolean,
+    contractIds: Array
   },
   data() {
     return {
@@ -151,18 +152,34 @@ export default {
   methods: {
     loadData() {
       this.loading = true;
-      var fetchFunction;
-      if (this.entity === "supplier") {
-        fetchFunction = api.directAcquisitionContracts.getAllForSupplier;
+      if (
+        this.entity === "directAcquisitionContract" &&
+        this.contractIds &&
+        this.contractIds.length !== 0
+      ) {
+        api.directAcquisitionContracts
+          .getAll(this.pagination, this.contractIds)
+          .then(data => {
+            this.contracts = data.content;
+            this.totalCount = data.totalElements;
+            this.loading = false;
+          });
+      } else if (["supplier", "contractingAuthority"].includes(this.entity)) {
+        var fetchFunction;
+        if (this.entity === "supplier") {
+          fetchFunction = api.directAcquisitionContracts.getAllForSupplier;
+        } else if (this.entity === "contractingAuthority") {
+          fetchFunction =
+            api.directAcquisitionContracts.getAllForContractingAuthority;
+        }
+        fetchFunction(this.entityId, this.pagination).then(data => {
+          this.contracts = data.content;
+          this.totalCount = data.totalElements;
+          this.loading = false;
+        });
       } else {
-        fetchFunction =
-          api.directAcquisitionContracts.getAllForContractingAuthority;
-      }
-      fetchFunction(this.entityId, this.pagination).then(data => {
-        this.contracts = data.content;
-        this.totalCount = data.totalElements;
         this.loading = false;
-      });
+      }
     },
     async details(item) {
       const index = this.expanded.indexOf(item);
