@@ -154,7 +154,6 @@ export default {
       this.$refs.contractsTable.loadData();
     },
     zoomOut() {
-      console.log(this.currentCodeDetails);
       let parentId = this.currentCodeDetails.parentId;
       if (parentId) {
         this.loadDataForCpv(parentId);

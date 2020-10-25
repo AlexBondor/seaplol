@@ -24,7 +24,6 @@ export default {
   async getAll(pagination, contractIds) {
     let encoded = encodeParams(pagination);
     encoded.entityIds = contractIds;
-    console.log(encoded);
     let res = await HTTP.post(BASE_URL + "api/directContracts/all", encoded);
     return res.data;
   },
