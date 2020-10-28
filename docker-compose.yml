@@ -14,6 +14,11 @@ services:
       - 8081:8081
     links:
       - database
+    environment:
+      - SPRING_DATA_MONGODB_HOST=database
+      - SPRING_DATA_MONGODB_DATABASE=seaplol
+      - SPRING_DATA_MONGODB_USER=root
+      - SPRING_DATA_MONGODB_PASSWORD=U9O!VI4XMn!8   
   database:
     image: 'mongo'
     command: mongod --port 27017
