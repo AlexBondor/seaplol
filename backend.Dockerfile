@@ -2,8 +2,8 @@ FROM openjdk:11-jre-slim
 
 MAINTAINER Alex Bondor
 
-WORKDIR /app
+WORKDIR /backend/api
 
-COPY app/target/seaplol.jar /app/
+COPY backend/api/target/seaplol.jar /backend/api/
 
 ENTRYPOINT ["java", "-jar", "seaplol.jar"]
