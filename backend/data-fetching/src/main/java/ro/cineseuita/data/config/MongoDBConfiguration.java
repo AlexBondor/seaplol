@@ -18,7 +18,7 @@ public class MongoDBConfiguration extends AbstractMongoClientConfiguration {
 
   @Override
   public MongoClient mongoClient() {
-    return MongoClients.create(mongodbUri);;
+    return MongoClients.create(mongodbUri);
   }
 
   @Override
