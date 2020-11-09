@@ -9,4 +9,4 @@ docker container rm -f frontend
 docker image rm -f frontend
 docker build -f frontend.Dockerfile -t frontend .
 
-docker-compose up
+docker-compose up -d
