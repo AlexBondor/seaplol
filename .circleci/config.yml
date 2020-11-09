@@ -1,84 +1,9 @@
-# Java Maven CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
-version: 2
-jobs:
-  build:
-    docker:
-      - image: circleci/openjdk
+version: 2.1
 
-    working_directory: ~/repo
+orbs:
+  maven: circleci/maven@0.0.12
 
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
-
-    steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "app/pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: 
-          name: MVN dependency app
-          command: |
-            cd ~/repo/app
-            mvn dependency:go-offline
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "app/pom.xml" }}
-
-      # perform a clean install
-      - run: 
-          name: MVN clean install app
-          command: |
-            cd ~/repo/app
-            mvn clean install
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "data-fetching/pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: 
-          name: MVN dependency data-fetching
-          command: |
-            cd ~/repo/data-fetching
-            mvn dependency:go-offline
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "data-fetching/pom.xml" }}
-
-      # perform a clean install
-      - run: 
-          name: MVN clean install data-fetching
-          command: |
-            cd ~/repo/data-fetching
-            mvn clean install -DskipTests
-  deploy:
-    machine:
-      enabled: true
-    steps:
-      - run:
-          name: Deploy Over SSH
-          command: |
-            ssh -t $DROPLET_USER@$DROPLET_IP "cd /home/barney/cineseuita.ro; ./update.sh; sudo./redeploy.sh"
 workflows:
-  version: 2
-  build-and-deploy:
+  maven_test:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: master
+      - maven/test # checkout, build, test, and upload test results
