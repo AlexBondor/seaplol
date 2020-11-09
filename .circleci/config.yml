@@ -19,17 +19,10 @@ jobs:
 
       # perform a clean install
       - run: 
-          name: MVN clean install api
+          name: MVN clean install
           command: |
-            cd ~/repo/backend/api
+            cd ~/repo/backend
             mvn clean install
-
-      # perform a clean install
-      - run: 
-          name: MVN clean install data-fetching
-          command: |
-            cd ~/repo/backend/data-fetching
-            mvn clean install -DskipTests
   deploy:
     machine:
       enabled: true
