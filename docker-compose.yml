@@ -18,17 +18,4 @@ services:
       - SPRING_DATA_MONGODB_HOST=database
       - SPRING_DATA_MONGODB_DATABASE=seaplol
       - SPRING_DATA_MONGODB_USER=root
-      - SPRING_DATA_MONGODB_PASSWORD=U9O!VI4XMn!8   
-  database:
-    image: 'mongo'
-    command: mongod --port 27017
-    container_name: 'database'
-    environment:
-      - MONGO_INITDB_DATABASE=seaplol
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=U9O!VI4XMn!8
-    volumes:
-      - ./mongodb_data_container:/data/db
-      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-    ports:
-      - 27017:27017
+      - SPRING_DATA_MONGODB_PASSWORD=U9O!VI4XMn!8
