@@ -21,14 +21,14 @@ jobs:
       - run: 
           name: MVN clean install api
           command: |
-            cd ~/repo/api
+            cd ~/repo/backend/api
             mvn clean install
 
       # perform a clean install
       - run: 
           name: MVN clean install data-fetching
           command: |
-            cd ~/repo/data-fetching
+            cd ~/repo/backend/data-fetching
             mvn clean install -DskipTests
   deploy:
     machine:
