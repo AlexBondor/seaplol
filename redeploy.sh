@@ -1,5 +1,4 @@
 #Prepare backend for deployment
-Prepare backend for deployment
 docker container rm -f backend
 docker image rm -f backend
 docker build -f backend.Dockerfile -t backend .
