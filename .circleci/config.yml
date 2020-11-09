@@ -17,48 +17,12 @@ jobs:
     steps:
       - checkout
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "app/pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: 
-          name: MVN dependency app
-          command: |
-            cd ~/repo/app
-            mvn dependency:go-offline
-
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "app/pom.xml" }}
-
       # perform a clean install
       - run: 
-          name: MVN clean install app
+          name: MVN clean install api
           command: |
-            cd ~/repo/app
+            cd ~/repo/api
             mvn clean install
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "data-fetching/pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
-      - run: 
-          name: MVN dependency data-fetching
-          command: |
-            cd ~/repo/data-fetching
-            mvn dependency:go-offline
-
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: v1-dependencies-{{ checksum "data-fetching/pom.xml" }}
 
       # perform a clean install
       - run: 
