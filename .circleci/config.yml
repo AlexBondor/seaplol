@@ -29,7 +29,6 @@ jobs:
           command: |
             cd ~/repo/app
             mvn dependency:go-offline
-
       - save_cache:
           paths:
             - ~/.m2
@@ -41,7 +40,6 @@ jobs:
           command: |
             cd ~/repo/app
             mvn clean install
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -54,7 +52,6 @@ jobs:
           command: |
             cd ~/repo/data-fetching
             mvn dependency:go-offline
-
       - save_cache:
           paths:
             - ~/.m2
@@ -74,7 +71,6 @@ jobs:
           name: Deploy Over SSH
           command: |
             ssh -t $DROPLET_USER@$DROPLET_IP "cd /home/barney/cineseuita.ro; ./update.sh; sudo./redeploy.sh"
-
 workflows:
   version: 2
   build-and-deploy:
