@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ssh -t $DROPLET_USER@$DROPLET_IP "cd /home/barney/cineseuita.ro; ./update.sh; sudo./redeploy.sh"
+            ssh -t $DROPLET_USER@$DROPLET_IP "cd /home/barney/cineseuita.ro; ./update.sh; ./redeploy.sh"
 
 workflows:
   version: 2
