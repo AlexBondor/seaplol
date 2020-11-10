@@ -1,1 +1,1 @@
-mongodump -d seaplol -o seaplol-db
+mongodump --host www.cineseuita.ro -d seaplol --port 27017 --username seaplol --password seaplol --out /home/barney/cineseuita.ro/exportlog
