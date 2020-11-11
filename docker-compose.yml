@@ -8,6 +8,7 @@ services:
     links:
       - backend
   backend:
+    network_mode: host
     image: 'backend'
     container_name: 'backend'
     ports:
