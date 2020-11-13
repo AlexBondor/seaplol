@@ -1,6 +1,7 @@
 <template>
   <div class="about">
     <h1>Jurnalism</h1>
+    <h2>Coming soon!</h2>
   </div>
 </template>
 
