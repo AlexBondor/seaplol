@@ -4,7 +4,7 @@
       <v-row :justify="'space-between'">
         <span class="px-4">&copy; {{ new Date().getFullYear() }}</span>
         <span class="px-4" style="cursor: pointer" @click="goToOpenApi"
-          >Powered by openapi</span
+          >Powered by openapi.ro</span
         >
       </v-row>
     </v-container>
