@@ -65,6 +65,8 @@ public class DirectAcquisitionEssentialsMapperService {
                         .collect(Collectors.toList())
         );
 
+        contractEssentials.setYear(contractDetails.getYear());
+
         return contractEssentials;
     }
 

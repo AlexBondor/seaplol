@@ -34,6 +34,7 @@ public class DirectAcquisitionContractEssentials extends IndexedCountProblemIndi
     @Indexed
     private Long supplierId;
     private List<DirectAcquisitionItemEssentials> directAcquisitionItems = null;
+    @Indexed
     private Integer year;
 
     public Double getEstimatedValue() {
