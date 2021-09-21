@@ -30,104 +30,117 @@ import static ro.cineseuita.data.shared.search.SearchHelper.buildPageRequest;
 @Service
 public class DirectContractServiceImpl implements DirectContractService {
 
-    private final DirectAcquisitionContractEssentialsRepository directAcquisitionContractEssentialsRepository;
-    private final NationalCpvDataRepository nationalCpvDataRepository;
-    private final DirectContractMapper mapper;
+  private final DirectAcquisitionContractEssentialsRepository directAcquisitionContractEssentialsRepository;
+  private final NationalCpvDataRepository nationalCpvDataRepository;
+  private final DirectContractMapper mapper;
 
-    @Autowired
-    public DirectContractServiceImpl(final DirectAcquisitionContractEssentialsRepository directAcquisitionContractEssentialsRepository, NationalCpvDataRepository nationalCpvDataRepository) {
-        this.directAcquisitionContractEssentialsRepository = directAcquisitionContractEssentialsRepository;
-        this.nationalCpvDataRepository = nationalCpvDataRepository;
-        this.mapper = Mappers.getMapper(DirectContractMapper.class);
-    }
+  @Autowired
+  public DirectContractServiceImpl(final DirectAcquisitionContractEssentialsRepository directAcquisitionContractEssentialsRepository, NationalCpvDataRepository nationalCpvDataRepository) {
+    this.directAcquisitionContractEssentialsRepository = directAcquisitionContractEssentialsRepository;
+    this.nationalCpvDataRepository = nationalCpvDataRepository;
+    this.mapper = Mappers.getMapper(DirectContractMapper.class);
+  }
 
-    @Override
-    public List<DirectContractListDto> findAll() {
-        final List<DirectAcquisitionContractEssentials> contracts = directAcquisitionContractEssentialsRepository.findAll();
-        return formDtoList(contracts);
-    }
+  @Override
+  public List<DirectContractListDto> findAll() {
+    final List<DirectAcquisitionContractEssentials> contracts = directAcquisitionContractEssentialsRepository.findAll();
+    return formDtoList(contracts);
+  }
 
-    @Override
-    public DirectContractDto get(Long id) {
-        final DirectAcquisitionContractEssentials supplier = directAcquisitionContractEssentialsRepository.findById(id).get();
-        return mapper.toDetailDto(supplier);
-    }
+  @Override
+  public DirectContractDto get(Long id) {
+    final DirectAcquisitionContractEssentials supplier =
+        directAcquisitionContractEssentialsRepository.findById(id).get();
+    return mapper.toDetailDto(supplier);
+  }
 
-    @Override
-    public Page<DirectContractListDto> getAllForSupplier(Long supplierId, final DirectAcquisitionContractFilter directAcquisitionContractFilter) {
-        final long matchingContractsCount = directAcquisitionContractEssentialsRepository.countBySupplierId(supplierId, directAcquisitionContractFilter);
-        final List<DirectAcquisitionContractEssentials> contracts = directAcquisitionContractEssentialsRepository.findAllBySupplierId(supplierId, directAcquisitionContractFilter);
-        final List<DirectContractListDto> contractListDtos = contracts.stream()
-                .map(mapper::toListDto)
-                .collect(Collectors.toList());
+  @Override
+  public Page<DirectContractListDto> getAllForSupplier(Long supplierId,
+                                                       final DirectAcquisitionContractFilter directAcquisitionContractFilter) {
+    final long matchingContractsCount = directAcquisitionContractEssentialsRepository.countBySupplierId(supplierId,
+        directAcquisitionContractFilter);
+    final List<DirectAcquisitionContractEssentials> contracts =
+        directAcquisitionContractEssentialsRepository.findAllBySupplierId(supplierId, directAcquisitionContractFilter);
+    final List<DirectContractListDto> contractListDtos = contracts.stream()
+        .map(mapper::toListDto)
+        .collect(Collectors.toList());
 
-        return new PageImpl<>(contractListDtos, buildPageRequest(directAcquisitionContractFilter), matchingContractsCount);
-    }
+    return new PageImpl<>(contractListDtos, buildPageRequest(directAcquisitionContractFilter), matchingContractsCount);
+  }
 
-    @Override
-    public Page<DirectContractListDto> getAllForContractingAuthority(Long contractingAuthorityId, DirectAcquisitionContractFilter directAcquisitionContractFilter) {
-        final long matchingContractsCount = directAcquisitionContractEssentialsRepository.countByContractingAuthorityId(contractingAuthorityId, directAcquisitionContractFilter);
-        final List<DirectAcquisitionContractEssentials> contracts = directAcquisitionContractEssentialsRepository.findAllByContractingAuthorityId(contractingAuthorityId, directAcquisitionContractFilter);
-        final List<DirectContractListDto> contractListDtos = contracts.stream()
-                .map(mapper::toListDto)
-                .collect(Collectors.toList());
+  @Override
+  public Page<DirectContractListDto> getAllForContractingAuthority(Long contractingAuthorityId,
+                                                                   DirectAcquisitionContractFilter directAcquisitionContractFilter) {
+    final long matchingContractsCount =
+        directAcquisitionContractEssentialsRepository.countByContractingAuthorityId(contractingAuthorityId,
+            directAcquisitionContractFilter);
+    final List<DirectAcquisitionContractEssentials> contracts =
+        directAcquisitionContractEssentialsRepository.findAllByContractingAuthorityId(contractingAuthorityId,
+            directAcquisitionContractFilter);
+    final List<DirectContractListDto> contractListDtos = contracts.stream()
+        .map(mapper::toListDto)
+        .collect(Collectors.toList());
 
-        return new PageImpl<>(contractListDtos, buildPageRequest(directAcquisitionContractFilter), matchingContractsCount);
-    }
+    return new PageImpl<>(contractListDtos, buildPageRequest(directAcquisitionContractFilter), matchingContractsCount);
+  }
 
-    @Override
-    public List<DirectContractExpandedItemDto> detailsForExpandedRow(Long contractId) {
-        List<DirectContractExpandedItemDto> itemDtos = new ArrayList<>();
+  @Override
+  public List<DirectContractExpandedItemDto> detailsForExpandedRow(Long contractId) {
+    List<DirectContractExpandedItemDto> itemDtos = new ArrayList<>();
 
-        DirectAcquisitionContractEssentials directAcquisitionContractEssentials = directAcquisitionContractEssentialsRepository.findById(contractId).get();
+    DirectAcquisitionContractEssentials directAcquisitionContractEssentials =
+        directAcquisitionContractEssentialsRepository.findById(contractId).get();
 
-        directAcquisitionContractEssentials.getDirectAcquisitionItems().forEach(item -> {
-            itemDtos.add(formDirectContractExpandedItemDto(item));
-        });
+    directAcquisitionContractEssentials.getDirectAcquisitionItems().forEach(item -> {
+      itemDtos.add(formDirectContractExpandedItemDto(item));
+    });
 
-        return itemDtos;
-    }
+    return itemDtos;
+  }
 
-    @Override
-    public Page<DirectContractListDto> findAll(DirectAcquisitionContractFilter directAcquisitionContractFilter) {
-        final long matchingContractsCount = directAcquisitionContractEssentialsRepository.count(directAcquisitionContractFilter);
-        final List<DirectAcquisitionContractEssentials> contracts = directAcquisitionContractEssentialsRepository.findAll(directAcquisitionContractFilter);
-        final List<DirectContractListDto> contractListDtos = contracts.stream()
-                .map(mapper::toListDto)
-                .collect(Collectors.toList());
+  @Override
+  public Page<DirectContractListDto> findAll(DirectAcquisitionContractFilter directAcquisitionContractFilter) {
+    final long matchingContractsCount =
+        directAcquisitionContractEssentialsRepository.count(directAcquisitionContractFilter);
+    final List<DirectAcquisitionContractEssentials> contracts =
+        directAcquisitionContractEssentialsRepository.findAll(directAcquisitionContractFilter);
+    final List<DirectContractListDto> contractListDtos = contracts.stream()
+        .map(mapper::toListDto)
+        .collect(Collectors.toList());
 
-        return new PageImpl<>(contractListDtos, buildPageRequest(directAcquisitionContractFilter), matchingContractsCount);
-    }
+    return new PageImpl<>(contractListDtos, buildPageRequest(directAcquisitionContractFilter), matchingContractsCount);
+  }
 
-    private DirectContractExpandedItemDto formDirectContractExpandedItemDto(DirectAcquisitionItemEssentials item) {
-        DirectContractExpandedItemDto itemDto = new DirectContractExpandedItemDto();
+  private DirectContractExpandedItemDto formDirectContractExpandedItemDto(DirectAcquisitionItemEssentials item) {
+    DirectContractExpandedItemDto itemDto = new DirectContractExpandedItemDto();
 
-        String cpvCode = item.getCpvCode().getCode();
-        String measurementUnit = item.getMeasureUnit();
-        ItemMeasurement measurementBucket = ItemMeasurementClassifier.getBucket(measurementUnit);
-        NationalCpvData nationalCpvData = nationalCpvDataRepository.findById(cpvCode).get();
-        CostCountAverage costCountAverageForBucket = nationalCpvData.getItemMeasurementStats().getByItemMeasurement(measurementBucket);
-        Double itemAverageCost = item.getAverageCostPerItem();
-        Double nationalAverageCost = costCountAverageForBucket.getAverage();
+    String cpvCode = item.getCpvCode().getCode();
+    String measurementUnit = item.getMeasureUnit();
+    ItemMeasurement measurementBucket = ItemMeasurementClassifier.getBucket(measurementUnit);
+    NationalCpvData nationalCpvData = nationalCpvDataRepository.findById(cpvCode).get();
+    CostCountAverage costCountAverageForBucket =
+        nationalCpvData.getItemMeasurementStats().getByItemMeasurement(measurementBucket);
+    Double itemAverageCost = item.getAverageCostPerItem();
+    Double nationalAverageCost = costCountAverageForBucket.getAverage();
 
-        itemDto.setCpvData(item.getCpvCode());
-        itemDto.setMeasurementUnit(measurementUnit);
-        itemDto.setMeasurementBucket(measurementBucket);
-        itemDto.setMeasurementBucketExamples(getSubsetOfExamplesForBucket(measurementBucket));
-        itemDto.setItemAverageCost(itemAverageCost);
-        itemDto.setNationalAverageCost(nationalAverageCost);
-        itemDto.setPriceDeviationPercentage(itemAverageCost * 100 / nationalAverageCost);
-        itemDto.setNumberOfItems(item.getQuantity());
-        itemDto.setPricePerItem(item.getClosingPrice());
-        itemDto.setDescription(item.getDescription());
+    itemDto.setCpvData(item.getCpvCode());
+    itemDto.setMeasurementUnit(measurementUnit);
+    itemDto.setMeasurementBucket(measurementBucket);
+    itemDto.setMeasurementBucketExamples(getSubsetOfExamplesForBucket(measurementBucket));
+    itemDto.setItemAverageCost(itemAverageCost);
+    itemDto.setNationalAverageCost(nationalAverageCost);
+    itemDto.setPriceDeviationPercentage(itemAverageCost * 100 / nationalAverageCost);
+    itemDto.setNumberOfItems(item.getQuantity());
+    itemDto.setPricePerItem(item.getClosingPrice());
+    itemDto.setDescription(item.getDescription());
 
-        return itemDto;
-    }
+    return itemDto;
+  }
 
-    private List<DirectContractListDto> formDtoList(List<DirectAcquisitionContractEssentials> contracts) {
-        return contracts.stream()
-                .map(mapper::toListDto)
-                .collect(Collectors.toList());
-    }
+  private List<DirectContractListDto> formDtoList(List<DirectAcquisitionContractEssentials> contracts) {
+    return contracts.stream()
+        .map(mapper::toListDto)
+        .collect(Collectors.toList());
+  }
 
 }

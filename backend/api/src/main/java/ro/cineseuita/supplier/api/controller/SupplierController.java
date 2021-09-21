@@ -17,25 +17,25 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/suppliers")
 public class SupplierController {
-    private final SupplierService supplierService;
+  private final SupplierService supplierService;
 
-    @Autowired
-    public SupplierController(final SupplierService supplierService) {
-        this.supplierService = supplierService;
-    }
+  @Autowired
+  public SupplierController(final SupplierService supplierService) {
+    this.supplierService = supplierService;
+  }
 
-    @GetMapping()
-    public Page<SupplierListDto> findAll(SupplierFilter filter) {
-        return supplierService.findAll(filter);
-    }
+  @GetMapping()
+  public Page<SupplierListDto> findAll(SupplierFilter filter) {
+    return supplierService.findAll(filter);
+  }
 
-    @GetMapping("/{id}")
-    public SupplierDetailDto get(@PathVariable Long id) {
-        return supplierService.get(id);
-    }
+  @GetMapping("/{id}")
+  public SupplierDetailDto get(@PathVariable Long id) {
+    return supplierService.get(id);
+  }
 
-    @GetMapping("/treeMap/{id}")
-    public List<Map> treeMap(@PathVariable Long id) {
-        return supplierService.treeMap(id);
-    }
+  @GetMapping("/treeMap/{id}")
+  public List<Map> treeMap(@PathVariable Long id) {
+    return supplierService.treeMap(id);
+  }
 }

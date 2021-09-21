@@ -22,35 +22,35 @@ import static ro.cineseuita.data.shared.search.SearchHelper.buildPageRequest;
 
 @Service
 public class ContractingAuthorityServiceImpl implements ContractingAuthorityService {
-    private final ContractingAuthorityEssentialsRepository contractingAuthorityRepository;
-    private final ContractingAuthorityMapper mapper;
+  private final ContractingAuthorityEssentialsRepository contractingAuthorityRepository;
+  private final ContractingAuthorityMapper mapper;
 
-    @Autowired
-    public ContractingAuthorityServiceImpl(final ContractingAuthorityEssentialsRepository contractingAuthorityRepository) {
-        this.contractingAuthorityRepository = contractingAuthorityRepository;
-        this.mapper = Mappers.getMapper(ContractingAuthorityMapper.class);
-    }
+  @Autowired
+  public ContractingAuthorityServiceImpl(final ContractingAuthorityEssentialsRepository contractingAuthorityRepository) {
+    this.contractingAuthorityRepository = contractingAuthorityRepository;
+    this.mapper = Mappers.getMapper(ContractingAuthorityMapper.class);
+  }
 
-    @Override
-    public Page<ContractingAuthorityListDto> findAll(final ContractingAuthorityFilter filter) {
-        final long matchingContractingAuthoritiesCount = contractingAuthorityRepository.count(filter);
-        final List<ContractingAuthorityEssentials> contractingAuthorities = contractingAuthorityRepository.findAll(filter);
-        final List<ContractingAuthorityListDto> contractingAuthoritiesDtos = contractingAuthorities.stream()
-                .map(mapper::toListDto)
-                .collect(Collectors.toList());
+  @Override
+  public Page<ContractingAuthorityListDto> findAll(final ContractingAuthorityFilter filter) {
+    final long matchingContractingAuthoritiesCount = contractingAuthorityRepository.count(filter);
+    final List<ContractingAuthorityEssentials> contractingAuthorities = contractingAuthorityRepository.findAll(filter);
+    final List<ContractingAuthorityListDto> contractingAuthoritiesDtos = contractingAuthorities.stream()
+        .map(mapper::toListDto)
+        .collect(Collectors.toList());
 
-        return new PageImpl<>(contractingAuthoritiesDtos, buildPageRequest(filter), matchingContractingAuthoritiesCount);
-    }
+    return new PageImpl<>(contractingAuthoritiesDtos, buildPageRequest(filter), matchingContractingAuthoritiesCount);
+  }
 
-    @Override
-    public ContractingAuthorityDetailDto get(final Long id) {
-        final ContractingAuthorityEssentials contractingAuthority = contractingAuthorityRepository.findById(id).get();
-        return mapper.toDetailDto(contractingAuthority);
-    }
+  @Override
+  public ContractingAuthorityDetailDto get(final Long id) {
+    final ContractingAuthorityEssentials contractingAuthority = contractingAuthorityRepository.findById(id).get();
+    return mapper.toDetailDto(contractingAuthority);
+  }
 
-    @Override
-    public List<Map> treeMap(Long id) {
-        // TODO: fill out properly
-        return TreeMap.generateMockTreeMap().stream().map(TreeMap::toMap).collect(Collectors.toList());
-    }
+  @Override
+  public List<Map> treeMap(Long id) {
+    // TODO: fill out properly
+    return TreeMap.generateMockTreeMap().stream().map(TreeMap::toMap).collect(Collectors.toList());
+  }
 }

@@ -9,9 +9,9 @@ import ro.cineseuita.supplier.api.dto.SupplierListDto;
 @Mapper
 public interface SupplierMapper {
 
-    @Mapping(source = "_id", target = "id")
-    SupplierListDto toListDto(SupplierEssentials supplier);
+  @Mapping(source = "_id", target = "id")
+  SupplierListDto toListDto(SupplierEssentials supplier);
 
-    @Mapping(source = "_id", target = "id")
-    SupplierDetailDto toDetailDto(SupplierEssentials supplier);
+  @Mapping(source = "_id", target = "id")
+  SupplierDetailDto toDetailDto(SupplierEssentials supplier);
 }

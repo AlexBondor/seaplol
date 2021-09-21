@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ContractingAuthorityService {
-    Page<ContractingAuthorityListDto> findAll(ContractingAuthorityFilter filter);
+  Page<ContractingAuthorityListDto> findAll(ContractingAuthorityFilter filter);
 
-    ContractingAuthorityDetailDto get(Long id);
+  ContractingAuthorityDetailDto get(Long id);
 
-    List<Map> treeMap(Long id);
+  List<Map> treeMap(Long id);
 }

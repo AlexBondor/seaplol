@@ -6,13 +6,13 @@ import ro.cineseuita.shared.ParticipantDetailDto;
 import java.util.List;
 
 public class ContractingAuthorityDetailDto extends ParticipantDetailDto {
-    private List<DedicatedSupplierDto> dedicatedSuppliers;
+  private List<DedicatedSupplierDto> dedicatedSuppliers;
 
-    public List<DedicatedSupplierDto> getDedicatedSuppliers() {
-        return dedicatedSuppliers;
-    }
+  public List<DedicatedSupplierDto> getDedicatedSuppliers() {
+    return dedicatedSuppliers;
+  }
 
-    public void setDedicatedSuppliers(List<DedicatedSupplierDto> dedicatedSuppliers) {
-        this.dedicatedSuppliers = dedicatedSuppliers;
-    }
+  public void setDedicatedSuppliers(List<DedicatedSupplierDto> dedicatedSuppliers) {
+    this.dedicatedSuppliers = dedicatedSuppliers;
+  }
 }

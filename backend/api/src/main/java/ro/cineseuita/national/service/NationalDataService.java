@@ -14,51 +14,51 @@ import java.util.List;
 @Service
 public class NationalDataService {
 
-    private final NationalCpvDataRepository nationalCpvDataRepository;
+  private final NationalCpvDataRepository nationalCpvDataRepository;
 
-    @Autowired
-    public NationalDataService(NationalCpvDataRepository nationalCpvDataRepository) {
-        this.nationalCpvDataRepository = nationalCpvDataRepository;
-    }
+  @Autowired
+  public NationalDataService(NationalCpvDataRepository nationalCpvDataRepository) {
+    this.nationalCpvDataRepository = nationalCpvDataRepository;
+  }
 
-    public CpvDataDto getNationalCpvData() {
-        CpvDataDto cpvDataDto = new CpvDataDto();
+  public CpvDataDto getNationalCpvData() {
+    CpvDataDto cpvDataDto = new CpvDataDto();
 
-        List<NationalCpvData> children = nationalCpvDataRepository.findByParentId(CpvSimpleTreeNode.ROOT);
+    List<NationalCpvData> children = nationalCpvDataRepository.findByParentId(CpvSimpleTreeNode.ROOT);
 
-        cpvDataDto.setChildren(children);
-        cpvDataDto.setDetails(aggregateDetailsForAll(children));
+    cpvDataDto.setChildren(children);
+    cpvDataDto.setDetails(aggregateDetailsForAll(children));
 
-        return cpvDataDto;
-    }
+    return cpvDataDto;
+  }
 
-    public CpvDataDto getCpvChildrenOf(String cpvCode) {
-        CpvDataDto cpvDataDto = new CpvDataDto();
+  public CpvDataDto getCpvChildrenOf(String cpvCode) {
+    CpvDataDto cpvDataDto = new CpvDataDto();
 
-        NationalCpvData root = nationalCpvDataRepository.findById(cpvCode).get();
-        List<NationalCpvData> children = nationalCpvDataRepository.findAllByIdIn(root.getChildrenIds());
+    NationalCpvData root = nationalCpvDataRepository.findById(cpvCode).get();
+    List<NationalCpvData> children = nationalCpvDataRepository.findAllByIdIn(root.getChildrenIds());
 
-        cpvDataDto.setDetails(root);
-        cpvDataDto.setChildren(children);
-        return cpvDataDto;
-    }
+    cpvDataDto.setDetails(root);
+    cpvDataDto.setChildren(children);
+    return cpvDataDto;
+  }
 
-    private NationalCpvData aggregateDetailsForAll(List<NationalCpvData> children) {
-        NationalCpvData aggregatedDetails = new NationalCpvData();
-        aggregatedDetails.setDescription("Total cheltuieli țară");
+  private NationalCpvData aggregateDetailsForAll(List<NationalCpvData> children) {
+    NationalCpvData aggregatedDetails = new NationalCpvData();
+    aggregatedDetails.setDescription("Total cheltuieli țară");
 
-        aggregatedDetails.setTotal(children.stream().mapToDouble(CpvData::getTotal).sum());
-        aggregatedDetails.setNumberOfItems(children.stream().mapToLong(CpvData::getNumberOfItems).sum());
+    aggregatedDetails.setTotal(children.stream().mapToDouble(CpvData::getTotal).sum());
+    aggregatedDetails.setNumberOfItems(children.stream().mapToLong(CpvData::getNumberOfItems).sum());
 
-        ItemMeasurementStats overallStats = new ItemMeasurementStats();
-        children.forEach(child -> {
-            ItemMeasurementStats childItemMeasurementStats = child.getItemMeasurementStats();
-            overallStats.feed(childItemMeasurementStats);
-        });
+    ItemMeasurementStats overallStats = new ItemMeasurementStats();
+    children.forEach(child -> {
+      ItemMeasurementStats childItemMeasurementStats = child.getItemMeasurementStats();
+      overallStats.feed(childItemMeasurementStats);
+    });
 
-        overallStats.computeAverage();
+    overallStats.computeAverage();
 
-        aggregatedDetails.setItemMeasurementStats(overallStats);
-        return aggregatedDetails;
-    }
+    aggregatedDetails.setItemMeasurementStats(overallStats);
+    return aggregatedDetails;
+  }
 }

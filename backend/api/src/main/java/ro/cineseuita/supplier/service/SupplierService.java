@@ -9,9 +9,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface SupplierService {
-    Page<SupplierListDto> findAll(SupplierFilter filter);
+  Page<SupplierListDto> findAll(SupplierFilter filter);
 
-    SupplierDetailDto get(Long id);
+  SupplierDetailDto get(Long id);
 
-    List<Map> treeMap(Long id);
+  List<Map> treeMap(Long id);
 }

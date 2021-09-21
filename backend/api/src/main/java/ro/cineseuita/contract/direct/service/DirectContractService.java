@@ -10,15 +10,17 @@ import java.util.List;
 
 public interface DirectContractService {
 
-    List<DirectContractListDto> findAll();
+  List<DirectContractListDto> findAll();
 
-    DirectContractDto get(Long id);
+  DirectContractDto get(Long id);
 
-    Page<DirectContractListDto> getAllForSupplier(Long supplierId, DirectAcquisitionContractFilter directAcquisitionContractFilter);
+  Page<DirectContractListDto> getAllForSupplier(Long supplierId,
+                                                DirectAcquisitionContractFilter directAcquisitionContractFilter);
 
-    Page<DirectContractListDto> getAllForContractingAuthority(Long contractingAuthorityId, DirectAcquisitionContractFilter directAcquisitionContractFilter);
+  Page<DirectContractListDto> getAllForContractingAuthority(Long contractingAuthorityId,
+                                                            DirectAcquisitionContractFilter directAcquisitionContractFilter);
 
-    List<DirectContractExpandedItemDto> detailsForExpandedRow(Long contractId);
+  List<DirectContractExpandedItemDto> detailsForExpandedRow(Long contractId);
 
-    Page<DirectContractListDto> findAll(DirectAcquisitionContractFilter directAcquisitionContractFilter);
+  Page<DirectContractListDto> findAll(DirectAcquisitionContractFilter directAcquisitionContractFilter);
 }

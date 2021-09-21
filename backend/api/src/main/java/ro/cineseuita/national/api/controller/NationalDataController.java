@@ -12,22 +12,22 @@ import ro.cineseuita.national.service.NationalDataService;
 @RequestMapping("/api/national")
 public class NationalDataController {
 
-    private final NationalDataService nationalDataService;
+  private final NationalDataService nationalDataService;
 
-    @Autowired
-    public NationalDataController(NationalDataService nationalDataService) {
-        this.nationalDataService = nationalDataService;
-    }
+  @Autowired
+  public NationalDataController(NationalDataService nationalDataService) {
+    this.nationalDataService = nationalDataService;
+  }
 
-    @GetMapping
-    public CpvDataDto getRootCpvData() {
-        return nationalDataService.getNationalCpvData();
-    }
+  @GetMapping
+  public CpvDataDto getRootCpvData() {
+    return nationalDataService.getNationalCpvData();
+  }
 
-    @GetMapping("/cpvChildrenOf/{cpvCode}")
-    public CpvDataDto cpvChildrenOf(@PathVariable String cpvCode) {
-        return nationalDataService.getCpvChildrenOf(cpvCode);
-    }
+  @GetMapping("/cpvChildrenOf/{cpvCode}")
+  public CpvDataDto cpvChildrenOf(@PathVariable String cpvCode) {
+    return nationalDataService.getCpvChildrenOf(cpvCode);
+  }
 
 
 }

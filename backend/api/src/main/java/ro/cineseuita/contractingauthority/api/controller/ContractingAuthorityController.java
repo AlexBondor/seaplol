@@ -17,27 +17,27 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/contracting_authorities")
 public class ContractingAuthorityController {
-    private final ContractingAuthorityService contractingAuthorityService;
+  private final ContractingAuthorityService contractingAuthorityService;
 
-    @Autowired
-    public ContractingAuthorityController(final ContractingAuthorityService contractingAuthorityService) {
-        this.contractingAuthorityService = contractingAuthorityService;
-    }
+  @Autowired
+  public ContractingAuthorityController(final ContractingAuthorityService contractingAuthorityService) {
+    this.contractingAuthorityService = contractingAuthorityService;
+  }
 
-    @GetMapping()
-    public Page<ContractingAuthorityListDto> findAll(ContractingAuthorityFilter pagination) {
-        return contractingAuthorityService.findAll(pagination);
-    }
+  @GetMapping()
+  public Page<ContractingAuthorityListDto> findAll(ContractingAuthorityFilter pagination) {
+    return contractingAuthorityService.findAll(pagination);
+  }
 
-    @GetMapping("/{id}")
-    public ContractingAuthorityDetailDto get(@PathVariable Long id) {
-        return contractingAuthorityService.get(id);
-    }
+  @GetMapping("/{id}")
+  public ContractingAuthorityDetailDto get(@PathVariable Long id) {
+    return contractingAuthorityService.get(id);
+  }
 
-    @GetMapping("/treeMap/{id}")
-    public List<Map> treeMap(@PathVariable Long id) {
-        return contractingAuthorityService.treeMap(id);
-    }
+  @GetMapping("/treeMap/{id}")
+  public List<Map> treeMap(@PathVariable Long id) {
+    return contractingAuthorityService.treeMap(id);
+  }
 
 
 }

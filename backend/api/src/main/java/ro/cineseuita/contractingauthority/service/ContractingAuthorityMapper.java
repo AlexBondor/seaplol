@@ -14,32 +14,32 @@ import java.util.Arrays;
 @Mapper
 public interface ContractingAuthorityMapper {
 
-    @Mapping(source = "_id", target = "id")
-    ContractingAuthorityListDto toListDto(ContractingAuthorityEssentials contractingAuthority);
+  @Named("dedicatedSupplier")
+  static DedicatedSupplierDto dedicatedSupplierMapper(DedicatedSupplier dedicatedSupplier) {
+    DedicatedSupplierDto dedicatedSupplierDto = new DedicatedSupplierDto();
 
-    @Mapping(source = "_id", target = "id")
-    @Mapping(source = "dedicatedSuppliers", target = "dedicatedSuppliers", qualifiedByName = "dedicatedSupplierMapper")
-    ContractingAuthorityDetailDto toDetailDto(ContractingAuthorityEssentials contractingAuthority);
+    dedicatedSupplierDto.setSupplierName(dedicatedSupplier.getSupplierName());
 
-    @Named("dedicatedSupplier")
-    static DedicatedSupplierDto dedicatedSupplierMapper(DedicatedSupplier dedicatedSupplier) {
-        DedicatedSupplierDto dedicatedSupplierDto = new DedicatedSupplierDto();
+    DedicatedSupplierDto.DedicatedSupplierData caData = new DedicatedSupplierDto.DedicatedSupplierData();
+    caData.setLabel("Cu instituția");
+    caData.setValue(dedicatedSupplier.getTotalContractsValueDedicatedToCA());
+    caData.setCount(dedicatedSupplier.getTotalContractsCountDedicatedToCA());
 
-        dedicatedSupplierDto.setSupplierName(dedicatedSupplier.getSupplierName());
+    DedicatedSupplierDto.DedicatedSupplierData totalData = new DedicatedSupplierDto.DedicatedSupplierData();
+    totalData.setLabel("În total");
+    totalData.setValue(dedicatedSupplier.getTotalValueOfContractsBasedOnPercentage());
+    totalData.setCount(dedicatedSupplier.getTotalAmountOfContractsBasedOnPercentage());
 
-        DedicatedSupplierDto.DedicatedSupplierData caData = new DedicatedSupplierDto.DedicatedSupplierData();
-        caData.setLabel("Cu instituția");
-        caData.setValue(dedicatedSupplier.getTotalContractsValueDedicatedToCA());
-        caData.setCount(dedicatedSupplier.getTotalContractsCountDedicatedToCA());
+    dedicatedSupplierDto.setData(Arrays.asList(caData, totalData));
 
-        DedicatedSupplierDto.DedicatedSupplierData totalData = new DedicatedSupplierDto.DedicatedSupplierData();
-        totalData.setLabel("În total");
-        totalData.setValue(dedicatedSupplier.getTotalValueOfContractsBasedOnPercentage());
-        totalData.setCount(dedicatedSupplier.getTotalAmountOfContractsBasedOnPercentage());
+    return dedicatedSupplierDto;
+  }
 
-        dedicatedSupplierDto.setData(Arrays.asList(caData, totalData));
+  @Mapping(source = "_id", target = "id")
+  ContractingAuthorityListDto toListDto(ContractingAuthorityEssentials contractingAuthority);
 
-        return dedicatedSupplierDto;
-    }
+  @Mapping(source = "_id", target = "id")
+  @Mapping(source = "dedicatedSuppliers", target = "dedicatedSuppliers", qualifiedByName = "dedicatedSupplierMapper")
+  ContractingAuthorityDetailDto toDetailDto(ContractingAuthorityEssentials contractingAuthority);
 
 }

@@ -5,6 +5,6 @@ import ro.cineseuita.shared.ParticipantListDto;
 
 public class ContractingAuthorityListDto extends ParticipantListDto<ContractingAuthorityProblem> {
 
-    // custom stuff to be added
+  // custom stuff to be added
 
 }
